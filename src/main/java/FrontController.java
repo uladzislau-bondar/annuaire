@@ -10,7 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-//todo map all routes
+@WebServlet("/app/*")
 public class FrontController extends HttpServlet{
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ContactListCommand command = new ContactListCommand(req, resp);
+        command.process();
+        command.forward("index");
 
+    }
 }
