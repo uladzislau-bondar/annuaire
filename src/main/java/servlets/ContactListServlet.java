@@ -27,7 +27,7 @@ public class ContactListServlet extends HttpServlet {
         Contact contact = builder.build();
         request.setAttribute("contact", contact);
 
-        ContactListCommand contactListCommand = new ContactListCommand();
-        contactListCommand.forward(request, response, "index");
+        ContactListCommand contactListCommand = new ContactListCommand(request, response);
+        contactListCommand.forward("index");
     }
 }

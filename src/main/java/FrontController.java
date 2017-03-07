@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class FrontController extends HttpServlet{
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
