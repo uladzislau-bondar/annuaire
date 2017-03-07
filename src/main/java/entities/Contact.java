@@ -1,5 +1,7 @@
 package entities;
 
+import enums.Sex;
+
 import java.io.File;
 import java.util.Date;
 import java.util.List;

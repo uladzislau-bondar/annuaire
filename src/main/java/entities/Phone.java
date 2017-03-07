@@ -1,6 +1,8 @@
 package entities;
 
 
+import enums.PhoneType;
+
 public class Phone {
     private Long phoneId;
     private Long contactId;

@@ -1,5 +1,7 @@
 package entities;
 
+import enums.Sex;
+
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -20,10 +22,14 @@ public class ContactBuilder {
     private List<Phone> phones;
     private File photo;
 
-    public ContactBuilder(Long contactId, String firstName, String lastName){
-        this.contactId = contactId;
+    public ContactBuilder(String firstName, String lastName){
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public ContactBuilder contactId(Long contactId) {
+        this.contactId = contactId;
+        return this;
     }
 
     public ContactBuilder middleName(String middleName) {
