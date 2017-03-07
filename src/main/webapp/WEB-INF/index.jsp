@@ -4,6 +4,6 @@
     <title>Contact List</title>
   </head>
   <body>
-    <h1>${name}</h1>
+    <h1>${contact.firstName}  ${contact.lastName}  ${contact.email}</h1>
   </body>
 </html>

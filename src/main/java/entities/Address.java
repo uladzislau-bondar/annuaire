@@ -1,19 +1,19 @@
 package entities;
 
 public class Address {
-    private Long Id;
+    private Long addressId;
     private Long contactId;
     private String country;
     private String city;
     private String address;
     private int zip;
 
-    public Long getId() {
-        return Id;
+    public Long getAddressId() {
+        return addressId;
     }
 
-    public void setId(Long id) {
-        Id = id;
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     public Long getContactId() {

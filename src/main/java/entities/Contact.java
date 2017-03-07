@@ -1,9 +1,10 @@
 package entities;
 
 import java.util.Date;
+import java.util.List;
 
 public class Contact {
-    private Long Id;
+    private Long contactId;
     private String firstName;
     private String lastName;
     private String middleName;
@@ -15,4 +16,74 @@ public class Contact {
     private String email;
     private String placeOfWork;
     private Address address;
+    private List<Phone> phones;
+    //todo add photo field
+
+    public Contact(Long contactId, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones) {
+        this.contactId = contactId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.dateOfBirth = dateOfBirth;
+        this.sex = sex;
+        this.citizenship = citizenship;
+        this.maritalStatus = maritalStatus;
+        this.webSite = webSite;
+        this.email = email;
+        this.placeOfWork = placeOfWork;
+        this.address = address;
+        this.phones = phones;
+    }
+
+    public Long getContactId() {
+        return contactId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public String getCitizenship() {
+        return citizenship;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public String getWebSite() {
+        return webSite;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPlaceOfWork() {
+        return placeOfWork;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
 }
