@@ -9,25 +9,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 
-@WebServlet({"/1","/contacts"})
+@WebServlet({"/","/contacts"})
 public class ContactListServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ContactListServlet.class);
-    //todo add log4j
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("name", "Ulad");
-        request.setAttribute("surname", "Bondar");
-        logger.info("HUY");
-
-
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-        dispatcher.forward(request, response);
-
+        logger.info(request.getAttribute("name" + "is inserted"));
+        request.getRequestDispatcher("/WEB-INF/index.jsp")
+                .forward(request, response);
     }
 }
+
+
+//todo add jstl library
