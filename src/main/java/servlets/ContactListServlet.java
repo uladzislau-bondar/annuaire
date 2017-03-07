@@ -1,5 +1,6 @@
 package servlets;
 
+import command.ContactListCommand;
 import entities.Contact;
 import entities.ContactBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -21,13 +22,12 @@ public class ContactListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ContactBuilder builder = new ContactBuilder(123L, "Ulad", "Bondar")
+        ContactBuilder builder = new ContactBuilder("Ulad", "Bondar")
                 .email("colinforzeal@yandex.ru");
         Contact contact = builder.build();
         request.setAttribute("contact", contact);
 
-        logger.info(request.getAttribute(contact.getFirstName() + " " + contact.getLastName() + " is inserted"));
-        request.getRequestDispatcher("/WEB-INF/index.jsp")
-                .forward(request, response);
+        ContactListCommand contactListCommand = new ContactListCommand();
+        contactListCommand.forward(request, response, "index");
     }
 }
