@@ -31,6 +31,3 @@ public class ContactListServlet extends HttpServlet {
                 .forward(request, response);
     }
 }
-
-
-//todo add jstl library

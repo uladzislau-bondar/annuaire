@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -17,9 +18,9 @@ public class Contact {
     private String placeOfWork;
     private Address address;
     private List<Phone> phones;
-    //todo add photo field
+    private File photo;
 
-    public Contact(Long contactId, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones) {
+    public Contact(Long contactId, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, File photo) {
         this.contactId = contactId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,6 +34,7 @@ public class Contact {
         this.placeOfWork = placeOfWork;
         this.address = address;
         this.phones = phones;
+        this.photo = photo;
     }
 
     public Long getContactId() {
@@ -85,5 +87,9 @@ public class Contact {
 
     public List<Phone> getPhones() {
         return phones;
+    }
+
+    public File getPhoto() {
+        return photo;
     }
 }

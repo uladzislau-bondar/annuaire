@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class ContactBuilder {
     private String placeOfWork;
     private Address address;
     private List<Phone> phones;
+    private File photo;
 
     public ContactBuilder(Long contactId, String firstName, String lastName){
         this.contactId = contactId;
@@ -74,7 +76,12 @@ public class ContactBuilder {
         return this;
     }
 
+    public ContactBuilder photo(File photo) {
+        this.photo = photo;
+        return this;
+    }
+
     public Contact build() {
-        return new Contact(contactId, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, webSite, email, placeOfWork, address, phones);
+        return new Contact(contactId, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, webSite, email, placeOfWork, address, phones, photo);
     }
 }
