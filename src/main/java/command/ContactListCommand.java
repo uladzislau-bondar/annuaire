@@ -1,6 +1,7 @@
 package command;
 
 
+import entities.Address;
 import entities.Contact;
 import entities.ContactBuilder;
 
@@ -20,9 +21,12 @@ public class ContactListCommand extends Command {
 
     @Override
     public void process() {
+        Address address1 = new Address();
+        address1.setAddress("Kolasa 28, 612a");
         ContactBuilder builder1 = new ContactBuilder("Ulad", "Bondar")
                 .dateOfBirth(new Date())
-                .placeOfWork("BSUIR");
+                .placeOfWork("BSUIR")
+                .address(address1);
         Contact contact1 = builder1.build();
         ContactBuilder builder2 = new ContactBuilder("John", "Smith")
                 .dateOfBirth(new Date(123456))
