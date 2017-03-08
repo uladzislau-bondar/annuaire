@@ -21,12 +21,19 @@ public class DtoUtils {
         return firstName + " " + lastName;
     }
 
-    //todo deal with null
     private static String createAddress(Address address){
-//        return address.getCountry() + ", " + address.getCity() + ", "
-//                + address.getCountry() + ", " + address.getAddress() + ", "
-//                + address.getZip();
-        return address.getAddress();
+        return nullToEmpty(address.getCountry())
+                + nullToEmpty(address.getCity())
+                + nullToEmpty(address.getCountry())
+                + nullToEmpty(address.getAddress())
+                + address.getZip();
+    }
 
+    private static String nullToEmpty(String str) {
+        return str == null ? "" : (str + " ");
+    }
+
+    private static String zeroToEmpty(int i) {
+        return i == 0 ? "" : String.valueOf(i);
     }
 }
