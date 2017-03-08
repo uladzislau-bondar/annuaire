@@ -12,7 +12,7 @@
 <c:forEach items="${contactList}" var="contact">
   <input type="checkbox"/>
   <h1><a href="<c:url value="contact.jsp" />"><c:out value="${contact.fullName}"/></a></h1>
-  <h2><c:out value="${contact.dateOfBirth}"/> -- <c:out value="${contact.address.address}"/> -- <c:out
+  <h2><c:out value="${contact.dateOfBirth}"/> -- <c:out value="${contact.address}"/> -- <c:out
           value="${contact.placeOfWork}"/></h2>
 </c:forEach>
 

@@ -7,10 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 public class Contact {
-    private Long contactId;
+    private Long id;
     private String firstName;
     private String lastName;
-    private String fullName;
     private String middleName;
     private Date dateOfBirth;
     private Sex sex;
@@ -23,8 +22,8 @@ public class Contact {
     private List<Phone> phones;
     private File photo;
 
-    public Contact(Long contactId, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, File photo) {
-        this.contactId = contactId;
+    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, File photo) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -40,8 +39,64 @@ public class Contact {
         this.photo = photo;
     }
 
-    public Long getContactId() {
-        return contactId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    public void setCitizenship(String citizenship) {
+        this.citizenship = citizenship;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public void setWebSite(String webSite) {
+        this.webSite = webSite;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPlaceOfWork(String placeOfWork) {
+        this.placeOfWork = placeOfWork;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
+
+    public void setPhoto(File photo) {
+        this.photo = photo;
     }
 
     public String getFirstName() {
@@ -50,10 +105,6 @@ public class Contact {
 
     public String getLastName() {
         return lastName;
-    }
-
-    public String getFullName() {
-        return firstName + lastName;
     }
 
     public String getMiddleName() {
