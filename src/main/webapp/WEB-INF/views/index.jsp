@@ -5,7 +5,9 @@
     <title>Contact List</title>
   </head>
   <body>
-    <h1>${contact.firstName}  ${contact.lastName}  ${contact.email}</h1>
-    <c:out value="${contact.firstName}" />
+    <c:forEach items="${contactList}" var="contact">
+      <h1><c:out value="${contact.fullName}" /></h1>
+      <h2><c:out value="${contact.dateOfBirth}" /> --  address -- <c:out value="${contact.placeOfWork}" /></h2>
+    </c:forEach>
   </body>
 </html>

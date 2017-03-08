@@ -17,6 +17,5 @@ public class FrontController extends HttpServlet{
         ContactListCommand command = new ContactListCommand(req, resp);
         command.process();
         command.forward("index");
-
     }
 }

@@ -10,6 +10,7 @@ public class Contact {
     private Long contactId;
     private String firstName;
     private String lastName;
+    private String fullName;
     private String middleName;
     private Date dateOfBirth;
     private Sex sex;
@@ -49,6 +50,10 @@ public class Contact {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getFullName() {
+        return firstName + lastName;
     }
 
     public String getMiddleName() {
