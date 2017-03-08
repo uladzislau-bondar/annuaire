@@ -6,19 +6,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-public class SearchCommand extends Command{
+public class SearchCommand extends AbstractCommand {
 
     public SearchCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 
     @Override
-    protected void process() {
+    public void process() {
 
     }
 
     @Override
-    protected void forward(String jspName) throws ServletException, IOException {
+    public void forward(String jspName) throws ServletException, IOException {
         super.forward(jspName);
     }
 }

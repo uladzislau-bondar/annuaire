@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ContactListCommand extends Command {
+public class ContactListCommand extends AbstractCommand {
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
