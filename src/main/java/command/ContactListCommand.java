@@ -5,6 +5,8 @@ import dto.ContactDto;
 import entities.Address;
 import entities.Contact;
 import entities.ContactBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.DtoUtils;
 
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ContactListCommand extends AbstractCommand {
+    private static Logger log = LogManager.getLogger(ContactCommand.class);
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -45,6 +48,8 @@ public class ContactListCommand extends AbstractCommand {
         List<ContactDto> contactList = new ArrayList<>();
         contactList.add(dto1);
         contactList.add(dto2);
+
+        log.info(contact1.getFirstName());
 
         request.setAttribute("contactList", contactList);
     }

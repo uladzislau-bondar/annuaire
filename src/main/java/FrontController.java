@@ -23,6 +23,11 @@ public class FrontController extends HttpServlet{
                 command.process();
                 command.forward("index");
                 break;
+            case "/contacts/{id}":
+                command = new ContactListCommand(req, resp);
+                command.process();
+                command.forward("contact");
+                break;
         }
     }
 
