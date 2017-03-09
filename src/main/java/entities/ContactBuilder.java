@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ContactBuilder {
-    private Long contactId;
+    private Long id;
     private String firstName;
     private String lastName;
     private String middleName;
@@ -27,8 +27,8 @@ public class ContactBuilder {
         this.lastName = lastName;
     }
 
-    public ContactBuilder contactId(Long contactId) {
-        this.contactId = contactId;
+    public ContactBuilder id(Long id) {
+        this.id = id;
         return this;
     }
 
@@ -88,6 +88,6 @@ public class ContactBuilder {
     }
 
     public Contact build() {
-        return new Contact(contactId, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, webSite, email, placeOfWork, address, phones, photo);
+        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, webSite, email, placeOfWork, address, phones, photo);
     }
 }

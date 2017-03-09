@@ -32,6 +32,7 @@ public class ContactListCommand extends AbstractCommand {
         address2.setAddress("Hmelnockogo 94, 117");
 
         ContactBuilder builder1 = new ContactBuilder("Ulad", "Bondar")
+                .id(123L)
                 .dateOfBirth(new Date())
                 .placeOfWork("BSUIR")
                 .address(address1);
@@ -48,8 +49,6 @@ public class ContactListCommand extends AbstractCommand {
         List<ContactDto> contactList = new ArrayList<>();
         contactList.add(dto1);
         contactList.add(dto2);
-
-        log.info(contact1.getFirstName());
 
         request.setAttribute("contactList", contactList);
     }

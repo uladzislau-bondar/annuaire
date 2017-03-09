@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 public class ContactCommand extends AbstractCommand {
-    private static Logger log = LogManager.getLogger(ContactCommand.class);
+    private final static Logger log = LogManager.getLogger(ContactCommand.class);
 
     public ContactCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -18,6 +18,7 @@ public class ContactCommand extends AbstractCommand {
 
     @Override
     public void process() {
+        log.info("got to contact");
         String id = request.getParameter("id");
         log.info(id);
     }
