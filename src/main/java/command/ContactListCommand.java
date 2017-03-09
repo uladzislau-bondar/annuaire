@@ -25,7 +25,7 @@ public class ContactListCommand extends AbstractCommand {
     }
 
     @Override
-    public void process() {
+    public void process() throws ServletException, IOException{
         Address address1 = new Address();
         address1.setAddress("Kolasa 28, 612a");
         Address address2 = new Address();
@@ -51,6 +51,8 @@ public class ContactListCommand extends AbstractCommand {
         contactList.add(dto2);
 
         request.setAttribute("contactList", contactList);
+
+        forward("index");
     }
 
     @Override

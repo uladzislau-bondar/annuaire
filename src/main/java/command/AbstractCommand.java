@@ -15,10 +15,9 @@ public abstract class AbstractCommand implements Command {
         this.response = response;
     }
 
-    public abstract void process();
+    public abstract void process() throws ServletException, IOException;
 
-    public void forward(String jspName)
-            throws ServletException, IOException {
+    public void forward(String jspName) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/" + jspName + ".jsp")
                 .forward(request, response);
     }

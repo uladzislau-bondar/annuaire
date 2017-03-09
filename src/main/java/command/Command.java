@@ -5,6 +5,6 @@ import java.io.IOException;
 
 
 public interface Command {
-    void process();
+    void process() throws ServletException, IOException;
     void forward(String jspName) throws ServletException, IOException;
 }

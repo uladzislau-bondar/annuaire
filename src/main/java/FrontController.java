@@ -1,4 +1,5 @@
 import command.Command;
+import command.CommandFactory;
 import command.ContactCommand;
 import command.ContactListCommand;
 import org.apache.logging.log4j.LogManager;
@@ -27,22 +28,8 @@ public class FrontController extends HttpServlet{
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        String path = req.getPathInfo();
-        String queryString = req.getQueryString();
-        log.info(path);
-        log.info(queryString);
-
-        Command command;
-        //todo command factory
-        if (path.equals("/")){
-            command = new ContactListCommand(req, resp);
-            command.process();
-            command.forward("index");
-        }
-        else if (path.equals("/contacts") && queryString.contains("id=123")){
-            command = new ContactCommand(req, resp);
-            command.process();
-            command.forward("contact");
-        }
+        Command command = CommandFactory.create(req, resp);
+        log.info(command.getClass().getName());
+        command.process();
     }
 }
