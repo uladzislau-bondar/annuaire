@@ -13,6 +13,11 @@ public class SearchCommand extends AbstractCommand {
     }
 
     @Override
+    public void execute() throws ServletException, IOException {
+
+    }
+
+    @Override
     public void process() {
 
     }

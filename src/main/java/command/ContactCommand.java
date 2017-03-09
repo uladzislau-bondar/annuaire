@@ -17,12 +17,16 @@ public class ContactCommand extends AbstractCommand {
     }
 
     @Override
+    public void execute() throws ServletException, IOException {
+        process();
+        forward("contact");
+    }
+
+    @Override
     public void process() throws ServletException, IOException{
         log.info("got to contact");
         String id = request.getParameter("id");
         log.info(id);
-
-        forward("contact");
     }
 
     @Override
