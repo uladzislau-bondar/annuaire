@@ -10,7 +10,7 @@
 </a>
 
 <c:forEach items="${contactList}" var="contact">
-  <c:url value="/contacts" var="url">
+  <c:url value="/contact" var="url">
     <c:param name="id" value="${contact.id}" />
   </c:url>
   <input type="checkbox"/>
@@ -19,7 +19,7 @@
           value="${contact.placeOfWork}"/></h2>
 </c:forEach>
 
-<a href="contact.jsp">
+<a href="<c:url value="/contact" />">
   <input type="button" value="Create">
 </a>
 

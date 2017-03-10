@@ -7,13 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 public class CommandFactory {
     public static Command create(HttpServletRequest request, HttpServletResponse response){
         String path = request.getPathInfo();
-        String queryString = request.getQueryString();
 
         Command command = null;
-        if (path.equals("/")){
+        if (path.equals("/") || path.equals("/contacts")){
             command = new ContactListCommand(request, response);
         }
-        else if (path.equals("/contacts") && queryString.contains("id=123")){
+        else if (path.equals("/contact")){
             command = new ContactCommand(request, response);
         }
 

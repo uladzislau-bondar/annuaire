@@ -1,7 +1,7 @@
+package servlet;
+
 import command.Command;
 import command.CommandFactory;
-import command.ContactCommand;
-import command.ContactListCommand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,8 +14,8 @@ import java.io.IOException;
 
 
 @WebServlet("/app/*")
-public class FrontController extends HttpServlet{
-    private final static Logger log = LogManager.getLogger(FrontController.class);
+public class FrontControllerServlet extends HttpServlet{
+    private final static Logger log = LogManager.getLogger(FrontControllerServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,6 +30,6 @@ public class FrontController extends HttpServlet{
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         Command command = CommandFactory.create(req, resp);
         log.info(command.getClass().getName());
-        command.process();
+        command.execute();
     }
 }
