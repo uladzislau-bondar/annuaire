@@ -22,13 +22,23 @@ public class ContactBuilder {
     private List<Phone> phones;
     private File photo;
 
-    public ContactBuilder(String firstName, String lastName){
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+//    public ContactBuilder(String firstName, String lastName){
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
 
     public ContactBuilder id(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public ContactBuilder firstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public ContactBuilder lastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 

@@ -37,13 +37,17 @@ public class ContactListCommand extends AbstractCommand {
         Address address2 = new Address();
         address2.setAddress("Hmelnockogo 94, 117");
 
-        ContactBuilder builder1 = new ContactBuilder("Ulad", "Bondar")
+        ContactBuilder builder1 = new ContactBuilder()
+                .firstName("Ulad")
+                .lastName("Bondar")
                 .id(123L)
                 .dateOfBirth(new Date())
                 .placeOfWork("BSUIR")
                 .address(address1);
         Contact contact1 = builder1.build();
-        ContactBuilder builder2 = new ContactBuilder("John", "Smith")
+        ContactBuilder builder2 = new ContactBuilder()
+                .firstName("John")
+                .lastName("Smiths")
                 .dateOfBirth(new Date(123456))
                 .placeOfWork("American Aerlines")
                 .address(address2);

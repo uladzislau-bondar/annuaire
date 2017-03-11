@@ -58,20 +58,20 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void createNewContact(){
-        //todo painful
+        //todo looks awful but works
         Object o = null;
 
         try{
-            Class type = Class.forName("entities.ContactBuilder");
+            Class<?> type = Class.forName("entities.ContactBuilder");
             o = type.newInstance();
             Enumeration<String> paramNames = request.getParameterNames();
             while (paramNames.hasMoreElements()){
                 String name = paramNames.nextElement();
                 String value = request.getParameter(name);
                 try{
-                    Method method = type.getMethod(name);
+                    Method method = type.getMethod(name, value.getClass());
                     log.info("Method name: " + method.getName());
-                    o = method.invoke(value);
+                    o = method.invoke(o, value);
                 }
                 catch (InvocationTargetException | NoSuchMethodException e){
                     log.error(e);
