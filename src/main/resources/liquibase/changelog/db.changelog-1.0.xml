@@ -3,16 +3,34 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="colinforzeal" id="changelog-1.0">
+    <changeSet author="colinforzeal" id="1">
+        <dropTable tableName="contacts" />
+
         <createTable tableName="contacts">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true" >
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="firstName" type="VARCHAR(50)">
+            <column name="firstName" type="VARCHAR(32)">
                 <constraints nullable="false" />
             </column>
-            <column name="lastName" type="VARCHAR(50)">
+            <column name="lastName" type="VARCHAR(32)">
                 <constraints nullable="false" />
+            </column>
+            <column name="middleName" type="VARCHAR(32)">
+            </column>
+            <column name="dateOfBirth" type="DATE">
+            </column>
+            <column name="sex" type="VARCHAR(8)" >
+            </column>
+            <column name="citizenship" type="VARCHAR(32)" >
+            </column>
+            <column name="maritalStatus" type="VARCHAR(32)" >
+            </column>
+            <column name="website" type="VARCHAR(32)" >
+            </column>
+            <column name="email" type="VARCHAR(32)" >
+            </column>
+            <column name="placeOfWork" type="VARCHAR(32)" >
             </column>
         </createTable>
     </changeSet>
