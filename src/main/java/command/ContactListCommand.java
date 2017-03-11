@@ -1,6 +1,7 @@
 package command;
 
 
+import db.Connector;
 import dto.ContactDto;
 import entities.Address;
 import entities.Contact;
@@ -13,12 +14,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ContactListCommand extends AbstractCommand {
-    private static Logger log = LogManager.getLogger(ContactCommand.class);
+    private static Logger logger = LogManager.getLogger(ContactCommand.class);
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -32,35 +37,62 @@ public class ContactListCommand extends AbstractCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        Address address1 = new Address();
-        address1.setAddress("Kolasa 28, 612a");
-        Address address2 = new Address();
-        address2.setAddress("Hmelnockogo 94, 117");
+//        Address address1 = new Address();
+//        address1.setAddress("Kolasa 28, 612a");
+//        Address address2 = new Address();
+//        address2.setAddress("Hmelnockogo 94, 117");
+//
+//        ContactBuilder builder1 = new ContactBuilder()
+//                .firstName("Ulad")
+//                .lastName("Bondar")
+//                .id(123L)
+//                .dateOfBirth(new Date())
+//                .placeOfWork("BSUIR")
+//                .address(address1);
+//        Contact contact1 = builder1.build();
+//        ContactBuilder builder2 = new ContactBuilder()
+//                .firstName("John")
+//                .lastName("Smiths")
+//                .dateOfBirth(new Date(123456))
+//                .placeOfWork("American Aerlines")
+//                .address(address2);
+//        Contact contact2 = builder2.build();
 
-        ContactBuilder builder1 = new ContactBuilder()
-                .firstName("Ulad")
-                .lastName("Bondar")
-                .id(123L)
-                .dateOfBirth(new Date())
-                .placeOfWork("BSUIR")
-                .address(address1);
-        Contact contact1 = builder1.build();
-        ContactBuilder builder2 = new ContactBuilder()
-                .firstName("John")
-                .lastName("Smiths")
-                .dateOfBirth(new Date(123456))
-                .placeOfWork("American Aerlines")
-                .address(address2);
-        Contact contact2 = builder2.build();
+        Connection connection = Connector.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement("select id, firstName, LastName, dateOfBirth, placeOfWork from contacts limit 1");
+            rs = ps.executeQuery();
 
-        ContactDto dto1 = DtoUtils.convertToDto(contact1);
-        ContactDto dto2 = DtoUtils.convertToDto(contact2);
+            if(rs != null && rs.next()){
+                ContactBuilder builder = new ContactBuilder();
+                builder.id(rs.getLong("id"))
+                        .firstName(rs.getString("firstName"))
+                        .lastName(rs.getString("lastName"))
+                        .dateOfBirth(rs.getDate("dateOfBirth"))
+                        .placeOfWork(rs.getString("placeOfWork"));
+                Contact contact = builder.build();
+                ContactDto dto = DtoUtils.convertToDto(contact);
 
-        List<ContactDto> contactList = new ArrayList<>();
-        contactList.add(dto1);
-        contactList.add(dto2);
+                List<ContactDto> contactList = new ArrayList<>();
+                contactList.add(dto);
 
-        request.setAttribute("contactList", contactList);
+                request.setAttribute("contactList", contactList);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Database connection problem");
+            throw new ServletException("DB Connection problem.");
+        }finally{
+            try {
+                rs.close();
+                ps.close();
+            } catch (SQLException e) {
+                logger.error("SQLException in closing PreparedStatement or ResultSet");;
+            }
+
+        }
     }
 
     @Override

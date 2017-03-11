@@ -33,6 +33,20 @@
             <column name="placeOfWork" type="VARCHAR(32)" >
             </column>
         </createTable>
+
+        <!-- todo doesn't insert -->
+        <insert tableName="contacts">
+            <column name="id" value="1">
+            </column>
+            <column name="firstName" value="Ulad">
+            </column>
+            <column name="lastName" value="Bondar">
+            </column>
+            <column name="dateOfBirth" value="31.08.1998">
+            </column>
+            <column name="placeOfWork" value="bsuir">
+            </column>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

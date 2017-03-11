@@ -119,6 +119,7 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>clearCheckSums</goal>
                             <goal>update</goal>
                         </goals>
                     </execution>
