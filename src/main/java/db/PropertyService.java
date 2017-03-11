@@ -35,12 +35,16 @@ public class PropertyService {
     }
 
 
-    public String getJDBCDriverClassName() {
+    public String getJDBCDriver() {
         return properties.getProperty("jdbc.driver");
     }
 
 
-    public String getConnectionURL() {
-        return properties.getProperty("connection.url");
+    public String getJDBCUrl() {
+        return properties.getProperty("jdbc.url");
     }
+
+    public String getJDBCUsername(){ return properties.getProperty("jdbc.username");}
+
+    public String getJDBCPassword(){return properties.getProperty("jdbc.password");}
 }

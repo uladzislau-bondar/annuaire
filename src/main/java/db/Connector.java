@@ -15,19 +15,17 @@ public class Connector {
 
     private static Connection connection;
 
-    private Connector() {
-    }
-
-
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                String jdbcDriverClassName = PropertyService.getInstance().getJDBCDriverClassName();
+                String jdbcDriverClassName = PropertyService.getInstance().getJDBCDriver();
                 Driver driver = (Driver) Class.forName(jdbcDriverClassName).newInstance();
                 DriverManager.registerDriver(driver);
 
-                String url = PropertyService.getInstance().getConnectionURL();
-                connection = DriverManager.getConnection(url);
+                String url = PropertyService.getInstance().getJDBCUrl();
+                String username = PropertyService.getInstance().getJDBCUsername();
+                String password = PropertyService.getInstance().getJDBCPassword();
+                connection = DriverManager.getConnection(url, username, password);
             }
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException e) {
             logger.error(e);
