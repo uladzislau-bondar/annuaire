@@ -62,16 +62,29 @@ public class ContactListCommand extends AbstractCommand {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = connection.prepareStatement("select id, firstName, LastName, dateOfBirth, placeOfWork from contacts limit 1");
+//            c.id, c.firstName, c.lastName, c.dateOfBirth, c.placeOfWork, c.addressId" +
+//            "a.id, a.country, a.city, a.address, a.zip
+
+            String query = "select * from contacts c " +
+                    "left outer join addresses a on c.addressId=a.id limit 1";
+
+            ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
 
             if(rs != null && rs.next()){
+                Address address = new Address();
+                address.setCountry(rs.getString("a.country"));
+                address.setCity(rs.getString("a.city"));
+                address.setAddress(rs.getString("a.address"));
+                address.setZip(rs.getInt("a.zip"));
+
                 ContactBuilder builder = new ContactBuilder();
-                builder.id(rs.getLong("id"))
-                        .firstName(rs.getString("firstName"))
-                        .lastName(rs.getString("lastName"))
-                        .dateOfBirth(rs.getDate("dateOfBirth"))
-                        .placeOfWork(rs.getString("placeOfWork"));
+                builder.id(rs.getLong("c.id"))
+                        .firstName(rs.getString("c.firstName"))
+                        .lastName(rs.getString("c.lastName"))
+                        .dateOfBirth(rs.getDate("c.dateOfBirth"))
+                        .address(address)
+                        .placeOfWork(rs.getString("c.placeOfWork"));
                 Contact contact = builder.build();
                 ContactDto dto = DtoUtils.convertToDto(contact);
 

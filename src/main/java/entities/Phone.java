@@ -4,19 +4,19 @@ package entities;
 import enums.PhoneType;
 
 public class Phone {
-    private Long phoneId;
+    private Long id;
     private Long contactId;
     private int countryCode;
     private int number;
     private PhoneType type;
     private String comment;
 
-    public Long getPhoneId() {
-        return phoneId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPhoneId(Long phoneId) {
-        this.phoneId = phoneId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getContactId() {

@@ -6,43 +6,102 @@
     <property name="now" value="now()" dbms="mysql"/>
 
     <changeSet author="colinforzeal" id="1" runAlways="true">
-        <dropTable tableName="contacts" />
+        <dropTable tableName="contacts"/>
+        <dropTable tableName="addresses"/>
+        <dropTable tableName="phones"/>
 
         <createTable tableName="contacts">
-            <column name="id" type="BIGINT" autoIncrement="true" >
-                <constraints nullable="false" primaryKey="true" />
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="firstName" type="VARCHAR(32)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="lastName" type="VARCHAR(32)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="middleName" type="VARCHAR(32)">
             </column>
             <column name="dateOfBirth" type="DATE">
             </column>
-            <column name="sex" type="VARCHAR(8)" >
+            <column name="sex" type="VARCHAR(8)">
             </column>
-            <column name="citizenship" type="VARCHAR(32)" >
+            <column name="citizenship" type="VARCHAR(32)">
             </column>
-            <column name="maritalStatus" type="VARCHAR(32)" >
+            <column name="maritalStatus" type="VARCHAR(32)">
             </column>
-            <column name="website" type="VARCHAR(32)" >
+            <column name="website" type="VARCHAR(32)">
             </column>
-            <column name="email" type="VARCHAR(32)" >
+            <column name="email" type="VARCHAR(32)">
             </column>
-            <column name="placeOfWork" type="VARCHAR(32)" >
+            <column name="placeOfWork" type="VARCHAR(32)">
+            </column>
+            <column name="addressId" type="BIGINT">
+                <constraints unique="true"/>
+            </column>
+            <column name="photo" type="VARCHAR(255)">
             </column>
         </createTable>
 
-        <!-- todo doesn't insert -->
+        <createTable tableName="addresses">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="contactId" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_contact_address_id"
+                             references="contacts(id)" deleteCascade="true"/>
+            </column>
+            <column name="country" type="VARCHAR(32)">
+            </column>
+            <column name="city" type="VARCHAR(32)">
+            </column>
+            <column name="address" type="VARCHAR(64)">
+            </column>
+            <column name="zip" type="INT">
+            </column>
+        </createTable>
+
+        <createTable tableName="phones">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="contactId" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_contact_phone_id"
+                             references="contacts(id)" deleteCascade="true"/>
+            </column>
+            <column name="countryCode" type="INT">
+            </column>
+            <column name="number" type="INT">
+            </column>
+            <column name="type" type="VARCHAR(32)">
+            </column>
+            <column name="comment" type="VARCHAR(64)">
+            </column>
+        </createTable>
+
         <insert tableName="contacts">
-            <column name="id" valueComputed="123" />
-            <column name="firstName" value="Ulad" />
-            <column name="lastName" value="Bondar" />
-            <column name="dateOfBirth" valueComputed="${now}" />
-            <column name="placeOfWork" value="bsuir" />
+            <column name="id" value="1"/>
+            <column name="firstName" value="Ulad"/>
+            <column name="lastName" value="Bondar"/>
+            <column name="dateOfBirth" valueComputed="${now}"/>
+            <column name="placeOfWork" value="BSUIR"/>
+            <column name="addressId" value="1"/>
+        </insert>
+
+        <insert tableName="contacts">
+            <column name="firstName" value="Ivan"/>
+            <column name="lastName" value="Sakovich"/>
+            <column name="dateOfBirth" valueComputed="${now}"/>
+            <column name="placeOfWork" value="MSLU"/>
+        </insert>
+
+        <insert tableName="addresses">
+            <column name="id" value="1"/>
+            <column name="contactId" value="1"/>
+            <column name="country" value="BLR"/>
+            <column name="city" value="Gomel"/>
+            <column name="address" value="some address"/>
+            <column name="zip" value="246000"/>
         </insert>
     </changeSet>
 
