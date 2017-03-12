@@ -3,7 +3,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="colinforzeal" id="1">
+    <property name="now" value="now()" dbms="mysql"/>
+
+    <changeSet author="colinforzeal" id="1" runAlways="true">
         <dropTable tableName="contacts" />
 
         <createTable tableName="contacts">
@@ -36,16 +38,11 @@
 
         <!-- todo doesn't insert -->
         <insert tableName="contacts">
-            <column name="id" value="1">
-            </column>
-            <column name="firstName" value="Ulad">
-            </column>
-            <column name="lastName" value="Bondar">
-            </column>
-            <column name="dateOfBirth" value="31.08.1998">
-            </column>
-            <column name="placeOfWork" value="bsuir">
-            </column>
+            <column name="id" valueComputed="123" />
+            <column name="firstName" value="Ulad" />
+            <column name="lastName" value="Bondar" />
+            <column name="dateOfBirth" valueComputed="${now}" />
+            <column name="placeOfWork" value="bsuir" />
         </insert>
     </changeSet>
 
