@@ -1,6 +1,7 @@
 package command;
 
 
+import dao.ContactDao;
 import db.Connector;
 import dto.ContactDto;
 import entities.Address;
@@ -58,54 +59,14 @@ public class ContactListCommand extends AbstractCommand {
 //                .address(address2);
 //        Contact contact2 = builder2.build();
 
-        Connection connection = Connector.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-//            c.id, c.firstName, c.lastName, c.dateOfBirth, c.placeOfWork, c.addressId" +
-//            "a.id, a.country, a.city, a.address, a.zip
+        ContactDao contactDao = new ContactDao();
+        List<Contact> contactList = contactDao.getAll();
+        List<ContactDto> contactDtoList = new ArrayList<>();
 
-            String query = "select * from contacts c " +
-                    "left outer join addresses a on c.addressId=a.id limit 1";
-
-            ps = connection.prepareStatement(query);
-            rs = ps.executeQuery();
-
-            if(rs != null && rs.next()){
-                Address address = new Address();
-                address.setCountry(rs.getString("a.country"));
-                address.setCity(rs.getString("a.city"));
-                address.setAddress(rs.getString("a.address"));
-                address.setZip(rs.getInt("a.zip"));
-
-                ContactBuilder builder = new ContactBuilder();
-                builder.id(rs.getLong("c.id"))
-                        .firstName(rs.getString("c.firstName"))
-                        .lastName(rs.getString("c.lastName"))
-                        .dateOfBirth(rs.getDate("c.dateOfBirth"))
-                        .address(address)
-                        .placeOfWork(rs.getString("c.placeOfWork"));
-                Contact contact = builder.build();
-                ContactDto dto = DtoUtils.convertToDto(contact);
-
-                List<ContactDto> contactList = new ArrayList<>();
-                contactList.add(dto);
-
-                request.setAttribute("contactList", contactList);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Database connection problem");
-            throw new ServletException("DB Connection problem.");
-        }finally{
-            try {
-                rs.close();
-                ps.close();
-            } catch (SQLException e) {
-                logger.error("SQLException in closing PreparedStatement or ResultSet");;
-            }
-
+        for (Contact c: contactList) {
+            contactDtoList.add(DtoUtils.convertToDto(c));
         }
+        request.setAttribute("contactList", contactDtoList);
     }
 
     @Override

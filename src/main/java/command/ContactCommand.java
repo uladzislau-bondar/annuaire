@@ -1,5 +1,6 @@
 package command;
 
+import dao.ContactDao;
 import entities.Contact;
 import entities.ContactBuilder;
 import org.apache.logging.log4j.LogManager;

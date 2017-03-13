@@ -25,12 +25,13 @@ public class Connector {
                 String url = PropertyService.getInstance().getJDBCUrl();
                 String username = PropertyService.getInstance().getJDBCUsername();
                 String password = PropertyService.getInstance().getJDBCPassword();
+
                 connection = DriverManager.getConnection(url, username, password);
             }
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException e) {
             logger.error(e);
         }
-        return connection;
 
+        return connection;
     }
 }
