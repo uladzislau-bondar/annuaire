@@ -3,7 +3,7 @@ package dao;
 
 import java.util.List;
 
-public interface EntityDao<E, K> {
+public interface TemplateDao<E, K> {
     void create(E entity);
 
     List<E> getAll();

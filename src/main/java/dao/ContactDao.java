@@ -1,7 +1,6 @@
 package dao;
 
 
-import entities.Address;
 import entities.Contact;
 import entities.ContactBuilder;
 
@@ -11,8 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactDao extends AbstractEntityDao<Contact, Long> {
-    private final String SQL_GET_ALL = "select * from contacts c left outer join addresses a on c.addressId=a.id limit 1";
+public class ContactDao extends AbstractTemplateDao<Contact, Long> {
+    private final String SQL_GET_ALL = "SElECT * FROM contacts LIMIT 1";
+    private final String SQL_GET_BY_ID = "SELECT * FROM contacts WHERE id = ?";
 
     public ContactDao(){
         super();
@@ -31,19 +31,12 @@ public class ContactDao extends AbstractEntityDao<Contact, Long> {
 
         try{
             if(rs != null && rs.next()) {
-                Address address = new Address();
-                address.setCountry(rs.getString("a.country"));
-                address.setCity(rs.getString("a.city"));
-                address.setAddress(rs.getString("a.address"));
-                address.setZip(rs.getInt("a.zip"));
-
                 ContactBuilder builder = new ContactBuilder();
-                builder.id(rs.getLong("c.id"))
-                        .firstName(rs.getString("c.firstName"))
-                        .lastName(rs.getString("c.lastName"))
-                        .dateOfBirth(rs.getDate("c.dateOfBirth"))
-                        .address(address)
-                        .placeOfWork(rs.getString("c.placeOfWork"));
+                builder.id(rs.getLong("id"))
+                        .firstName(rs.getString("firstName"))
+                        .lastName(rs.getString("lastName"))
+                        .dateOfBirth(rs.getDate("dateOfBirth"))
+                        .placeOfWork(rs.getString("placeOfWork"));
 
                 Contact contact = builder.build();
                 contacts.add(contact);
@@ -60,7 +53,32 @@ public class ContactDao extends AbstractEntityDao<Contact, Long> {
 
     @Override
     public Contact getById(Long id) {
-        return null;
+        PreparedStatement statement = getPreparedStatement(SQL_GET_BY_ID);
+        ResultSet rs = null;
+        Contact contact = null;
+
+        try{
+            statement.setLong(1, id);
+            rs = getResultSet(statement);
+
+            if (rs != null && rs.next()){
+                ContactBuilder builder = new ContactBuilder();
+                builder.id(rs.getLong("id"))
+                        .firstName(rs.getString("firstName"))
+                        .lastName(rs.getString("lastName"))
+                        .dateOfBirth(rs.getDate("dateOfBirth"))
+                        .placeOfWork(rs.getString("placeOfWork"));
+
+                contact = builder.build();
+            }
+        } catch (SQLException e){
+
+        } finally {
+            closePreparedStatement(statement);
+            closeResultSet(rs);
+        }
+
+        return contact;
     }
 
     @Override

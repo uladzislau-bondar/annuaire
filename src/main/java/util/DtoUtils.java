@@ -22,11 +22,11 @@ public class DtoUtils {
     }
 
     private static String createAddress(Address address){
-        return nullToEmpty(address.getCountry())
-                + nullToEmpty(address.getCity())
-                + nullToEmpty(address.getAddress())
-                + zeroToEmpty(address.getZip());
-//        return "address";
+//        return nullToEmpty(address.getCountry())
+//                + nullToEmpty(address.getCity())
+//                + nullToEmpty(address.getAddress())
+//                + zeroToEmpty(address.getZip());
+        return "address";
     }
 
     private static String nullToEmpty(String str) {

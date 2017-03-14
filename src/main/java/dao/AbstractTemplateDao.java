@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class AbstractEntityDao<E, K> implements EntityDao<E, K> {
-    private Logger logger = LogManager.getLogger(AbstractEntityDao.class);
+public abstract class AbstractTemplateDao<E, K> implements TemplateDao<E, K> {
+    private Logger logger = LogManager.getLogger(AbstractTemplateDao.class);
     protected Connection connection;
 
-    public AbstractEntityDao() {
+    public AbstractTemplateDao() {
         connection = Connector.getConnection();
     }
 
