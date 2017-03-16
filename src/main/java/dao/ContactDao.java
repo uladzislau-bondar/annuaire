@@ -16,16 +16,13 @@ import java.util.List;
 public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     private final static Logger logger = LogManager.getLogger(ContactDao.class);
 
-
     public ContactDao() {
         super();
     }
 
     @Override
     public void save(Contact contact) {
-        PreparedStatement statement = getPreparedStatement(ContactConstants.SAVE);
-
-        try {
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.SAVE)) {
             statement.setString(1, contact.getFirstName());
             statement.setString(2, contact.getLastName());
             statement.setString(3, contact.getMiddleName());
@@ -41,41 +38,18 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
-        } finally {
-            closePreparedStatement(statement);
         }
     }
 
     @Override
     public List<Contact> getAll() {
-        PreparedStatement statement = getPreparedStatement(ContactConstants.GET_ALL);
-        ResultSet rs = getResultSet(statement);
-
         List<Contact> contacts = new ArrayList<>();
 
-        try {
-            while (rs.next()) {
-                ContactBuilder builder = new ContactBuilder();
-                builder.id(rs.getLong("id"))
-                        .firstName(rs.getString("firstName"))
-                        .lastName(rs.getString("lastName"))
-                        .middleName(rs.getString("middleName"))
-                        .dateOfBirth(rs.getDate("dateOfBirth"))
-                        .sex(rs.getString("sex"))
-                        .citizenship(rs.getString("citizenship"))
-                        .maritalStatus(rs.getString("maritalStatus"))
-                        .webSite(rs.getString("webSite"))
-                        .email(rs.getString("email"))
-                        .placeOfWork(rs.getString("placeOfWork"));
-
-                Contact contact = builder.build();
-                contacts.add(contact);
-            }
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_ALL)) {
+            ResultSet set = statement.executeQuery();
+            contacts = fillList(set);
         } catch (SQLException e) {
-
-        } finally {
-            closePreparedStatement(statement);
-            closeResultSet(rs);
+            logger.error(e);
         }
 
         return contacts;
@@ -83,29 +57,25 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public Contact getById(Long id) {
-        PreparedStatement statement = getPreparedStatement(ContactConstants.GET_BY_ID);
-        ResultSet rs = null;
+        //todo finish filling contact
         Contact contact = null;
 
-        try {
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_BY_ID)) {
             statement.setLong(1, id);
-            rs = getResultSet(statement);
+            ResultSet set = statement.executeQuery();
 
-            if (rs != null && rs.next()) {
+            if (set != null && set.next()) {
                 ContactBuilder builder = new ContactBuilder();
-                builder.id(rs.getLong("id"))
-                        .firstName(rs.getString("firstName"))
-                        .lastName(rs.getString("lastName"))
-                        .dateOfBirth(rs.getDate("dateOfBirth"))
-                        .placeOfWork(rs.getString("placeOfWork"));
+                builder.id(set.getLong("id"))
+                        .firstName(set.getString("firstName"))
+                        .lastName(set.getString("lastName"))
+                        .dateOfBirth(set.getDate("dateOfBirth"))
+                        .placeOfWork(set.getString("placeOfWork"));
 
                 contact = builder.build();
             }
         } catch (SQLException e) {
 
-        } finally {
-            closePreparedStatement(statement);
-            closeResultSet(rs);
         }
 
         return contact;
@@ -113,9 +83,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public void update(Contact contact) {
-        PreparedStatement statement = getPreparedStatement(ContactConstants.UPDATE);
-
-        try {
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.UPDATE)){
             statement.setString(1, contact.getFirstName());
             statement.setString(2, contact.getLastName());
             statement.setString(3, contact.getMiddleName());
@@ -132,31 +100,66 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
-        } finally {
-            closePreparedStatement(statement);
         }
     }
 
     @Override
     public void delete(Long id) {
-        PreparedStatement statement = getPreparedStatement(ContactConstants.DELETE);
-
-        try {
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.DELETE)){
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
-        } finally {
-            closePreparedStatement(statement);
         }
     }
 
-    public List<Contact> getBy(String params){
+    public List<Contact> getBy(String params) {
         //todo getBy specific params
         return null;
     }
 
-    public List<Contact> getWithOffset(int offset, int limit){
+    public List<Contact> getWithOffset(int limit, int offset) {
+        List<Contact> contacts = new ArrayList<>();
+
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_WITH_OFFSET)){
+            statement.setInt(1, limit);
+            statement.setInt(2, offset);
+
+            ResultSet set = statement.executeQuery();
+            contacts = fillList(set);
+
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return contacts;
+    }
+
+    private List<Contact> fillList(ResultSet set) throws SQLException {
+        List<Contact> contacts = new ArrayList<>();
+
+        while (set.next()) {
+            ContactBuilder builder = new ContactBuilder();
+            builder.id(set.getLong("id"))
+                    .firstName(set.getString("firstName"))
+                    .lastName(set.getString("lastName"))
+                    .middleName(set.getString("middleName"))
+                    .dateOfBirth(set.getDate("dateOfBirth"))
+                    .sex(set.getString("sex"))
+                    .citizenship(set.getString("citizenship"))
+                    .maritalStatus(set.getString("maritalStatus"))
+                    .webSite(set.getString("webSite"))
+                    .email(set.getString("email"))
+                    .placeOfWork(set.getString("placeOfWork"));
+
+            Contact contact = builder.build();
+            contacts.add(contact);
+        }
+
+        return contacts;
+    }
+
+    private Contact fillContact(ResultSet set) {
         return null;
     }
 }
