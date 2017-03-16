@@ -19,10 +19,16 @@ public class DtoUtils {
     }
 
     private static String createFullName(Contact contact){
-        return contact.getFirstName() + " " + contact.getMiddleName() + " " + contact.getLastName();
+        return nullToEmpty(contact.getFirstName()) + " "
+                + nullToEmpty(contact.getMiddleName()) + " "
+                + nullToEmpty(contact.getLastName());
     }
 
     private static String createAddress(Address address){
         return "address";
+    }
+
+    private static String nullToEmpty(String value){
+        return value == null ? "" : value;
     }
 }
