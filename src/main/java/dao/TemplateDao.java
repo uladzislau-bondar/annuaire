@@ -10,7 +10,7 @@ public interface TemplateDao<E, K> {
 
     E getById(K id);
 
-    E update(E entity);
+    void update(E entity);
 
     void delete(K id);
 }

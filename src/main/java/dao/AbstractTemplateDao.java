@@ -22,7 +22,7 @@ public abstract class AbstractTemplateDao<E, K> implements TemplateDao<E, K> {
     public abstract void save(E entity);
     public abstract List<E> getAll();
     public abstract E getById(K id);
-    public abstract E update(E entity);
+    public abstract void update(E entity);
     public abstract void delete(K id);
 
     protected PreparedStatement getPreparedStatement(String sql) {

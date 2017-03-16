@@ -20,8 +20,10 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private final String SQL_GET_ALL = "SElECT * FROM contacts";
     private final String SQL_GET_BY_ID = "SELECT * FROM contacts WHERE id = ?";
-    private final String SQL_UPDATE = "";
-    private final String SQL_DELETE = "";
+    private final String SQL_UPDATE = "UPDATE contacts SET firstName = ?, lastName = ?, middleName = ?," +
+            "dateOfBirth = ?, sex = ?, citizenship = ?, maritalStatus = ?, website = ?, email = ?, placeOfWork = ?," +
+            "photo = ? WHERE id = ?";
+    private final String SQL_DELETE = "DELETE FROM contacts WHERE id = ?";
 
 
     public ContactDao() {
@@ -45,7 +47,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(10, contact.getPlaceOfWork());
             statement.setString(11, contact.getPhoto());
 
-            int row = statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
         } finally {
@@ -119,12 +121,42 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     }
 
     @Override
-    public Contact update(Contact contact) {
-        return null;
+    public void update(Contact contact) {
+        PreparedStatement statement = getPreparedStatement(SQL_UPDATE);
+
+        try {
+            statement.setString(1, contact.getFirstName());
+            statement.setString(2, contact.getLastName());
+            statement.setString(3, contact.getMiddleName());
+            statement.setDate(4, contact.getDateOfBirth());
+            statement.setString(5, contact.getSex().value());
+            statement.setString(6, contact.getCitizenship());
+            statement.setString(7, contact.getMaritalStatus());
+            statement.setString(8, contact.getWebSite());
+            statement.setString(9, contact.getEmail());
+            statement.setString(10, contact.getPlaceOfWork());
+            statement.setString(11, contact.getPhoto());
+            statement.setLong(12, contact.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        } finally {
+            closePreparedStatement(statement);
+        }
     }
 
     @Override
     public void delete(Long id) {
+        PreparedStatement statement = getPreparedStatement(SQL_DELETE);
 
+        try {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        } finally {
+            closePreparedStatement(statement);
+        }
     }
 }
