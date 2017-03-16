@@ -8,19 +8,19 @@ import java.util.List;
 
 public class Contact {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String middleName;
+    private String firstName = "";
+    private String lastName = "";
+    private String middleName = "";
     private Date dateOfBirth;
     private Sex sex = Sex.UNKNOWN;
-    private String citizenship;
-    private String maritalStatus;
-    private String webSite;
-    private String email;
-    private String placeOfWork;
+    private String citizenship = "";
+    private String maritalStatus = "";
+    private String webSite = "";
+    private String email = "";
+    private String placeOfWork = "";
     private Address address;
     private List<Phone> phones;
-    private String photo;
+    private String photo = "";
 
     public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, String photo) {
         this.id = id;

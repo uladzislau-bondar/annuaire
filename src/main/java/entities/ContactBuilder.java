@@ -2,30 +2,24 @@ package entities;
 
 import enums.Sex;
 
-import java.io.File;
 import java.sql.Date;
 import java.util.List;
 
 public class ContactBuilder {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String middleName;
+    private String firstName = "";
+    private String lastName = "";
+    private String middleName = "";
     private Date dateOfBirth;
     private Sex sex = Sex.UNKNOWN;
-    private String citizenship;
-    private String maritalStatus;
-    private String webSite;
-    private String email;
-    private String placeOfWork;
+    private String citizenship = "";
+    private String maritalStatus = "";
+    private String webSite = "";
+    private String email = "";
+    private String placeOfWork = "";
     private Address address;
     private List<Phone> phones;
-    private String photo;
-
-//    public ContactBuilder(String firstName, String lastName){
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//    }
+    private String photo = "";
 
     public ContactBuilder id(Long id) {
         this.id = id;
