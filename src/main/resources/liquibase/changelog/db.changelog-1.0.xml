@@ -36,9 +36,9 @@
             </column>
             <column name="placeOfWork" type="VARCHAR(32)">
             </column>
-            <column name="addressId" type="BIGINT">
-                <constraints unique="true"/>
-            </column>
+            <!--<column name="addressId" type="BIGINT">-->
+                <!--<constraints unique="true"/>-->
+            <!--</column>-->
             <column name="photo" type="VARCHAR(255)">
             </column>
         </createTable>
@@ -85,7 +85,6 @@
             <column name="lastName" value="Bondar"/>
             <column name="dateOfBirth" valueComputed="${now}"/>
             <column name="placeOfWork" value="BSUIR"/>
-            <column name="addressId" value="1"/>
         </insert>
 
         <insert tableName="contacts">

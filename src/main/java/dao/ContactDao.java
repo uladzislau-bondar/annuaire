@@ -3,6 +3,8 @@ package dao;
 
 import entities.Contact;
 import entities.ContactBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,15 +13,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactDao extends AbstractTemplateDao<Contact, Long> {
-    private final String SQL_GET_ALL = "SElECT * FROM contacts LIMIT 1";
-    private final String SQL_GET_BY_ID = "SELECT * FROM contacts WHERE id = ?";
+    private final static Logger logger = LogManager.getLogger(ContactDao.class);
 
-    public ContactDao(){
+    private final String SQL_SAVE = "INSERT INTO contacts (firstName, lastName, middleName," +
+            "dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, photo)" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String SQL_GET_ALL = "SElECT * FROM contacts";
+    private final String SQL_GET_BY_ID = "SELECT * FROM contacts WHERE id = ?";
+    private final String SQL_UPDATE = "";
+    private final String SQL_DELETE = "";
+
+
+    public ContactDao() {
         super();
     }
 
     @Override
-    public void create(Contact contact) {
+    public void save(Contact contact) {
+        PreparedStatement statement = getPreparedStatement(SQL_SAVE);
+
+        try {
+            statement.setString(1, contact.getFirstName());
+            statement.setString(2, contact.getLastName());
+            statement.setString(3, contact.getMiddleName());
+            statement.setDate(4, contact.getDateOfBirth());
+            statement.setString(5, contact.getSex().value());
+            statement.setString(6, contact.getCitizenship());
+            statement.setString(7, contact.getMaritalStatus());
+            statement.setString(8, contact.getWebSite());
+            statement.setString(9, contact.getEmail());
+            statement.setString(10, contact.getPlaceOfWork());
+            statement.setString(11, contact.getPhoto());
+
+            int row = statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        } finally {
+            closePreparedStatement(statement);
+        }
     }
 
     @Override
@@ -29,19 +60,25 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
         List<Contact> contacts = new ArrayList<>();
 
-        try{
-            if(rs != null && rs.next()) {
+        try {
+            while (rs.next()) {
                 ContactBuilder builder = new ContactBuilder();
                 builder.id(rs.getLong("id"))
                         .firstName(rs.getString("firstName"))
                         .lastName(rs.getString("lastName"))
+                        .middleName(rs.getString("middleName"))
                         .dateOfBirth(rs.getDate("dateOfBirth"))
+                        .sex(rs.getString("sex"))
+                        .citizenship(rs.getString("citizenship"))
+                        .maritalStatus(rs.getString("maritalStatus"))
+                        .webSite(rs.getString("webSite"))
+                        .email(rs.getString("email"))
                         .placeOfWork(rs.getString("placeOfWork"));
 
                 Contact contact = builder.build();
                 contacts.add(contact);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
         } finally {
             closePreparedStatement(statement);
@@ -57,11 +94,11 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         ResultSet rs = null;
         Contact contact = null;
 
-        try{
+        try {
             statement.setLong(1, id);
             rs = getResultSet(statement);
 
-            if (rs != null && rs.next()){
+            if (rs != null && rs.next()) {
                 ContactBuilder builder = new ContactBuilder();
                 builder.id(rs.getLong("id"))
                         .firstName(rs.getString("firstName"))
@@ -71,7 +108,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
                 contact = builder.build();
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
 
         } finally {
             closePreparedStatement(statement);

@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 
 public class ContactCommand extends AbstractCommand {
@@ -85,6 +83,9 @@ public class ContactCommand extends AbstractCommand {
 
         ContactBuilder builder = (ContactBuilder) o;
         Contact contact = builder.build();
+
+        ContactDao contactDao = new ContactDao();
+        contactDao.save(contact);
 
         log.info(contact.getFirstName());
     }
