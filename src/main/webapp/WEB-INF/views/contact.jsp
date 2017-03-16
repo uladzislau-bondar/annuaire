@@ -3,6 +3,7 @@
 <html>
 <head>
     <title><c:out value="${title}"/></title>
+    <%--<c:import url="/WEB-INF/js/validate.js" />--%>
 </head>
 <body>
 
@@ -42,7 +43,7 @@
     <input type="text" name="placeOfWork"
            value="<c:out value="${placeOfWork}" />"/> <br>
 
-    <input type="submit"/>
+    <input type="submit" onclick="validateFields()"/>
 </form>
 
 <!-- todo add address -->
