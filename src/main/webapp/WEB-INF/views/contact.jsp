@@ -11,10 +11,10 @@
 <form action="<c:url value="/contact" />" method="post">
     Имя:
     <input type="text" name="firstName"
-           value="<c:out value="${firstName}" />"/> <br>
+           value="<c:out value="${firstName}" />" required /> <br>
     Фамилия:
     <input type="text" name="lastName"
-           value="<c:out value="${lastName}" />"/> <br>
+           value="<c:out value="${lastName}" />" required/> <br>
     Отчество:
     <input type="text" name="middleName"
            value="<c:out value="${middleName}" />"/> <br>
