@@ -38,14 +38,16 @@ public class ContactCommand extends AbstractCommand {
                 if (query == null) {
                     showCreationForm();
                 } else {
-                    showContact(query);
+                    Long contactId = Long.valueOf(request.getParameter("id"));
+                    showContact(contactId);
                 }
                 break;
             case "POST":
                 if (query == null) {
                     saveContact();
                 } else {
-                    updateContact(query);
+                    Long contactId = Long.valueOf(request.getParameter("id"));
+                    updateContact(contactId);
                 }
                 break;
             case "DELETE":
@@ -61,18 +63,32 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void showCreationForm() {
-        String title = "Create new contact";
-        request.setAttribute("title", title);
+        setTitle("Create new contact");
+
+        logger.info("Show form for creating new contact");
     }
 
-    private void showContact(String query) {
+    private void showContact(Long id) {
+        ContactDao contactDao = new ContactDao();
+        Contact contact = contactDao.getById(id);
+        request.setAttribute("firstName", contact.getFirstName());
+        request.setAttribute("lastName", contact.getLastName());
+        request.setAttribute("middleName", contact.getMiddleName());
+        request.setAttribute("dateOfBirth", contact.getDateOfBirth());
+        request.setAttribute("sex", contact.getSex().value());
+        request.setAttribute("citizenship", contact.getCitizenship());
+        request.setAttribute("maritalStatus", contact.getMaritalStatus());
+        request.setAttribute("website", contact.getWebSite());
+        request.setAttribute("email", contact.getEmail());
+        request.setAttribute("placeOfWork", contact.getPlaceOfWork());
 
+        setTitle(contact.getFirstName());
     }
 
     private void saveContact() {
     }
 
-    private void updateContact(String query) {
+    private void updateContact(Long id) {
     }
 
     private void createNewContact() {

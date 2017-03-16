@@ -23,4 +23,8 @@ public abstract class AbstractCommand implements Command {
         request.getRequestDispatcher("/WEB-INF/views/" + jspName + ".jsp")
                 .forward(request, response);
     }
+
+    protected void setTitle(String title){
+        request.setAttribute("title", title);
+    }
 }
