@@ -33,7 +33,7 @@ public class ContactListCommand extends AbstractCommand {
     @Override
     public void execute() throws ServletException, IOException {
         process();
-        forward("index");
+        super.forward("index");
     }
 
     @Override
@@ -47,10 +47,5 @@ public class ContactListCommand extends AbstractCommand {
         }
 
         request.setAttribute("contactList", contactDtoList);
-    }
-
-    @Override
-    public void forward(String jspName) throws ServletException, IOException {
-        super.forward(jspName);
     }
 }

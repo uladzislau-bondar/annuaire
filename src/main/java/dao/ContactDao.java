@@ -159,4 +159,9 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             closePreparedStatement(statement);
         }
     }
+
+    private List<Contact> getBy(String params){
+        //todo getBy specific params
+        return null;
+    }
 }

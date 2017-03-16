@@ -27,7 +27,7 @@ public class ContactCommand extends AbstractCommand {
     @Override
     public void execute() throws ServletException, IOException {
         process();
-        forward("contact");
+        super.forward("contact");
     }
 
     @Override
@@ -57,11 +57,6 @@ public class ContactCommand extends AbstractCommand {
         }
 
 
-    }
-
-    @Override
-    public void forward(String jspName) throws ServletException, IOException {
-        super.forward(jspName);
     }
 
     private void showCreationForm() {

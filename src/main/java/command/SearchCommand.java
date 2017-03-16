@@ -22,9 +22,4 @@ public class SearchCommand extends AbstractCommand {
     public void process() {
 
     }
-
-    @Override
-    public void forward(String jspName) throws ServletException, IOException {
-        super.forward(jspName);
-    }
 }
