@@ -124,6 +124,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_WITH_OFFSET)){
             statement.setInt(1, limit);
             statement.setInt(2, offset);
+            logger.info(statement.toString());
 
             ResultSet set = statement.executeQuery();
             contacts = fillList(set);
