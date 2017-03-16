@@ -16,7 +16,7 @@ import java.util.Enumeration;
 
 
 public class ContactCommand extends AbstractCommand {
-    private final static Logger log = LogManager.getLogger(ContactCommand.class);
+    private final static Logger logger = LogManager.getLogger(ContactCommand.class);
 
     public ContactCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -30,20 +30,29 @@ public class ContactCommand extends AbstractCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        String queryString = request.getQueryString();
+        String method = request.getMethod();
+        String query = request.getQueryString();
 
-        if (queryString != null) {
-
-        } else {
-            String method = request.getMethod();
-            log.info(method);
-            if (method.equals("GET")){
-                showNewContactForm();
-            }
-            else if (method.equals("POST")){
-                createNewContact();
-            }
+        switch (method) {
+            case "GET":
+                if (query == null) {
+                    showCreationForm();
+                } else {
+                    showContact(query);
+                }
+                break;
+            case "POST":
+                if (query == null) {
+                    saveContact();
+                } else {
+                    updateContact(query);
+                }
+                break;
+            case "DELETE":
+                break;
         }
+
+
     }
 
     @Override
@@ -51,34 +60,42 @@ public class ContactCommand extends AbstractCommand {
         super.forward(jspName);
     }
 
-    private void showNewContactForm() {
+    private void showCreationForm() {
         String title = "Create new contact";
         request.setAttribute("title", title);
     }
 
-    private void createNewContact(){
+    private void showContact(String query) {
+
+    }
+
+    private void saveContact() {
+    }
+
+    private void updateContact(String query) {
+    }
+
+    private void createNewContact() {
         //todo looks awful but works
         Object o = null;
 
-        try{
+        try {
             Class<?> type = Class.forName("entities.ContactBuilder");
             o = type.newInstance();
             Enumeration<String> paramNames = request.getParameterNames();
-            while (paramNames.hasMoreElements()){
+            while (paramNames.hasMoreElements()) {
                 String name = paramNames.nextElement();
                 String value = request.getParameter(name);
-                try{
+                try {
                     Method method = type.getMethod(name, value.getClass());
-                    log.info("Method name: " + method.getName());
+                    logger.info("Method name: " + method.getName());
                     o = method.invoke(o, value);
-                }
-                catch (InvocationTargetException | NoSuchMethodException e){
-                    log.error(e);
+                } catch (InvocationTargetException | NoSuchMethodException e) {
+                    logger.error(e);
                 }
             }
-        }
-        catch (ClassNotFoundException | IllegalAccessException | InstantiationException e){
-            log.error(e);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            logger.error(e);
         }
 
         ContactBuilder builder = (ContactBuilder) o;
@@ -87,6 +104,6 @@ public class ContactCommand extends AbstractCommand {
         ContactDao contactDao = new ContactDao();
         contactDao.save(contact);
 
-        log.info(contact.getFirstName());
+        logger.info(contact.getFirstName());
     }
 }
