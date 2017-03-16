@@ -5,6 +5,9 @@
     <title><c:out value="${title}"/></title>
 </head>
 <body>
+
+<!-- todo photo form -->
+
 <form action="<c:url value="/contact" />" method="post">
     Имя:
     <input type="text" name="firstName"
@@ -20,7 +23,7 @@
            value="<c:out value="${dateOfBirth}" />"/> <br>
     Пол:
     <input type="radio" name="sex"
-            value="Мужчина" />
+            value="" />
     <input type="radio" name="sex"
            value="Женщина" /> <br>
     Гражданство:
@@ -38,6 +41,14 @@
     Место работы:
     <input type="text" name="placeOfWork"
            value="<c:out value="${placeOfWork}" />"/> <br>
+
+    <!-- todo add address -->
+
+    <!-- todo phones table -->
+    <!-- todo phones button to popup -->
+
+    <!-- todo attachments table -->
+    <!-- todo attachments button to popup -->
 
     <input type="submit"/>
 </form>
