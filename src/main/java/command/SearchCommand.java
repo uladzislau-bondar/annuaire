@@ -7,6 +7,7 @@ import java.io.IOException;
 
 
 public class SearchCommand extends AbstractCommand {
+    //todo search command
 
     public SearchCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
