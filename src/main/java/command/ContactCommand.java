@@ -3,6 +3,7 @@ package command;
 import dao.ContactDao;
 import entities.Contact;
 import entities.ContactBuilder;
+import enums.Sex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Date;
 import java.util.Enumeration;
 
 
@@ -83,43 +85,24 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
 
         setTitle(contact.getFirstName());
+
+        logger.info("Show form for editing contact #" + id);
     }
 
     private void saveContact() {
+        ContactBuilder builder = new ContactBuilder();
+        String firstName = (String) request.getAttribute("firstName");
+        String lastName = (String) request.getAttribute("lastName");
+        String middleName = (String) request.getAttribute("middleName");
+        Date dateOfBirth = (Date) request.getAttribute("dateOfBirth");
+        Sex sex = Sex.valueOf((String) request.getAttribute("middleName"));
+        String citizenship = (String) request.getAttribute("citizenship");
+
+        //todo add other fields
     }
 
     private void updateContact(Long id) {
+        //todo add updateContact method body
     }
 
-    private void createNewContact() {
-        //todo looks awful but works
-        Object o = null;
-
-        try {
-            Class<?> type = Class.forName("entities.ContactBuilder");
-            o = type.newInstance();
-            Enumeration<String> paramNames = request.getParameterNames();
-            while (paramNames.hasMoreElements()) {
-                String name = paramNames.nextElement();
-                String value = request.getParameter(name);
-                try {
-                    Method method = type.getMethod(name, value.getClass());
-                    logger.info("Method name: " + method.getName());
-                    o = method.invoke(o, value);
-                } catch (InvocationTargetException | NoSuchMethodException e) {
-                    logger.error(e);
-                }
-            }
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            logger.error(e);
-        }
-
-        ContactBuilder builder = (ContactBuilder) o;
-        Contact contact = builder.build();
-
-        ContactDao contactDao = new ContactDao();
-        contactDao.save(contact);
-
-        logger.info(contact.getFirstName());
-    }
 }
