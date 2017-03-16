@@ -23,9 +23,9 @@
            value="<c:out value="${dateOfBirth}" />"/> <br>
     Пол:
     <input type="radio" name="sex"
-            value="" />
+           value="male">Мужчина</input>
     <input type="radio" name="sex"
-           value="Женщина" /> <br>
+           value="female">Женщина</input> <br>
     Гражданство:
     <input type="text" name="citizenship"
            value="<c:out value="${citizenship}" />"/> <br>
@@ -42,15 +42,16 @@
     <input type="text" name="placeOfWork"
            value="<c:out value="${placeOfWork}" />"/> <br>
 
-    <!-- todo add address -->
-
-    <!-- todo phones table -->
-    <!-- todo phones button to popup -->
-
-    <!-- todo attachments table -->
-    <!-- todo attachments button to popup -->
-
     <input type="submit"/>
 </form>
+
+<!-- todo add address -->
+
+<!-- todo phones table -->
+<!-- todo phones button to popup -->
+
+<!-- todo attachments table -->
+<!-- todo attachments button to popup -->
+
 </body>
 </html>
