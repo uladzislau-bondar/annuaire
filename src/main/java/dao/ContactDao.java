@@ -1,6 +1,7 @@
 package dao;
 
 
+import db.constants.ContactConstants;
 import entities.Contact;
 import entities.ContactBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -15,16 +16,6 @@ import java.util.List;
 public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     private final static Logger logger = LogManager.getLogger(ContactDao.class);
 
-    private final String SQL_SAVE = "INSERT INTO contacts (firstName, lastName, middleName," +
-            "dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, photo)" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private final String SQL_GET_ALL = "SElECT * FROM contacts";
-    private final String SQL_GET_BY_ID = "SELECT * FROM contacts WHERE id = ?";
-    private final String SQL_UPDATE = "UPDATE contacts SET firstName = ?, lastName = ?, middleName = ?," +
-            "dateOfBirth = ?, sex = ?, citizenship = ?, maritalStatus = ?, website = ?, email = ?, placeOfWork = ?," +
-            "photo = ? WHERE id = ?";
-    private final String SQL_DELETE = "DELETE FROM contacts WHERE id = ?";
-
 
     public ContactDao() {
         super();
@@ -32,7 +23,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public void save(Contact contact) {
-        PreparedStatement statement = getPreparedStatement(SQL_SAVE);
+        PreparedStatement statement = getPreparedStatement(ContactConstants.SAVE);
 
         try {
             statement.setString(1, contact.getFirstName());
@@ -57,7 +48,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public List<Contact> getAll() {
-        PreparedStatement statement = getPreparedStatement(SQL_GET_ALL);
+        PreparedStatement statement = getPreparedStatement(ContactConstants.GET_ALL);
         ResultSet rs = getResultSet(statement);
 
         List<Contact> contacts = new ArrayList<>();
@@ -92,7 +83,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public Contact getById(Long id) {
-        PreparedStatement statement = getPreparedStatement(SQL_GET_BY_ID);
+        PreparedStatement statement = getPreparedStatement(ContactConstants.GET_BY_ID);
         ResultSet rs = null;
         Contact contact = null;
 
@@ -122,7 +113,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public void update(Contact contact) {
-        PreparedStatement statement = getPreparedStatement(SQL_UPDATE);
+        PreparedStatement statement = getPreparedStatement(ContactConstants.UPDATE);
 
         try {
             statement.setString(1, contact.getFirstName());
@@ -148,7 +139,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public void delete(Long id) {
-        PreparedStatement statement = getPreparedStatement(SQL_DELETE);
+        PreparedStatement statement = getPreparedStatement(ContactConstants.DELETE);
 
         try {
             statement.setLong(1, id);
@@ -160,8 +151,12 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         }
     }
 
-    private List<Contact> getBy(String params){
+    public List<Contact> getBy(String params){
         //todo getBy specific params
+        return null;
+    }
+
+    public List<Contact> getWithOffset(int offset, int limit){
         return null;
     }
 }
