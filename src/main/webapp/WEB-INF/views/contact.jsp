@@ -71,9 +71,10 @@
     <c:forEach items="${phones}" var="phone">
         <tr>
             <td><input type="checkbox"/></td>
-            <td><c:out value="phone.number"/></td>
-            <td><c:out value="phone.type"/></td>
-            <td><c:out value="phone.comment" /></td>
+            <td><c:out value="${phone.number}"/></td>
+            <td><c:out value="${phone.type}"/></td>
+            <td><c:out value="${phone.comment}" /></td>
+
             <!-- todo add phone editing and deleting -->
             <td><a href="#">
                 <input type="button" value="Edit">

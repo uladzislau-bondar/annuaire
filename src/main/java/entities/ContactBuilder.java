@@ -47,7 +47,7 @@ public class ContactBuilder {
     }
 
     public ContactBuilder sex(String sex) {
-        if (null == sex){
+        if (sex == null){
             this.sex = Sex.UNKNOWN;
         } else{
             this.sex = Sex.valueOf(sex);
