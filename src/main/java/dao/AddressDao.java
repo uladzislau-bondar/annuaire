@@ -8,7 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDao extends AbstractTemplateDao<Address, Long {
@@ -31,7 +33,16 @@ public class AddressDao extends AbstractTemplateDao<Address, Long {
 
     @Override
     public List<Address> getAll() {
-        return null;
+        List<Address> addresses = new ArrayList<>();
+
+        try (PreparedStatement statement = getPreparedStatement(AddressConstants.GET_ALL)){
+            ResultSet set = statement.executeQuery();
+            addresses = fillListFromResultSet(set);
+        } catch (SQLException e){
+            logger.error(e);
+        }
+
+        return addresses;
     }
 
     @Override
@@ -47,5 +58,23 @@ public class AddressDao extends AbstractTemplateDao<Address, Long {
     @Override
     public void delete(Long id) {
 
+    }
+
+    private List<Address> fillListFromResultSet(ResultSet set) throws SQLException{
+        List<Address> addresses = new ArrayList<>();
+
+        while (set.next()) {
+            Address address = new Address();
+            address.setId(set.getLong("id"));
+            address.setContactId(set.getLong("contactId"));
+            address.setCountry(set.getString("country"));
+            address.setCity(set.getString("city"));
+            address.setAddress(set.getString("address"));
+            address.setZip(set.getInt("zip"));
+
+            addresses.add(address);
+        }
+
+        return addresses;
     }
 }

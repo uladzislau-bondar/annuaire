@@ -3,9 +3,9 @@ package entities;
 public class Address {
     private Long id;
     private Long contactId;
-    private String country;
-    private String city;
-    private String address;
+    private String country = "";
+    private String city = "";
+    private String address = "";
     private int zip;
 
     public Long getId() {
