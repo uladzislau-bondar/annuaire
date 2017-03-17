@@ -88,17 +88,29 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void saveContact() {
-        ContactBuilder builder = new ContactBuilder();
         String firstName = (String) request.getAttribute("firstName");
         String lastName = (String) request.getAttribute("lastName");
         String middleName = (String) request.getAttribute("middleName");
         Date dateOfBirth = (Date) request.getAttribute("dateOfBirth");
-        Sex sex = Sex.valueOf((String) request.getAttribute("middleName"));
+        String sex = (String) request.getAttribute("middleName");
         String citizenship = (String) request.getAttribute("citizenship");
         String maritalStatus = (String) request.getAttribute("maritalStatus");
         String website = (String) request.getAttribute("website");
         String email = (String) request.getAttribute("email");
         String placeOfWork = (String) request.getAttribute("placeOfWork");
+
+        ContactBuilder builder = new ContactBuilder();
+        builder.firstName(firstName)
+                .lastName(lastName)
+                .middleName(middleName)
+                .dateOfBirth(dateOfBirth)
+                .sex(sex)
+                .citizenship(citizenship)
+                .maritalStatus(maritalStatus)
+                .webSite(website)
+                .email(email)
+                .placeOfWork(placeOfWork);
+
         Contact contact = builder.build();
 
         //todo add saving address
