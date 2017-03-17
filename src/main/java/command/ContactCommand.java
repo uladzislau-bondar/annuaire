@@ -78,6 +78,8 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("website", contact.getWebSite());
         request.setAttribute("email", contact.getEmail());
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
+        //todo add contact address
+        //todo add contact phones
 
         setTitle(contact.getFirstName());
 
