@@ -25,6 +25,8 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
             statement.setString(4, address.getAddress());
             statement.setInt(5, address.getZip());
 
+            logger.info(statement.toString());
+
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
@@ -36,6 +38,8 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
         List<Address> addresses = new ArrayList<>();
 
         try (PreparedStatement statement = getPreparedStatement(AddressConstants.GET_ALL)){
+            logger.info(statement.toString());
+
             ResultSet set = statement.executeQuery();
             addresses = fillListFromResultSet(set);
         } catch (SQLException e){
@@ -51,6 +55,9 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
 
         try (PreparedStatement statement = getPreparedStatement(AddressConstants.GET_BY_ID)) {
             statement.setLong(1, id);
+
+            logger.info(statement.toString());
+
             ResultSet set = statement.executeQuery();
 
             address = fillAddressFromResultSet(set);
@@ -71,6 +78,8 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
             statement.setInt(5, address.getZip());
             statement.setLong(6, address.getId());
 
+            logger.info(statement.toString());
+
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
@@ -81,6 +90,9 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
     public void delete(Long id) {
         try (PreparedStatement statement = getPreparedStatement(AddressConstants.DELETE)) {
             statement.setLong(1, id);
+
+            logger.info(statement.toString());
+
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
