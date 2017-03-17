@@ -12,7 +12,7 @@
 <form action="<c:url value="/contact" />" method="post">
     Имя:
     <input type="text" name="firstName"
-           value="<c:out value="${firstName}" />" required /> <br>
+           value="<c:out value="${firstName}" />" required/> <br>
     Фамилия:
     <input type="text" name="lastName"
            value="<c:out value="${lastName}" />" required/> <br>
@@ -59,7 +59,34 @@
 </form>
 
 <!-- todo phones table -->
-<!-- todo phones button to popup -->
+<table>
+    <tr>
+        <th></th>
+        <th>Номер</th>
+        <th>Тип</th>
+        <th>Комментарий</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <c:forEach items="${phones}" var="phone">
+        <tr>
+            <td><input type="checkbox"/></td>
+            <td><c:out value="phone.number"/></td>
+            <td><c:out value="phone.type"/></td>
+            <td><c:out value="phone.comment" /></td>
+            <!-- todo add phone editing and deleting -->
+            <td><a href="#">
+                <input type="button" value="Edit">
+            </a>
+            </td>
+            <td><a href="#">
+                <input type="button" value="Delete">
+            </a>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+<!-- todo phones button to popup (creating) && deleting selected items -->
 
 <!-- todo attachments table -->
 <!-- todo attachments button to popup -->
