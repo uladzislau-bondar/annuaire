@@ -63,7 +63,18 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
 
     @Override
     public void update(Address address) {
+        try (PreparedStatement statement = getPreparedStatement(AddressConstants.UPDATE)) {
+            statement.setLong(1, address.getContactId());
+            statement.setString(2, address.getCountry());
+            statement.setString(3, address.getCity());
+            statement.setString(4, address.getAddress());
+            statement.setInt(5, address.getZip());
+            statement.setLong(6, address.getId());
 
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
     }
 
     @Override
