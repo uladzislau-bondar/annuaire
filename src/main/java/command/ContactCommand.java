@@ -113,18 +113,16 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private Contact buildContactFromRequest(){
-        String firstName = (String) request.getAttribute("firstName");
-        //todo doesn't receive attributes from request
-        logger.info(firstName);
-        String lastName = (String) request.getAttribute("lastName");
-        String middleName = (String) request.getAttribute("middleName");
-        Date dateOfBirth = (Date) request.getAttribute("dateOfBirth");
-        String sex = (String) request.getAttribute("middleName");
-        String citizenship = (String) request.getAttribute("citizenship");
-        String maritalStatus = (String) request.getAttribute("maritalStatus");
-        String website = (String) request.getAttribute("website");
-        String email = (String) request.getAttribute("email");
-        String placeOfWork = (String) request.getAttribute("placeOfWork");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String middleName = request.getParameter("middleName");
+        Date dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
+        String sex = request.getParameter("middleName");
+        String citizenship = request.getParameter("citizenship");
+        String maritalStatus = request.getParameter("maritalStatus");
+        String website = request.getParameter("website");
+        String email = request.getParameter("email");
+        String placeOfWork = request.getParameter("placeOfWork");
 
         ContactBuilder builder = new ContactBuilder();
         builder.firstName(firstName)
