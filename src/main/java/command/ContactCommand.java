@@ -78,6 +78,7 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("website", contact.getWebSite());
         request.setAttribute("email", contact.getEmail());
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
+
         //todo add contact address
         //todo add contact phones
 
@@ -94,8 +95,17 @@ public class ContactCommand extends AbstractCommand {
         Date dateOfBirth = (Date) request.getAttribute("dateOfBirth");
         Sex sex = Sex.valueOf((String) request.getAttribute("middleName"));
         String citizenship = (String) request.getAttribute("citizenship");
+        String maritalStatus = (String) request.getAttribute("maritalStatus");
+        String website = (String) request.getAttribute("website");
+        String email = (String) request.getAttribute("email");
+        String placeOfWork = (String) request.getAttribute("placeOfWork");
+        Contact contact = builder.build();
 
-        //todo add other fields
+        //todo add saving address
+        //todo add saving phones
+
+        ContactDao contactDao = new ContactDao();
+        contactDao.save(contact);
     }
 
     private void updateContact(Long id) {
