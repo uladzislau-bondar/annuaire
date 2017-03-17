@@ -1,6 +1,8 @@
 package command;
 
+import dao.AddressDao;
 import dao.ContactDao;
+import entities.Address;
 import entities.Contact;
 import entities.ContactBuilder;
 import enums.Sex;
@@ -88,18 +90,21 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void saveContact() {
-        //todo add saving address
         //todo add saving phones
 
         Contact contact = buildContactFromRequest();
         ContactDao contactDao = new ContactDao();
         contactDao.save(contact);
 
+        Address address = buildAddressFromRequest();
+        address.setContactId(contact.getId());
+        AddressDao addressDao = new AddressDao();
+        addressDao.save(address);
+
         logger.info("Saving new contact");
     }
 
     private void updateContact(Long id) {
-        //todo add saving address
         //todo add saving phones
 
         Contact contact = buildContactFromRequest();
@@ -107,10 +112,15 @@ public class ContactCommand extends AbstractCommand {
         ContactDao contactDao = new ContactDao();
         contactDao.update(contact);
 
+        Address address = buildAddressFromRequest();
+        address.setContactId(contact.getId());
+        AddressDao addressDao = new AddressDao();
+        addressDao.save(address);
+
         logger.info("Updating contact #" + id);
     }
 
-    private Contact buildContactFromRequest(){
+    private Contact buildContactFromRequest() {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String middleName = request.getParameter("middleName");
@@ -137,5 +147,18 @@ public class ContactCommand extends AbstractCommand {
         return builder.build();
     }
 
+    private Address buildAddressFromRequest() {
+        String country = request.getParameter("country");
+        String city = request.getParameter("city");
+        String address = request.getParameter("address");
+        int zip = Integer.valueOf(request.getParameter("zip"));
 
+        Address addr = new Address();
+        addr.setCountry(country);
+        addr.setCity(city);
+        addr.setAddress(address);
+        addr.setZip(zip);
+
+        return addr;
+    }
 }
