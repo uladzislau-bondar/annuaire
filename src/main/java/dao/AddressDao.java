@@ -79,7 +79,12 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
 
     @Override
     public void delete(Long id) {
-
+        try (PreparedStatement statement = getPreparedStatement(AddressConstants.DELETE)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
     }
 
     private List<Address> fillListFromResultSet(ResultSet set) throws SQLException{
