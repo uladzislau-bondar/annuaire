@@ -124,7 +124,7 @@ public class ContactCommand extends AbstractCommand {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String middleName = request.getParameter("middleName");
-        Date dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
+        Date dateOfBirth = nullToDate(request.getParameter("dateOfBirth"));
         String sex = request.getParameter("sex");
         String citizenship = request.getParameter("citizenship");
         String maritalStatus = request.getParameter("maritalStatus");
@@ -151,7 +151,7 @@ public class ContactCommand extends AbstractCommand {
         String country = request.getParameter("country");
         String city = request.getParameter("city");
         String address = request.getParameter("address");
-        int zip = Integer.valueOf(request.getParameter("zip"));
+        int zip = nullToInt(request.getParameter("zip"));
 
         Address addr = new Address();
         addr.setCountry(country);
@@ -160,5 +160,21 @@ public class ContactCommand extends AbstractCommand {
         addr.setZip(zip);
 
         return addr;
+    }
+
+    private Date nullToDate(String value){
+        if (value == null || value.isEmpty()){
+            return null;
+        } else {
+            return Date.valueOf(value);
+        }
+    }
+
+    private int nullToInt(String value){
+        if (value == null || value.isEmpty()){
+            return 0;
+        } else {
+            return Integer.valueOf(value);
+        }
     }
 }
