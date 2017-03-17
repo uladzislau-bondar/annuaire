@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_ALL)) {
             ResultSet set = statement.executeQuery();
-            contacts = fillList(set);
+            contacts = fillListFromResultSet(set);
         } catch (SQLException e) {
             logger.error(e);
         }
@@ -128,7 +129,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             logger.info(statement.toString());
 
             ResultSet set = statement.executeQuery();
-            contacts = fillList(set);
+            contacts = fillListFromResultSet(set);
 
         } catch (SQLException e) {
             logger.error(e);
@@ -137,7 +138,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return contacts;
     }
 
-    private List<Contact> fillList(ResultSet set) throws SQLException {
+    private List<Contact> fillListFromResultSet(ResultSet set) throws SQLException {
         List<Contact> contacts = new ArrayList<>();
 
         while (set.next()) {
@@ -161,7 +162,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return contacts;
     }
 
-    private Contact fillContact(ResultSet set) {
+    private Contact fillContactFromResultSet(ResultSet set) {
         return null;
     }
 }
