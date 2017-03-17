@@ -98,6 +98,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setLong(12, contact.getId());
 
             statement.executeUpdate();
+            logger.info(statement.toString());
         } catch (SQLException e) {
             logger.error(e);
         }

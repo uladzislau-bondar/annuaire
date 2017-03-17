@@ -82,13 +82,40 @@ public class ContactCommand extends AbstractCommand {
         //todo add contact address
         //todo add contact phones
 
+        request.setAttribute("id", id);
+
         setTitle(contact.getFirstName());
 
         logger.info("Show form for editing contact #" + id);
     }
 
     private void saveContact() {
+        //todo add saving address
+        //todo add saving phones
+
+        Contact contact = buildContactFromRequest();
+        ContactDao contactDao = new ContactDao();
+        contactDao.save(contact);
+
+        logger.info("Saving new contact");
+    }
+
+    private void updateContact(Long id) {
+        //todo add saving address
+        //todo add saving phones
+
+        Contact contact = buildContactFromRequest();
+        contact.setId(id);
+        ContactDao contactDao = new ContactDao();
+        contactDao.update(contact);
+
+        logger.info("Updating contact #" + id);
+    }
+
+    private Contact buildContactFromRequest(){
         String firstName = (String) request.getAttribute("firstName");
+        //todo doesn't receive attributes from request
+        logger.info(firstName);
         String lastName = (String) request.getAttribute("lastName");
         String middleName = (String) request.getAttribute("middleName");
         Date dateOfBirth = (Date) request.getAttribute("dateOfBirth");
@@ -111,17 +138,8 @@ public class ContactCommand extends AbstractCommand {
                 .email(email)
                 .placeOfWork(placeOfWork);
 
-        Contact contact = builder.build();
-
-        //todo add saving address
-        //todo add saving phones
-
-        ContactDao contactDao = new ContactDao();
-        contactDao.save(contact);
+        return builder.build();
     }
 
-    private void updateContact(Long id) {
-        //todo add updateContact method body
-    }
 
 }

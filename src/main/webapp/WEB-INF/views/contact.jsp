@@ -9,7 +9,13 @@
 
 <!-- todo photo form -->
 
-<form action="<c:url value="/contact" />" method="post">
+<c:url value="/contact" var="postUrl">
+    <!-- todo c:if doesn't work -->
+    <%--<c:if test="${id != null} ">--%>
+    <%--</c:if>--%>
+        <c:param name="id" value="${id}"/>
+</c:url>
+<form action="${postUrl}" method="post">
     Имя:
     <input type="text" name="firstName"
            value="<c:out value="${firstName}" />" required/> <br>
@@ -73,7 +79,7 @@
             <td><input type="checkbox"/></td>
             <td><c:out value="${phone.number}"/></td>
             <td><c:out value="${phone.type}"/></td>
-            <td><c:out value="${phone.comment}" /></td>
+            <td><c:out value="${phone.comment}"/></td>
 
             <!-- todo add phone editing and deleting -->
             <td><a href="#">
