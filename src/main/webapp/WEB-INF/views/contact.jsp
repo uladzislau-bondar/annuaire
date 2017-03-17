@@ -42,11 +42,21 @@
     Место работы:
     <input type="text" name="placeOfWork"
            value="<c:out value="${placeOfWork}" />"/> <br>
+    Страна:
+    <input type="text" name="country"
+           value="<c:out value="${country}" />"/> <br>
+    Город:
+    <input type="text" name="city"
+           value="<c:out value="${city}" />"/> <br>
+    Адрес:
+    <input type="text" name="address"
+           value="<c:out value="${address}" />"/> <br>
+    Индекс:
+    <input type="text" name="zip"
+           value="<c:out value="${zip}" />"/> <br>
 
-    <input type="submit" onclick="validateFields()"/>
+    <input type="submit"/>
 </form>
-
-<!-- todo add address -->
 
 <!-- todo phones table -->
 <!-- todo phones button to popup -->
