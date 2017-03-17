@@ -117,7 +117,7 @@ public class ContactCommand extends AbstractCommand {
         String lastName = request.getParameter("lastName");
         String middleName = request.getParameter("middleName");
         Date dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
-        String sex = request.getParameter("middleName");
+        String sex = request.getParameter("sex");
         String citizenship = request.getParameter("citizenship");
         String maritalStatus = request.getParameter("maritalStatus");
         String website = request.getParameter("website");

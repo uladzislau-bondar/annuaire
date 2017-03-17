@@ -13,7 +13,7 @@
     <!-- todo c:if doesn't work -->
     <%--<c:if test="${id != null} ">--%>
     <%--</c:if>--%>
-        <c:param name="id" value="${id}"/>
+    <c:param name="id" value="${id}"/>
 </c:url>
 <form action="${postUrl}" method="post">
     Имя:
@@ -30,9 +30,13 @@
            value="<c:out value="${dateOfBirth}" />"/> <br>
     Пол:
     <input type="radio" name="sex"
-           value="male">Мужчина</input>
+           value="MALE"
+    <c:if test="${sex == 'MALE'}"> checked="checked"
+    </c:if> >Мужчина</input>
     <input type="radio" name="sex"
-           value="female">Женщина</input> <br>
+           value="FEMALE"
+    <c:if test="${sex == 'FEMALE'}"> checked="checked"
+    </c:if> >Женщина</input> <br>
     Гражданство:
     <input type="text" name="citizenship"
            value="<c:out value="${citizenship}" />"/> <br>

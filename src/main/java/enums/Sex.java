@@ -1,9 +1,9 @@
 package enums;
 
 public enum Sex {
-    MALE("male"),
-    FEMALE("female"),
-    UNKNOWN("unknown");
+    MALE("MALE"),
+    FEMALE("FEMALE"),
+    UNKNOWN("UNKNOWN");
 
     private String value;
 

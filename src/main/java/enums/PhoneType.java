@@ -2,9 +2,9 @@ package enums;
 
 
 public enum PhoneType {
-    HOME("home"),
-    MOBILE("mobile"),
-    UNKNOWN("unknown");
+    HOME("HOME"),
+    MOBILE("MOBILE"),
+    UNKNOWN("UNKNOWN");
 
     private String value;
 

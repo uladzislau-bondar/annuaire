@@ -36,6 +36,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(10, contact.getPlaceOfWork());
             statement.setString(11, contact.getPhoto());
 
+            logger.info(statement.toString());
+
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
@@ -47,6 +49,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         List<Contact> contacts = new ArrayList<>();
 
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_ALL)) {
+            logger.info(statement.toString());
+
             ResultSet set = statement.executeQuery();
             contacts = fillListFromResultSet(set);
         } catch (SQLException e) {
@@ -62,8 +66,10 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_BY_ID)) {
             statement.setLong(1, id);
-            ResultSet set = statement.executeQuery();
 
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
             contact = fillContactFromResultSet(set);
 
         } catch (SQLException e) {
@@ -89,8 +95,9 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(11, contact.getPhoto());
             statement.setLong(12, contact.getId());
 
-            statement.executeUpdate();
             logger.info(statement.toString());
+
+            statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
         }
@@ -100,6 +107,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     public void delete(Long id) {
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.DELETE)) {
             statement.setLong(1, id);
+            logger.info(statement.toString());
+
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
@@ -117,6 +126,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_WITH_OFFSET)) {
             statement.setInt(1, limit);
             statement.setInt(2, offset);
+
             logger.info(statement.toString());
 
             ResultSet set = statement.executeQuery();
