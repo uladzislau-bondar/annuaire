@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <title><c:out value="${title}"/></title>
@@ -10,10 +10,10 @@
 <!-- todo photo form -->
 
 <c:url value="/contact" var="postUrl">
-    <!-- todo c:if doesn't work -->
-    <%--<c:if test="${id != null} ">--%>
+    <!-- todo test doesn't work -->
+    <%--<c:if test="${param.id}">--%>
+        <%--<c:param name="id" value="${param.id}"/>--%>
     <%--</c:if>--%>
-    <c:param name="id" value="${id}"/>
 </c:url>
 <form action="${postUrl}" method="post">
     Имя:
@@ -68,7 +68,6 @@
     <input type="submit"/>
 </form>
 
-<!-- todo phones table -->
 <table>
     <tr>
         <th></th>

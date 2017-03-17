@@ -82,8 +82,6 @@ public class ContactCommand extends AbstractCommand {
         //todo add contact address
         //todo add contact phones
 
-        request.setAttribute("id", id);
-
         setTitle(contact.getFirstName());
 
         logger.info("Show form for editing contact #" + id);
