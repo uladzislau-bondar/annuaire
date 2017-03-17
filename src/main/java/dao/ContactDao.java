@@ -58,25 +58,16 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public Contact getById(Long id) {
-        //todo finish filling contact
         Contact contact = null;
 
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_BY_ID)) {
             statement.setLong(1, id);
             ResultSet set = statement.executeQuery();
 
-            if (set != null && set.next()) {
-                ContactBuilder builder = new ContactBuilder();
-                builder.id(set.getLong("id"))
-                        .firstName(set.getString("firstName"))
-                        .lastName(set.getString("lastName"))
-                        .dateOfBirth(set.getDate("dateOfBirth"))
-                        .placeOfWork(set.getString("placeOfWork"));
+            contact = fillContactFromResultSet(set);
 
-                contact = builder.build();
-            }
         } catch (SQLException e) {
-
+            logger.error(e);
         }
 
         return contact;
@@ -84,7 +75,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public void update(Contact contact) {
-        try (PreparedStatement statement = getPreparedStatement(ContactConstants.UPDATE)){
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.UPDATE)) {
             statement.setString(1, contact.getFirstName());
             statement.setString(2, contact.getLastName());
             statement.setString(3, contact.getMiddleName());
@@ -107,7 +98,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
     @Override
     public void delete(Long id) {
-        try (PreparedStatement statement = getPreparedStatement(ContactConstants.DELETE)){
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.DELETE)) {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -123,7 +114,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     public List<Contact> getWithOffset(int limit, int offset) {
         List<Contact> contacts = new ArrayList<>();
 
-        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_WITH_OFFSET)){
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_WITH_OFFSET)) {
             statement.setInt(1, limit);
             statement.setInt(2, offset);
             logger.info(statement.toString());
@@ -162,7 +153,20 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return contacts;
     }
 
-    private Contact fillContactFromResultSet(ResultSet set) {
-        return null;
+    private Contact fillContactFromResultSet(ResultSet set) throws SQLException{
+        Contact contact = null;
+
+        if (set.next()) {
+            ContactBuilder builder = new ContactBuilder();
+            builder.id(set.getLong("id"))
+                    .firstName(set.getString("firstName"))
+                    .lastName(set.getString("lastName"))
+                    .dateOfBirth(set.getDate("dateOfBirth"))
+                    .placeOfWork(set.getString("placeOfWork"));
+
+            contact = builder.build();
+        }
+
+        return contact;
     }
 }
