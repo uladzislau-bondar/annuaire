@@ -5,18 +5,9 @@ import enums.PhoneType;
 
 public class PhoneDto {
     private Long id;
-    private Long contactId;
     private String number;
-    private PhoneType type;
+    private String type;
     private String comment;
-
-    public Long getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(Long contactId) {
-        this.contactId = contactId;
-    }
 
     public Long getId() {
         return id;
@@ -34,12 +25,12 @@ public class PhoneDto {
         this.number = number;
     }
 
-    public PhoneType getType() {
+    public String getType() {
         return type;
     }
 
     public void setType(PhoneType type) {
-        this.type = type;
+        this.type = type.value();
     }
 
     public String getComment() {
