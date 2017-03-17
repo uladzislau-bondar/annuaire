@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressDao extends AbstractTemplateDao<Address, Long {
+public class AddressDao extends AbstractTemplateDao<Address, Long> {
     private final static Logger logger = LogManager.getLogger(AddressDao.class);
 
     @Override
@@ -47,7 +47,18 @@ public class AddressDao extends AbstractTemplateDao<Address, Long {
 
     @Override
     public Address getById(Long id) {
-        return null;
+        Address address = null;
+
+        try (PreparedStatement statement = getPreparedStatement(AddressConstants.GET_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet set = statement.executeQuery();
+
+            address = fillAddressFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return address;
     }
 
     @Override
@@ -76,5 +87,20 @@ public class AddressDao extends AbstractTemplateDao<Address, Long {
         }
 
         return addresses;
+    }
+
+    private Address fillAddressFromResultSet(ResultSet set) throws SQLException{
+        Address address = new Address();
+
+        if (set.next()) {
+            address.setId(set.getLong("id"));
+            address.setContactId(set.getLong("contactId"));
+            address.setCountry(set.getString("country"));
+            address.setCity(set.getString("city"));
+            address.setAddress(set.getString("address"));
+            address.setZip(set.getInt("zip"));
+        }
+
+        return address;
     }
 }
