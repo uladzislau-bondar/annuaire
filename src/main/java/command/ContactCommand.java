@@ -78,7 +78,13 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("email", contact.getEmail());
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
 
-        //todo add contact address
+        AddressDao addressDao = new AddressDao();
+        Address address = addressDao.getByContactId(contact.getId());
+        request.setAttribute("country", address.getCountry());
+        request.setAttribute("city", address.getCity());
+        request.setAttribute("address", address.getAddress());
+        request.setAttribute("zip", address.getZip());
+
         //todo add contact phones
 
         setTitle(contact.getFirstName());
