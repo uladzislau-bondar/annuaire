@@ -47,7 +47,6 @@ public class ContactBuilder {
     }
 
     public ContactBuilder sex(String sex) {
-        //todo del with sex String/Sex issue
         if (sex == null) {
             this.sex = Sex.UNKNOWN;
         } else {
