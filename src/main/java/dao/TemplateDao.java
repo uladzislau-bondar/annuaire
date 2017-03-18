@@ -4,7 +4,7 @@ package dao;
 import java.util.List;
 
 public interface TemplateDao<E, K> {
-    void save(E entity);
+    K save(E entity);
 
     List<E> getAll();
 

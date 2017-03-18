@@ -22,8 +22,10 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     }
 
     @Override
-    public void save(Contact contact) {
-        try (PreparedStatement statement = getPreparedStatement(ContactConstants.SAVE)) {
+    public Long save(Contact contact) {
+        Long id = null;
+
+        try (PreparedStatement statement = getPreparedStatementAndReturnGeneratedKeys(ContactConstants.SAVE)) {
             statement.setString(1, contact.getFirstName());
             statement.setString(2, contact.getLastName());
             statement.setString(3, contact.getMiddleName());
@@ -39,9 +41,12 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             logger.info(statement.toString());
 
             statement.executeUpdate();
+            id = obtainIdFromStatement(statement);
         } catch (SQLException e) {
             logger.error(e);
         }
+
+        return id;
     }
 
     @Override

@@ -17,8 +17,10 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
     private final static Logger logger = LogManager.getLogger(AddressDao.class);
 
     @Override
-    public void save(Address address) {
-        try (PreparedStatement statement = getPreparedStatement(AddressConstants.SAVE)) {
+    public Long save(Address address) {
+        Long id = null;
+
+        try (PreparedStatement statement = getPreparedStatementAndReturnGeneratedKeys(AddressConstants.SAVE)) {
             statement.setLong(1, address.getContactId());
             statement.setString(2, address.getCountry());
             statement.setString(3, address.getCity());
@@ -28,9 +30,12 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
             logger.info(statement.toString());
 
             statement.executeUpdate();
+            id = obtainIdFromStatement(statement);
         } catch (SQLException e) {
             logger.error(e);
         }
+
+        return id;
     }
 
     @Override

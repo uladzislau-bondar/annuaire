@@ -94,10 +94,10 @@ public class ContactCommand extends AbstractCommand {
 
         Contact contact = buildContactFromRequest();
         ContactDao contactDao = new ContactDao();
-        contactDao.save(contact);
+        Long contactId = contactDao.save(contact);
 
         Address address = buildAddressFromRequest();
-        address.setContactId(contact.getId());
+        address.setContactId(contactId);
         AddressDao addressDao = new AddressDao();
         addressDao.save(address);
 
