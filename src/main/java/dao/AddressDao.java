@@ -91,6 +91,24 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
         }
     }
 
+    public Address getByContactId(Long contactId){
+        Address address = null;
+
+        try (PreparedStatement statement = getPreparedStatement(AddressConstants.GET_BY_CONTACT_ID)) {
+            statement.setLong(1, contactId);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+
+            address = fillAddressFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return address;
+    }
+
     @Override
     public void delete(Long id) {
         try (PreparedStatement statement = getPreparedStatement(AddressConstants.DELETE)) {
