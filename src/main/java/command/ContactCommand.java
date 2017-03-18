@@ -65,29 +65,10 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void showContact(Long id) {
-        ContactDao contactDao = new ContactDao();
-        Contact contact = contactDao.getById(id);
-        request.setAttribute("firstName", contact.getFirstName());
-        request.setAttribute("lastName", contact.getLastName());
-        request.setAttribute("middleName", contact.getMiddleName());
-        request.setAttribute("dateOfBirth", contact.getDateOfBirth());
-        request.setAttribute("sex", contact.getSex().value());
-        request.setAttribute("citizenship", contact.getCitizenship());
-        request.setAttribute("maritalStatus", contact.getMaritalStatus());
-        request.setAttribute("website", contact.getWebSite());
-        request.setAttribute("email", contact.getEmail());
-        request.setAttribute("placeOfWork", contact.getPlaceOfWork());
-
-        AddressDao addressDao = new AddressDao();
-        Address address = addressDao.getByContactId(contact.getId());
-        request.setAttribute("country", address.getCountry());
-        request.setAttribute("city", address.getCity());
-        request.setAttribute("address", address.getAddress());
-        request.setAttribute("zip", address.getZip());
-
+        fillRequestWithData(id);
         //todo add contact phones
 
-        setTitle(contact.getFirstName());
+        setTitle("Showing contact");
 
         logger.info("Show form for editing contact #" + id);
     }
@@ -121,6 +102,37 @@ public class ContactCommand extends AbstractCommand {
         addressDao.save(address);
 
         logger.info("Updating contact #" + id);
+    }
+
+    private void fillRequestWithData(Long id){
+        fillRequestWithContact(id);
+        fillRequestWithAddress(id);
+
+    }
+
+    private void fillRequestWithContact(Long id) {
+        ContactDao contactDao = new ContactDao();
+        Contact contact = contactDao.getById(id);
+        request.setAttribute("firstName", contact.getFirstName());
+        request.setAttribute("lastName", contact.getLastName());
+        request.setAttribute("middleName", contact.getMiddleName());
+        request.setAttribute("dateOfBirth", contact.getDateOfBirth());
+        request.setAttribute("sex", contact.getSex().value());
+        request.setAttribute("citizenship", contact.getCitizenship());
+        request.setAttribute("maritalStatus", contact.getMaritalStatus());
+        request.setAttribute("website", contact.getWebSite());
+        request.setAttribute("email", contact.getEmail());
+        request.setAttribute("placeOfWork", contact.getPlaceOfWork());
+    }
+
+    private void fillRequestWithAddress(Long id) {
+        AddressDao addressDao = new AddressDao();
+        Address address = addressDao.getByContactId(id);
+        request.setAttribute("country", address.getCountry());
+        request.setAttribute("city", address.getCity());
+        request.setAttribute("address", address.getAddress());
+        String zip = StringUtils.intToString(address.getZip());
+        request.setAttribute("zip", zip);
     }
 
     private Contact buildContactFromRequest() {
