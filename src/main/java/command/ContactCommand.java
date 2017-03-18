@@ -26,7 +26,6 @@ public class ContactCommand extends AbstractCommand {
     @Override
     public void execute() throws ServletException, IOException {
         process();
-        super.forward("contact");
     }
 
     @Override
@@ -42,6 +41,8 @@ public class ContactCommand extends AbstractCommand {
                     Long contactId = Long.valueOf(request.getParameter("id"));
                     showContact(contactId);
                 }
+
+                forward("contact");
                 break;
             case "POST":
                 if (query == null) {
@@ -50,6 +51,8 @@ public class ContactCommand extends AbstractCommand {
                     Long contactId = Long.valueOf(request.getParameter("id"));
                     updateContact(contactId);
                 }
+
+                redirect("/");
                 break;
             case "DELETE":
                 break;

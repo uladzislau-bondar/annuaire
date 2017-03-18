@@ -24,6 +24,10 @@ public abstract class AbstractCommand implements Command {
                 .forward(request, response);
     }
 
+    public void redirect(String path) throws IOException{
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + path));
+    }
+
     protected void setTitle(String title){
         request.setAttribute("title", title);
     }
