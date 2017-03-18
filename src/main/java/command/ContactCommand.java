@@ -5,18 +5,15 @@ import dao.ContactDao;
 import entities.Address;
 import entities.Contact;
 import entities.ContactBuilder;
-import enums.Sex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Date;
-import java.util.Enumeration;
 
 
 public class ContactCommand extends AbstractCommand {
@@ -124,7 +121,7 @@ public class ContactCommand extends AbstractCommand {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String middleName = request.getParameter("middleName");
-        Date dateOfBirth = nullToDate(request.getParameter("dateOfBirth"));
+        Date dateOfBirth = StringUtils.emptyToDate(request.getParameter("dateOfBirth"));
         String sex = request.getParameter("sex");
         String citizenship = request.getParameter("citizenship");
         String maritalStatus = request.getParameter("maritalStatus");
@@ -151,7 +148,7 @@ public class ContactCommand extends AbstractCommand {
         String country = request.getParameter("country");
         String city = request.getParameter("city");
         String address = request.getParameter("address");
-        int zip = nullToInt(request.getParameter("zip"));
+        int zip = StringUtils.emptyToInt(request.getParameter("zip"));
 
         Address addr = new Address();
         addr.setCountry(country);
@@ -162,19 +159,4 @@ public class ContactCommand extends AbstractCommand {
         return addr;
     }
 
-    private Date nullToDate(String value){
-        if (value == null || value.isEmpty()){
-            return null;
-        } else {
-            return Date.valueOf(value);
-        }
-    }
-
-    private int nullToInt(String value){
-        if (value == null || value.isEmpty()){
-            return 0;
-        } else {
-            return Integer.valueOf(value);
-        }
-    }
 }

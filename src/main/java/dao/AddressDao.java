@@ -42,12 +42,12 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
     public List<Address> getAll() {
         List<Address> addresses = new ArrayList<>();
 
-        try (PreparedStatement statement = getPreparedStatement(AddressConstants.GET_ALL)){
+        try (PreparedStatement statement = getPreparedStatement(AddressConstants.GET_ALL)) {
             logger.info(statement.toString());
 
             ResultSet set = statement.executeQuery();
             addresses = fillListFromResultSet(set);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             logger.error(e);
         }
 
@@ -104,7 +104,7 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
         }
     }
 
-    private List<Address> fillListFromResultSet(ResultSet set) throws SQLException{
+    private List<Address> fillListFromResultSet(ResultSet set) throws SQLException {
         List<Address> addresses = new ArrayList<>();
 
         while (set.next()) {
@@ -122,7 +122,7 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
         return addresses;
     }
 
-    private Address fillAddressFromResultSet(ResultSet set) throws SQLException{
+    private Address fillAddressFromResultSet(ResultSet set) throws SQLException {
         Address address = new Address();
 
         if (set.next()) {
