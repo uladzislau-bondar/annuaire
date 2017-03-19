@@ -106,7 +106,6 @@
         <insert tableName="contacts">
             <column name="firstName" value="Ivan"/>
             <column name="lastName" value="Sakovich"/>
-            <column name="dateOfBirth" valueComputed="${now}"/>
             <column name="placeOfWork" value="MSLU"/>
         </insert>
 

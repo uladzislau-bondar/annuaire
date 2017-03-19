@@ -7,6 +7,7 @@ import builders.ContactBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
+import util.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
