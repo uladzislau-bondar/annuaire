@@ -77,12 +77,34 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
 
     @Override
     public void update(Attachment attachment) {
+        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.UPDATE)) {
+            statement.setLong(1, attachment.getContactId());
+            statement.setString(2, attachment.getName());
+            statement.setDate(3, attachment.getDateOfUpload());
+            statement.setString(4, attachment.getComment());
+            String filePath = DaoUtils.fileToPath(attachment.getFile());
+            statement.setString(5, filePath);
+            statement.setLong(6, attachment.getId());
 
+            logger.info(statement.toString());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
     }
 
     @Override
     public void delete(Long id) {
+        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.DELETE)) {
+            statement.setLong(1, id);
 
+            logger.info(statement.toString());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
     }
 
     private List<Attachment> fillListFromResultSet(ResultSet set) throws SQLException {
