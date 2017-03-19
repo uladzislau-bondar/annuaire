@@ -103,8 +103,8 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
         }
     }
 
-    public Phone getByContactId(Long contactId){
-        Phone phone = null;
+    public List<Phone> getByContactId(Long contactId){
+        List<Phone> phones = new ArrayList<>();
 
         try (PreparedStatement statement = getPreparedStatement(PhoneConstants.GET_BY_CONTACT_ID)) {
             statement.setLong(1, contactId);
@@ -113,12 +113,12 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
 
             ResultSet set = statement.executeQuery();
 
-            phone = fillPhoneFromResultSet(set);
+            phones = fillListFromResultSet(set);
         } catch (SQLException e) {
             logger.error(e);
         }
 
-        return phone;
+        return phones;
     }
 
     private List<Phone> fillListFromResultSet(ResultSet set) throws SQLException {

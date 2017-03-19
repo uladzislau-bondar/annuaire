@@ -2,9 +2,12 @@ package command;
 
 import dao.AddressDao;
 import dao.ContactDao;
+import dao.PhoneDao;
+import dto.PhoneDto;
 import entities.Address;
 import entities.Contact;
 import entities.ContactBuilder;
+import entities.Phone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.StringUtils;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 
 public class ContactCommand extends AbstractCommand {
@@ -69,8 +73,6 @@ public class ContactCommand extends AbstractCommand {
 
     private void showContact(Long id) {
         fillRequestWithData(id);
-        //todo add contact phones
-
         setTitle("Showing contact");
 
         logger.info("Show form for editing contact #" + id);
@@ -110,7 +112,7 @@ public class ContactCommand extends AbstractCommand {
     private void fillRequestWithData(Long id){
         fillRequestWithContact(id);
         fillRequestWithAddress(id);
-
+        fillRequestWithPhones(id);
     }
 
     private void fillRequestWithContact(Long id) {
@@ -136,6 +138,12 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("address", address.getAddress());
         String zip = StringUtils.intToString(address.getZip());
         request.setAttribute("zip", zip);
+    }
+
+    private void fillRequestWithPhones(Long id) {
+        PhoneDao phoneDao = new PhoneDao();
+        List<Phone> phones = phoneDao.getByContactId(id);
+        request.setAttribute("phones", phones);
     }
 
     private Contact buildContactFromRequest() {
