@@ -55,11 +55,25 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
 
     @Override
     public Phone getById(Long id) {
-        return null;
+        Phone phone = null;
+
+        try (PreparedStatement statement = getPreparedStatement(PhoneConstants.GET_BY_ID)) {
+            statement.setLong(1, id);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+
+            phone = fillPhoneFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return phone;
     }
 
     @Override
-    public void update(Phone entity) {
+    public void update(Phone phone) {
 
     }
 
@@ -68,7 +82,7 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
 
     }
 
-    private List<Phone> fillListFromResultSet(ResultSet set) throws SQLException{
+    private List<Phone> fillListFromResultSet(ResultSet set) throws SQLException {
         List<Phone> phones = new ArrayList<>();
 
         while (set.next()) {
@@ -84,5 +98,20 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
         }
 
         return phones;
+    }
+
+    private Phone fillPhoneFromResultSet(ResultSet set) throws SQLException {
+        Phone phone = new Phone();
+
+        if (set.next()) {
+            phone.setId(set.getLong("id"));
+            phone.setContactId(set.getLong("contactId"));
+            phone.setCountryCode(set.getInt("countryCode"));
+            phone.setNumber(set.getInt("number"));
+            phone.setType(set.getString("type"));
+            phone.setComment(set.getString("comment"));
+        }
+
+        return phone;
     }
 }
