@@ -6,7 +6,9 @@ import entities.Contact;
 import entities.ContactBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import util.DaoUtils;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +38,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(8, contact.getWebSite());
             statement.setString(9, contact.getEmail());
             statement.setString(10, contact.getPlaceOfWork());
-            statement.setString(11, contact.getPhoto());
+            String photoPath = DaoUtils.fileToPath(contact.getPhoto());
+            statement.setString(11, photoPath);
 
             logger.info(statement.toString());
 
@@ -97,7 +100,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(8, contact.getWebSite());
             statement.setString(9, contact.getEmail());
             statement.setString(10, contact.getPlaceOfWork());
-            statement.setString(11, contact.getPhoto());
+            String photoPath = DaoUtils.fileToPath(contact.getPhoto());
+            statement.setString(11, photoPath);
             statement.setLong(12, contact.getId());
 
             logger.info(statement.toString());
