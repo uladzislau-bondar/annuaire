@@ -4,6 +4,7 @@ import dao.AddressDao;
 import dao.AttachmentDao;
 import dao.ContactDao;
 import dao.PhoneDao;
+import dto.AttachmentDto;
 import dto.PhoneDto;
 import entities.Address;
 import entities.Attachment;

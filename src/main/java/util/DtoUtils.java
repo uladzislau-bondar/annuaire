@@ -1,8 +1,10 @@
 package util;
 
+import dto.AttachmentDto;
 import dto.ContactDto;
 import dto.PhoneDto;
 import entities.Address;
+import entities.Attachment;
 import entities.Contact;
 import entities.Phone;
 
@@ -27,6 +29,16 @@ public class DtoUtils {
         dto.setNumber(number);
         dto.setType(phone.getType());
         dto.setComment(phone.getComment());
+
+        return dto;
+    }
+
+    public static AttachmentDto convertToDto(Attachment attachment){
+        AttachmentDto dto = new AttachmentDto();
+        dto.setId(attachment.getId());
+        dto.setName(attachment.getName());
+        dto.setDateOfUpload(attachment.getDateOfUpload());
+        dto.setComment(attachment.getComment());
 
         return dto;
     }
