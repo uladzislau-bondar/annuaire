@@ -1,5 +1,8 @@
 package command;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,7 +10,7 @@ import java.io.IOException;
 
 
 public class SearchCommand extends AbstractCommand {
-    //todo search command
+    private final static Logger logger = LogManager.getLogger(SearchCommand.class);
 
     public SearchCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -40,6 +43,9 @@ public class SearchCommand extends AbstractCommand {
     }
 
     private void showSearchForm() {
+        setTitle("Search form");
+
+        logger.info("Rendering search form");
     }
 
     private void search() {
