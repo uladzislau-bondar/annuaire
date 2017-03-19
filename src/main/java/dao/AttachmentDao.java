@@ -7,8 +7,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
 
+import java.io.File;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
@@ -39,7 +42,18 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
 
     @Override
     public List<Attachment> getAll() {
-        return null;
+        List<Attachment> attachments = new ArrayList<>();
+
+        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_ALL)) {
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+            attachments = fillListFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return attachments;
     }
 
     @Override
@@ -55,5 +69,24 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
     @Override
     public void delete(Long id) {
 
+    }
+
+    private List<Attachment> fillListFromResultSet(ResultSet set) throws SQLException {
+        List<Attachment> attachments = new ArrayList<>();
+
+        while (set.next()) {
+            Attachment attachment = new Attachment();
+            attachment.setId(set.getLong("id"));
+            attachment.setContactId(set.getLong("contactId"));
+            attachment.setName(set.getString("name"));
+            attachment.setDateOfUpload(set.getDate("dateOfUpload"));
+            attachment.setComment(set.getString("comment"));
+            File file = DaoUtils.pathToFile(set.getString("filePath"));
+            attachment.setFile(file);
+
+            attachments.add(attachment);
+        }
+
+        return attachments;
     }
 }
