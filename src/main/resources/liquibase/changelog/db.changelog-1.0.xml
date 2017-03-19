@@ -90,9 +90,11 @@
             </column>
             <column name="name" type="VARCHAR(64)">
             </column>
-            <column name="dateOfBirth" type="DATE">
+            <column name="dateOfUpload" type="DATE">
             </column>
             <column name="comment" type="VARCHAR(128)">
+            </column>
+            <column name="filePath" type="VARCHAR(255)">
             </column>
         </createTable>
 

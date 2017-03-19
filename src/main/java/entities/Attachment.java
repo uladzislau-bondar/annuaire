@@ -1,24 +1,23 @@
 package entities;
 
+import java.io.File;
 import java.util.Date;
 
-/**
- * Created by colinforzeal on 7.3.17.
- */
+
 public class Attachment {
-    private Long attachmentId;
+    private Long id;
     private Long contactId;
     private String name;
     private Date dateOfUpload;
     private String comment;
-    //todo specify attachment object
+    private File file;
 
-    public Long getAttachmentId() {
-        return attachmentId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAttachmentId(Long attachmentId) {
-        this.attachmentId = attachmentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getContactId() {
@@ -51,5 +50,13 @@ public class Attachment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }
