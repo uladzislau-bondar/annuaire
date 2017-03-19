@@ -107,6 +107,24 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
         }
     }
 
+    public List<Attachment> getByContactId(Long contactId){
+        List<Attachment> attachments = new ArrayList<>();
+
+        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_BY_CONTACT_ID)) {
+            statement.setLong(1, contactId);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+
+            attachments = fillListFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return attachments;
+    }
+
     private List<Attachment> fillListFromResultSet(ResultSet set) throws SQLException {
         List<Attachment> attachments = new ArrayList<>();
 
