@@ -1,5 +1,9 @@
-package entities;
+package builders;
 
+import entities.Address;
+import entities.Attachment;
+import entities.Contact;
+import entities.Phone;
 import enums.Sex;
 
 import java.io.File;

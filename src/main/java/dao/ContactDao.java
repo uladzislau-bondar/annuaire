@@ -3,16 +3,14 @@ package dao;
 
 import db.constants.ContactConstants;
 import entities.Contact;
-import entities.ContactBuilder;
+import builders.ContactBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
 
-import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 

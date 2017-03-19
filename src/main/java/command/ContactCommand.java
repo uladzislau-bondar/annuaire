@@ -6,7 +6,7 @@ import dao.PhoneDao;
 import dto.PhoneDto;
 import entities.Address;
 import entities.Contact;
-import entities.ContactBuilder;
+import builders.ContactBuilder;
 import entities.Phone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
