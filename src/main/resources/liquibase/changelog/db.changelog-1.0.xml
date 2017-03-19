@@ -9,6 +9,7 @@
         <dropTable tableName="addresses"/>
         <dropTable tableName="phones"/>
         <dropTable tableName="contacts"/>
+        <dropTable tableName="attachments"/>
 
         <createTable tableName="contacts">
             <column name="id" type="BIGINT" autoIncrement="true">
@@ -37,7 +38,7 @@
             <column name="placeOfWork" type="VARCHAR(32)">
             </column>
             <!--<column name="addressId" type="BIGINT">-->
-                <!--<constraints unique="true"/>-->
+            <!--<constraints unique="true"/>-->
             <!--</column>-->
             <column name="photo" type="VARCHAR(255)">
             </column>
@@ -75,7 +76,23 @@
             </column>
             <column name="type" type="VARCHAR(32)">
             </column>
-            <column name="comment" type="VARCHAR(64)">
+            <column name="comment" type="VARCHAR(128)">
+            </column>
+        </createTable>
+
+        <createTable tableName="attachments">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="contactId" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_contact_attachment_id"
+                             references="contacts(id)" deleteCascade="true"/>
+            </column>
+            <column name="name" type="VARCHAR(64)">
+            </column>
+            <column name="dateOfBirth" type="DATE">
+            </column>
+            <column name="comment" type="VARCHAR(128)">
             </column>
         </createTable>
 

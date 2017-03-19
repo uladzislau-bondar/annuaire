@@ -29,6 +29,7 @@
     <input type="text" name="dateOfBirth"
            value="<c:out value="${dateOfBirth}" />"/> <br>
     Пол:
+    <!-- todo c:if doesn't work -->
     <input type="radio" name="sex"
            value="MALE"
     <c:if test="${sex == 'MALE'}"> checked="checked"
