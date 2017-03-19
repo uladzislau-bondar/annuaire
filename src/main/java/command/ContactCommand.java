@@ -1,10 +1,12 @@
 package command;
 
 import dao.AddressDao;
+import dao.AttachmentDao;
 import dao.ContactDao;
 import dao.PhoneDao;
 import dto.PhoneDto;
 import entities.Address;
+import entities.Attachment;
 import entities.Contact;
 import builders.ContactBuilder;
 import entities.Phone;
@@ -111,10 +113,11 @@ public class ContactCommand extends AbstractCommand {
         logger.info("Updating contact #" + id);
     }
 
-    private void fillRequestWithData(Long id){
+    private void fillRequestWithData(Long id) {
         fillRequestWithContact(id);
         fillRequestWithAddress(id);
         fillRequestWithPhones(id);
+        fillRequestWithAttachments(id);
     }
 
     private void fillRequestWithContact(Long id) {
@@ -132,9 +135,9 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
     }
 
-    private void fillRequestWithAddress(Long id) {
+    private void fillRequestWithAddress(Long contactId) {
         AddressDao addressDao = new AddressDao();
-        Address address = addressDao.getByContactId(id);
+        Address address = addressDao.getByContactId(contactId);
         request.setAttribute("country", address.getCountry());
         request.setAttribute("city", address.getCity());
         request.setAttribute("address", address.getAddress());
@@ -142,14 +145,26 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("zip", zip);
     }
 
-    private void fillRequestWithPhones(Long id) {
+    private void fillRequestWithPhones(Long contactId) {
         PhoneDao phoneDao = new PhoneDao();
-        List<Phone> phones = phoneDao.getByContactId(id);
+        List<Phone> phones = phoneDao.getByContactId(contactId);
         List<PhoneDto> phoneDtoList = new ArrayList<>();
-        for (Phone phone: phones){
+        for (Phone phone : phones) {
             phoneDtoList.add(DtoUtils.convertToDto(phone));
         }
+
         request.setAttribute("phones", phoneDtoList);
+    }
+
+    private void fillRequestWithAttachments(Long contactId) {
+        AttachmentDao attachmentDao = new AttachmentDao();
+        List<Attachment> attachments = attachmentDao.getByContactId(contactId);
+        List<AttachmentDto> attachmentDtoList = new ArrayList<>();
+        for (Attachment attachment : attachments) {
+            attachmentDtoList.add(DtoUtils.convertToDto(attachment));
+        }
+
+        request.setAttribute("attachments", attachmentDtoList);
     }
 
     private Contact buildContactFromRequest() {
