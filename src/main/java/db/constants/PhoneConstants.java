@@ -1,7 +1,7 @@
 package db.constants;
 
 
-public class PhoneContstants {
+public interface PhoneConstants {
     String SAVE = "INSERT INTO phones (contactId, countryCode, number, type, comment)" +
             " VALUES (?, ?, ?, ?, ?)";
     String GET_ALL = "SELECT * FROM phones";
