@@ -49,7 +49,7 @@ public class ContactBuilder {
     }
 
     public ContactBuilder sex(String sex) {
-        if (sex == null) {
+        if (sex == null || sex.isEmpty()) {
             this.sex = Sex.UNKNOWN;
         } else {
             this.sex = Sex.valueOf(sex);

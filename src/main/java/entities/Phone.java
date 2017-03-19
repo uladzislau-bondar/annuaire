@@ -47,8 +47,12 @@ public class Phone {
         return type;
     }
 
-    public void setType(PhoneType type) {
-        this.type = type;
+    public void setType(String type) {
+        if (type == null || type.isEmpty()) {
+            this.type = PhoneType.UNKNOWN;
+        } else {
+            this.type = PhoneType.valueOf(type);
+        }
     }
 
     public String getComment() {
