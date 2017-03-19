@@ -15,11 +15,33 @@ public class SearchCommand extends AbstractCommand {
 
     @Override
     public void execute() throws ServletException, IOException {
-
+        process();
     }
 
     @Override
-    public void process() {
+    public void process() throws ServletException, IOException{
+        String method = request.getMethod();
 
+        switch (method){
+            case "GET":
+                showSearchForm();
+
+                forward("search");
+                break;
+            case "POST":
+                search();
+
+                //todo redirect to index page
+                break;
+            default:
+                forward("error");
+                break;
+        }
+    }
+
+    private void showSearchForm() {
+    }
+
+    private void search() {
     }
 }
