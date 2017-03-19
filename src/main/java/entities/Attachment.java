@@ -1,7 +1,7 @@
 package entities;
 
 import java.io.File;
-import java.util.Date;
+import java.sql.Date;
 
 
 public class Attachment {
