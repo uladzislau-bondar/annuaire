@@ -99,7 +99,34 @@
 </table>
 <!-- todo phones button to popup (creating) && deleting selected items -->
 
-<!-- todo attachments table -->
+<table>
+    <tr>
+        <th></th>
+        <th>Название</th>
+        <th>Дата загрузки</th>
+        <th>Комментарий</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <c:forEach items="${attachments}" var="attachment">
+        <tr>
+            <td><input type="checkbox"/></td>
+            <td><c:out value="${attachment.name}"/></td>
+            <td><c:out value="${attachment.dateOfUpload}"/></td>
+            <td><c:out value="${attachment.comment}"/></td>
+
+            <!-- todo add attachment editing and deleting -->
+            <td><a href="#">
+                <input type="button" value="Edit">
+            </a>
+            </td>
+            <td><a href="#">
+                <input type="button" value="Delete">
+            </a>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
 <!-- todo attachments button to popup -->
 
 </body>
