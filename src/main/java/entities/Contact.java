@@ -20,9 +20,10 @@ public class Contact {
     private String placeOfWork = "";
     private Address address;
     private List<Phone> phones;
+    private List<Attachment> attachments;
     private String photo = "";
 
-    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, String photo) {
+    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, List<Attachment> attachments, String photo) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,6 +37,7 @@ public class Contact {
         this.placeOfWork = placeOfWork;
         this.address = address;
         this.phones = phones;
+        this.attachments = attachments;
         this.photo = photo;
     }
 
@@ -95,6 +97,10 @@ public class Contact {
         this.phones = phones;
     }
 
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
     public void setPhoto(String photo) {
         this.photo = photo;
     }
@@ -145,6 +151,10 @@ public class Contact {
 
     public List<Phone> getPhones() {
         return phones;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
     }
 
     public String getPhoto() {

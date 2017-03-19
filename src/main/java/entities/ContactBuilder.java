@@ -19,6 +19,7 @@ public class ContactBuilder {
     private String placeOfWork = "";
     private Address address;
     private List<Phone> phones;
+    private List<Attachment> attachments;
     private String photo = "";
 
     public ContactBuilder id(Long id) {
@@ -91,12 +92,17 @@ public class ContactBuilder {
         return this;
     }
 
+    public ContactBuilder attachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+        return this;
+    }
+
     public ContactBuilder photo(String photo) {
         this.photo = photo;
         return this;
     }
 
     public Contact build() {
-        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, webSite, email, placeOfWork, address, phones, photo);
+        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, webSite, email, placeOfWork, address, phones, attachments, photo);
     }
 }
