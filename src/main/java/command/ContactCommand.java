@@ -64,7 +64,10 @@ public class ContactCommand extends AbstractCommand {
                 redirect("/");
                 break;
             case "DELETE":
+                //todo process deleting
                 break;
+            default:
+                forward("error");
         }
 
 
