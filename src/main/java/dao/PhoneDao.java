@@ -7,7 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
@@ -37,7 +39,18 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
 
     @Override
     public List<Phone> getAll() {
-        return null;
+        List<Phone> phones = new ArrayList<>();
+
+        try (PreparedStatement statement = getPreparedStatement(PhoneConstants.GET_ALL)) {
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+            phones = fillListFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return phones;
     }
 
     @Override
@@ -53,5 +66,23 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
     @Override
     public void delete(Long id) {
 
+    }
+
+    private List<Phone> fillListFromResultSet(ResultSet set) throws SQLException{
+        List<Phone> phones = new ArrayList<>();
+
+        while (set.next()) {
+            Phone phone = new Phone();
+            phone.setId(set.getLong("id"));
+            phone.setContactId(set.getLong("contactId"));
+            phone.setCountryCode(set.getInt("countryCode"));
+            phone.setNumber(set.getInt("number"));
+            phone.setType(set.getString("type"));
+            phone.setComment(set.getString("comment"));
+
+            phones.add(phone);
+        }
+
+        return phones;
     }
 }
