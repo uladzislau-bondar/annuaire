@@ -74,7 +74,20 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
 
     @Override
     public void update(Phone phone) {
+        try (PreparedStatement statement = getPreparedStatement(PhoneConstants.UPDATE)) {
+            statement.setLong(1, phone.getContactId());
+            statement.setInt(2, phone.getCountryCode());
+            statement.setInt(3, phone.getNumber());
+            statement.setString(4, phone.getType().value());
+            statement.setString(5, phone.getComment());
+            statement.setLong(6, phone.getId());
 
+            logger.info(statement.toString());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
     }
 
     @Override
