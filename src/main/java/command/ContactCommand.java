@@ -10,6 +10,7 @@ import entities.ContactBuilder;
 import entities.Phone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import util.DtoUtils;
 import util.StringUtils;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -143,7 +145,11 @@ public class ContactCommand extends AbstractCommand {
     private void fillRequestWithPhones(Long id) {
         PhoneDao phoneDao = new PhoneDao();
         List<Phone> phones = phoneDao.getByContactId(id);
-        request.setAttribute("phones", phones);
+        List<PhoneDto> phoneDtoList = new ArrayList<>();
+        for (Phone phone: phones){
+            phoneDtoList.add(DtoUtils.convertToDto(phone));
+        }
+        request.setAttribute("phones", phoneDtoList);
     }
 
     private Contact buildContactFromRequest() {

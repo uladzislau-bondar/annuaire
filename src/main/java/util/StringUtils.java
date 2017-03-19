@@ -28,4 +28,12 @@ public class StringUtils {
             return String.valueOf(value);
         }
     }
+
+    static String nullToEmpty(String value){
+        if (value == null || value.isEmpty()) {
+            return "";
+        } else {
+            return value;
+        }
+    }
 }

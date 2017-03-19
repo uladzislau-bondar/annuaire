@@ -32,20 +32,20 @@ public class DtoUtils {
     }
 
     private static String createFullName(Contact contact){
-        return nullToEmpty(contact.getFirstName()) + " "
-                + nullToEmpty(contact.getMiddleName()) + " "
-                + nullToEmpty(contact.getLastName());
+        return StringUtils.nullToEmpty(contact.getFirstName()) + " "
+                + StringUtils.nullToEmpty(contact.getMiddleName()) + " "
+                + StringUtils.nullToEmpty(contact.getLastName());
     }
 
     private static String createAddress(Address address){
-        return "fakeAddress";
+        return StringUtils.nullToEmpty(address.getCountry()) + "/"
+                + StringUtils.nullToEmpty(address.getCity()) + "/"
+                + StringUtils.nullToEmpty(address.getAddress());
     }
 
     private static String createNumber(Phone phone) {
-        return "fakeNumber";
+        return "+" + StringUtils.intToString(phone.getCountryCode()) + "-"
+                + StringUtils.intToString(phone.getNumber());
     }
 
-    private static String nullToEmpty(String value){
-        return value == null ? "" : value;
-    }
 }

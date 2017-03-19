@@ -1,12 +1,15 @@
 package command;
 
 
+import dao.AddressDao;
 import dao.ContactDao;
+import dao.PhoneDao;
 import db.Connector;
 import dto.ContactDto;
 import entities.Address;
 import entities.Contact;
 import entities.ContactBuilder;
+import entities.Phone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DtoUtils;
@@ -39,15 +42,23 @@ public class ContactListCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         int offset = 0;
-        if (request.getParameter("offset") != null){
+        if (request.getParameter("offset") != null) {
             offset = Integer.valueOf(request.getParameter("offset"));
         }
 
         ContactDao contactDao = new ContactDao();
         List<Contact> contactList = contactDao.getWithOffset(10, offset);
+
+        AddressDao addressDao = new AddressDao();
+        PhoneDao phoneDao = new PhoneDao();
+        for (Contact contact : contactList) {
+            Address address = addressDao.getByContactId(contact.getId());
+            contact.setAddress(address);
+        }
+
         List<ContactDto> contactDtoList = new ArrayList<>();
 
-        for (Contact c: contactList) {
+        for (Contact c : contactList) {
             contactDtoList.add(DtoUtils.convertToDto(c));
         }
 

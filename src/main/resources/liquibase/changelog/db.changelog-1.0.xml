@@ -8,8 +8,8 @@
     <changeSet author="colinforzeal" id="1" runAlways="true">
         <dropTable tableName="addresses"/>
         <dropTable tableName="phones"/>
-        <dropTable tableName="contacts"/>
         <dropTable tableName="attachments"/>
+        <dropTable tableName="contacts"/>
 
         <createTable tableName="contacts">
             <column name="id" type="BIGINT" autoIncrement="true">

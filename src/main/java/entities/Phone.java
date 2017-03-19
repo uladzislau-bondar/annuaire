@@ -8,8 +8,8 @@ public class Phone {
     private Long contactId;
     private int countryCode;
     private int number;
-    private PhoneType type;
-    private String comment;
+    private PhoneType type = PhoneType.UNKNOWN;
+    private String comment = "";
 
     public Long getId() {
         return id;
