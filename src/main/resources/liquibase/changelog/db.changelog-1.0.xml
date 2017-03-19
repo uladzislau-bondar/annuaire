@@ -136,6 +136,15 @@
             <column name="type" value="HOME"/>
             <column name="comment" value="some comment"/>
         </insert>
+
+        <insert tableName="attachments">
+            <column name="id" value="1"/>
+            <column name="contactId" value="1"/>
+            <column name="name" value="sone attachment name"/>
+            <column name="dateOfUpload" value="${now}"/>
+            <column name="comment" value="some comment"/>
+            <column name="filePath" value="some path"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>
