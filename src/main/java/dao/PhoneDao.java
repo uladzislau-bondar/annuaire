@@ -92,7 +92,15 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
 
     @Override
     public void delete(Long id) {
+        try (PreparedStatement statement = getPreparedStatement(PhoneConstants.DELETE)) {
+            statement.setLong(1, id);
 
+            logger.info(statement.toString());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
     }
 
     private List<Phone> fillListFromResultSet(ResultSet set) throws SQLException {
