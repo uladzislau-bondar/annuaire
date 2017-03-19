@@ -58,7 +58,21 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
 
     @Override
     public Attachment getById(Long id) {
-        return null;
+        Attachment attachment = null;
+
+        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_BY_ID)) {
+            statement.setLong(1, id);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+
+            attachment = fillAttachmentFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return attachment;
     }
 
     @Override
@@ -88,5 +102,21 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
         }
 
         return attachments;
+    }
+
+    private Attachment fillAttachmentFromResultSet(ResultSet set) throws SQLException {
+        Attachment attachment = new Attachment();
+
+        if (set.next()) {
+            attachment.setId(set.getLong("id"));
+            attachment.setContactId(set.getLong("contactId"));
+            attachment.setName(set.getString("name"));
+            attachment.setDateOfUpload(set.getDate("dateOfUpload"));
+            attachment.setComment(set.getString("comment"));
+            File file = DaoUtils.pathToFile(set.getString("filePath"));
+            attachment.setFile(file);
+        }
+
+        return attachment;
     }
 }
