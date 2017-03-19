@@ -2,6 +2,7 @@ package entities;
 
 import enums.Sex;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ContactBuilder {
     private Address address;
     private List<Phone> phones;
     private List<Attachment> attachments;
-    private String photo = "";
+    private File photo;
 
     public ContactBuilder id(Long id) {
         this.id = id;
@@ -97,7 +98,7 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder photo(String photo) {
+    public ContactBuilder photo(File photo) {
         this.photo = photo;
         return this;
     }

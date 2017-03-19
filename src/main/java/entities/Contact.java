@@ -3,6 +3,7 @@ package entities;
 import enums.Sex;
 
 
+import java.io.File;
 import java.sql.Date;
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class Contact {
     private Address address;
     private List<Phone> phones;
     private List<Attachment> attachments;
-    private String photo = "";
+    private File photo;
 
-    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, List<Attachment> attachments, String photo) {
+    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, List<Attachment> attachments, File photo) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -101,7 +102,7 @@ public class Contact {
         this.attachments = attachments;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(File photo) {
         this.photo = photo;
     }
 
@@ -157,7 +158,7 @@ public class Contact {
         return attachments;
     }
 
-    public String getPhoto() {
+    public File getPhoto() {
         return photo;
     }
 }

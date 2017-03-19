@@ -40,7 +40,7 @@
             <!--<column name="addressId" type="BIGINT">-->
             <!--<constraints unique="true"/>-->
             <!--</column>-->
-            <column name="photo" type="VARCHAR(255)">
+            <column name="photoPath" type="VARCHAR(255)">
             </column>
         </createTable>
 
