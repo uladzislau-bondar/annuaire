@@ -12,7 +12,7 @@
         <dropTable tableName="contacts"/>
 
         <createTable tableName="contacts">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="id" type="BIGINT" autoIncrement="true">e
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="firstName" type="VARCHAR(32)">
@@ -37,9 +37,6 @@
             </column>
             <column name="placeOfWork" type="VARCHAR(32)">
             </column>
-            <!--<column name="addressId" type="BIGINT">-->
-            <!--<constraints unique="true"/>-->
-            <!--</column>-->
             <column name="photoPath" type="VARCHAR(255)">
             </column>
         </createTable>
