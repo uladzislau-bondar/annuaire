@@ -12,21 +12,25 @@
 <c:url value="/contact" var="postUrl">
     <!-- todo test doesn't work -->
     <%--<c:if test="${param.id}">--%>
-        <%--<c:param name="id" value="${param.id}"/>--%>
+    <%--<c:param name="id" value="${param.id}"/>--%>
     <%--</c:if>--%>
 </c:url>
 <form action="${postUrl}" method="post">
     Имя:
     <input type="text" name="firstName"
-           value="<c:out value="${firstName}" />" required/> <br>
+           value="<c:out value="${firstName}" />"
+           maxlength="32" required/> <br>
     Фамилия:
     <input type="text" name="lastName"
-           value="<c:out value="${lastName}" />" required/> <br>
+           value="<c:out value="${lastName}" />"
+           maxlength="32" required/> <br>
     Отчество:
     <input type="text" name="middleName"
-           value="<c:out value="${middleName}" />"/> <br>
+           value="<c:out value="${middleName}"/>"
+           maxlength="32"/> <br>
+    <!-- todo email validation -->
     Дата рождения:
-    <input type="text" name="dateOfBirth"
+    <input type="text" name="dateOfBirth" pattern="\d{4}-\d{1,2}-\d{1,2}"
            value="<c:out value="${dateOfBirth}" />"/> <br>
     Пол:
     <!-- todo c:if doesn't work -->
@@ -40,31 +44,39 @@
     </c:if> >Женщина</input> <br>
     Гражданство:
     <input type="text" name="citizenship"
-           value="<c:out value="${citizenship}" />"/> <br>
+           value="<c:out value="${citizenship}" />"
+           maxlength="32"/> <br>
     Семейное положение:
     <input type="text" name="maritalStatus"
-           value="<c:out value="${maritalStatus}" />"/> <br>
+           value="<c:out value="${maritalStatus}" />"
+           maxlength="32"/> <br>
     Website:
-    <input type="text" name="website"
-           value="<c:out value="${website}" />"/> <br>
+    <input type="url" name="website"
+           value="<c:out value="${website}" />"
+           pattern="https?://.+"/> <br>
     Email:
-    <input type="text" name="email"
+    <input type="email" name="email"
            value="<c:out value="${email}" />"/> <br>
     Место работы:
     <input type="text" name="placeOfWork"
-           value="<c:out value="${placeOfWork}" />"/> <br>
+           value="<c:out value="${placeOfWork}" />"
+           maxlength="32"/> <br>
     Страна:
     <input type="text" name="country"
-           value="<c:out value="${country}" />"/> <br>
+           value="<c:out value="${country}" />"
+           maxlength="32"/> <br>
     Город:
     <input type="text" name="city"
-           value="<c:out value="${city}" />"/> <br>
+           value="<c:out value="${city}" />"
+           maxlength="32"/> <br>
     Адрес:
     <input type="text" name="address"
-           value="<c:out value="${address}" />"/> <br>
+           value="<c:out value="${address}" />"
+           maxlength="64"/> <br>
     Индекс:
     <input type="text" name="zip"
-           value="<c:out value="${zip}" />"/> <br>
+           value="<c:out value="${zip}" />"
+           pattern="\d+"/> <br>
 
     <input type="submit"/>
 </form>
