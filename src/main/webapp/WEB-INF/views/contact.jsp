@@ -4,6 +4,8 @@
 <head>
     <title><c:out value="${title}"/></title>
     <%--<c:import url="/WEB-INF/js/validate.js" />--%>
+
+    <script src="<c:url value="/resources/js/popup.js" />"></script>
 </head>
 <body>
 
@@ -30,10 +32,10 @@
            maxlength="32"/> <br>
     <!-- todo email validation -->
     Дата рождения:
-    <input type="text" name="dateOfBirth" pattern="\d{4}-\d{1,2}-\d{1,2}"
-           value="<c:out value="${dateOfBirth}" />"/> <br>
+    <input type="text" name="dateOfBirth"
+           value="<c:out value="${dateOfBirth}" />"
+           pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd"/> <br>
     Пол:
-    <!-- todo c:if doesn't work -->
     <input type="radio" name="sex"
            value="MALE"
     <c:if test="${sex == 'MALE'}"> checked="checked"
@@ -110,6 +112,7 @@
     </c:forEach>
 </table>
 <!-- todo phones button to popup (creating) && deleting selected items -->
+<button onclick="createNewPhone()" value="Create" ></button>
 
 <table>
     <tr>
