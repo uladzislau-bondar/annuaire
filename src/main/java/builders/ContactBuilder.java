@@ -19,7 +19,7 @@ public class ContactBuilder {
     private Sex sex = Sex.UNKNOWN;
     private String citizenship = "";
     private String maritalStatus = "";
-    private String webSite = "";
+    private String website = "";
     private String email = "";
     private String placeOfWork = "";
     private Address address;
@@ -72,8 +72,8 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder webSite(String webSite) {
-        this.webSite = webSite;
+    public ContactBuilder website(String webSite) {
+        this.website = webSite;
         return this;
     }
 
@@ -108,6 +108,6 @@ public class ContactBuilder {
     }
 
     public Contact build() {
-        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, webSite, email, placeOfWork, address, phones, attachments, photo);
+        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, address, phones, attachments, photo);
     }
 }

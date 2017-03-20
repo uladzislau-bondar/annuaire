@@ -7,7 +7,6 @@ import builders.ContactBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
-import util.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +33,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(5, contact.getSex().value());
             statement.setString(6, contact.getCitizenship());
             statement.setString(7, contact.getMaritalStatus());
-            statement.setString(8, contact.getWebSite());
+            statement.setString(8, contact.getWebsite());
             statement.setString(9, contact.getEmail());
             statement.setString(10, contact.getPlaceOfWork());
             String photoPath = DaoUtils.fileToPath(contact.getPhoto());
@@ -96,7 +95,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(5, contact.getSex().value());
             statement.setString(6, contact.getCitizenship());
             statement.setString(7, contact.getMaritalStatus());
-            statement.setString(8, contact.getWebSite());
+            statement.setString(8, contact.getWebsite());
             statement.setString(9, contact.getEmail());
             statement.setString(10, contact.getPlaceOfWork());
             String photoPath = DaoUtils.fileToPath(contact.getPhoto());
@@ -160,9 +159,10 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .sex(set.getString("sex"))
                     .citizenship(set.getString("citizenship"))
                     .maritalStatus(set.getString("maritalStatus"))
-                    .webSite(set.getString("webSite"))
+                    .website(set.getString("website"))
                     .email(set.getString("email"))
                     .placeOfWork(set.getString("placeOfWork"));
+                    //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
 
             Contact contact = builder.build();
             contacts.add(contact);
@@ -179,8 +179,15 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             builder.id(set.getLong("id"))
                     .firstName(set.getString("firstName"))
                     .lastName(set.getString("lastName"))
+                    .middleName(set.getString("middleName"))
                     .dateOfBirth(set.getDate("dateOfBirth"))
+                    .sex(set.getString("sex"))
+                    .citizenship(set.getString("citizenship"))
+                    .maritalStatus(set.getString("maritalStatus"))
+                    .website(set.getString("website"))
+                    .email(set.getString("email"))
                     .placeOfWork(set.getString("placeOfWork"));
+                    //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
 
             contact = builder.build();
         }

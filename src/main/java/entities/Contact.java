@@ -16,7 +16,7 @@ public class Contact {
     private Sex sex = Sex.UNKNOWN;
     private String citizenship = "";
     private String maritalStatus = "";
-    private String webSite = "";
+    private String website = "";
     private String email = "";
     private String placeOfWork = "";
     private Address address;
@@ -24,7 +24,7 @@ public class Contact {
     private List<Attachment> attachments;
     private File photo;
 
-    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String webSite, String email, String placeOfWork, Address address, List<Phone> phones, List<Attachment> attachments, File photo) {
+    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String website, String email, String placeOfWork, Address address, List<Phone> phones, List<Attachment> attachments, File photo) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,7 +33,7 @@ public class Contact {
         this.sex = sex;
         this.citizenship = citizenship;
         this.maritalStatus = maritalStatus;
-        this.webSite = webSite;
+        this.website = website;
         this.email = email;
         this.placeOfWork = placeOfWork;
         this.address = address;
@@ -78,8 +78,8 @@ public class Contact {
         this.maritalStatus = maritalStatus;
     }
 
-    public void setWebSite(String webSite) {
-        this.webSite = webSite;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public void setEmail(String email) {
@@ -134,8 +134,8 @@ public class Contact {
         return maritalStatus;
     }
 
-    public String getWebSite() {
-        return webSite;
+    public String getWebsite() {
+        return website;
     }
 
     public String getEmail() {

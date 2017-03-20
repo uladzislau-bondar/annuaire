@@ -134,7 +134,7 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("sex", contact.getSex().value());
         request.setAttribute("citizenship", contact.getCitizenship());
         request.setAttribute("maritalStatus", contact.getMaritalStatus());
-        request.setAttribute("website", contact.getWebSite());
+        request.setAttribute("website", contact.getWebsite());
         request.setAttribute("email", contact.getEmail());
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
     }
@@ -191,7 +191,7 @@ public class ContactCommand extends AbstractCommand {
                 .sex(sex)
                 .citizenship(citizenship)
                 .maritalStatus(maritalStatus)
-                .webSite(website)
+                .website(website)
                 .email(email)
                 .placeOfWork(placeOfWork);
 
