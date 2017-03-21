@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +35,7 @@ public class ContactListCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         String method = request.getMethod();
-        Map<String, String> query = new LinkedHashMap<>();
-        String queryString = request.getQueryString();
-        if (queryString != null){
-            query = StringUtils.splitQuery(queryString);
-        }
+        Map<String, String> query = StringUtils.splitQuery(request.getQueryString());
 
         int offset = 0;
         if (query.get("offset") != null) {
@@ -54,13 +49,11 @@ public class ContactListCommand extends AbstractCommand {
                 forward("index");
                 break;
             case "POST":
-                if (query.containsKey("method") && query.get("method").equals("delete")){
-                    String [] selectedIdStrings = request.getParameterValues("selected");
-                    List<Long> selectedIds = new ArrayList<>();
-                    for (String id: selectedIdStrings){
-                        selectedIds.add(Long.valueOf(id));
+                if (query.containsKey("method")){
+                    if (query.get("method").equals("delete")){
+                        List<Long> ids = StringUtils.valuesOf(request.getParameterValues("selected"));
+                        deleteSelectedContacts(ids);
                     }
-                    deleteSelectedContacts(selectedIds);
                 }
 
                 redirect("/");
@@ -96,4 +89,5 @@ public class ContactListCommand extends AbstractCommand {
             logger.info("Deleting contact #" + id);
         }
     }
+
 }

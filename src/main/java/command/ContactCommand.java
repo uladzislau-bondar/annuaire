@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,30 +48,32 @@ public class ContactCommand extends AbstractCommand {
             case "GET":
                 if (query.isEmpty()) {
                     showCreationForm();
-                } else {
+
+                    forward("contact");
+                } else if (query.containsKey("method")){
+                    if (query.get("method").equals("delete")){
+                        Long contactId = Long.valueOf(query.get("id"));
+                        deleteContact(contactId);
+                    }
+
+                    redirect("/");
+                } else if (query.containsKey("id")) {
                     Long contactId = Long.valueOf(query.get("id"));
                     showContact(contactId);
+
+                    forward("contact");
                 }
 
-                forward("contact");
                 break;
             case "POST":
                 if (query.isEmpty()) {
                     saveContact();
-                } else if (query.containsKey("id") && query.containsKey("method")){
-                    Long contactId = Long.valueOf(query.get("id"));
-                    if (query.get("method").equals("delete")){
-                        deleteContact(contactId);
-                    }
                 } else if (query.containsKey("id")) {
                     Long contactId = Long.valueOf(query.get("id"));
                     updateContact(contactId);
                 }
 
                 redirect("/");
-                break;
-            case "DELETE":
-                //todo process deleting
                 break;
             default:
                 forward("error");

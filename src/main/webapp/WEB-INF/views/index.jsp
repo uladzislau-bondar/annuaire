@@ -35,7 +35,6 @@
                 </c:url>
 
                 <td>
-
                     <input type="checkbox" name="selected" value="${contact.id}"/>
 
                 </td>
@@ -48,13 +47,15 @@
                 </a>
                 </td>
                 <td>
-                    <form action="${deleteUrl}" method="post">
-                        <input type="submit" value="Удалить">
-                    </form>
+                    <a href="${deleteUrl}">
+                        <input type="button" value="Удалить">
+                    </a>
                 </td>
             </tr>
         </c:forEach>
     </table>
+
+    <input type="submit" value="Удалить">
 </form>
 
 <a href="<c:url value="/contact" />">
@@ -64,6 +65,5 @@
 <a href="email.jsp">
     <input type="button" value="Send email">
 </a>
-<input type="submit" value="Удалить">
 </body>
 </html>
