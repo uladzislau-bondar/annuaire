@@ -114,9 +114,9 @@
         </tr>
     </c:forEach>
     <!-- additional row for popup data-->
-    <tr>
+    <tr id="additionalRows">
         <%--<td><input type="checkbox" name="selected" value="${phone.id}"></td>--%>
-        <td><input type="text" id="test" readonly="readonly"></td>
+        <td><input type="text" name="countryCode" readonly="readonly"></td>
         <%--<td><c:out value="${phone.type}"/></td>--%>
         <%--<td><c:out value="${phone.comment}"/></td>--%>
 

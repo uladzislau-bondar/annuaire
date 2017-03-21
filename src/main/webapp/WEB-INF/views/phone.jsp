@@ -6,13 +6,12 @@
     <script type="text/javascript" src="../../resources/js/popup.js" ></script>
 </head>
 <body>
-<input type="text" id="test">
+Код страны:
+<input type="text" id="countryCode"
+       value="<c:out value="${countryCode}" />"
+       pattern="\d+"/> <br>
+</body>
 <input type="button" value="Test" onclick="createNewPhone()" />
-<%--Код страны:--%>
-<%--<input type="text" name="countryCode"--%>
-       <%--value="<c:out value="${countryCode}" />"--%>
-       <%--pattern="\d+"/> <br>--%>
-<%--</body>--%>
 <%--<!-- todo add operator code -->--%>
 <%--Номер телефона:--%>
 <%--<input type="text" name="number"--%>
