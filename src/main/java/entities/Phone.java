@@ -7,6 +7,7 @@ public class Phone {
     private Long id;
     private Long contactId;
     private int countryCode;
+    //todo add operatorCode
     private int number;
     private PhoneType type = PhoneType.UNKNOWN;
     private String comment = "";

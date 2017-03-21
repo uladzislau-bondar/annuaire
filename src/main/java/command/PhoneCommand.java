@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class PhoneCommand extends AbstractCommand{
+public class PhoneCommand extends AbstractCommand {
     private final static Logger logger = LogManager.getLogger(PhoneCommand.class);
 
     public PhoneCommand(HttpServletRequest request, HttpServletResponse response) {
@@ -32,12 +32,11 @@ public class PhoneCommand extends AbstractCommand{
 
         switch (method) {
             case "GET":
-//                if (query.isEmpty()) {
+                if (query.isEmpty()) {
 //                    showCreationForm();
-//
-//                    forward("contact");
-//                } else
-                if (query.containsKey("method")) {
+
+                    forward("phone");
+                } else if (query.containsKey("method")) {
                     if (query.get("method").equals("delete")) {
                         Long id = Long.valueOf(query.get("id"));
                         deletePhone(id);

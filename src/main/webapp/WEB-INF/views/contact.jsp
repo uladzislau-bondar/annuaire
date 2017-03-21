@@ -113,9 +113,26 @@
             </td>
         </tr>
     </c:forEach>
+    <!-- additional row for popup data-->
+    <tr>
+        <%--<td><input type="checkbox" name="selected" value="${phone.id}"></td>--%>
+        <td><input type="text" id="test" readonly="readonly"></td>
+        <%--<td><c:out value="${phone.type}"/></td>--%>
+        <%--<td><c:out value="${phone.comment}"/></td>--%>
+
+        <%--<!-- todo add phone editing and deleting -->--%>
+        <%--<td><a href="#">--%>
+            <%--<input type="button" value="Edit">--%>
+        <%--</a>--%>
+        <%--</td>--%>
+        <%--<td><a href="${deleteUrl}">--%>
+            <%--<input type="button" value="Удалить">--%>
+        <%--</a>--%>
+        <%--</td>--%>
+    </tr>
 </table>
 
-<button onclick="createNewPhone()" >Create</button>
+<button onclick="showPhoneCreationForm()" >Create</button>
 
 <table>
     <tr>
