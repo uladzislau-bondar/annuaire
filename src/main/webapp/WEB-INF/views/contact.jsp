@@ -4,11 +4,8 @@
 <head>
     <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/popup.js" ></script>
-
-    <%--<script type="text/javascript" src="../js/popup.js"></script>--%>
 </head>
 <body>
-<h1><c:url value="/resources/js/popup.js" /></h1>
 
 <!-- todo photo form -->
 
