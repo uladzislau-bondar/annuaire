@@ -21,22 +21,26 @@
     </tr>
     <c:forEach items="${contactList}" var="contact">
         <tr>
-            <c:url value="/contact" var="url">
+            <c:url value="/contact" var="editUrl">
                 <c:param name="id" value="${contact.id}"/>
+            </c:url>
+            <c:url value="/contact" var="deleteUrl">
+                <c:param name="id" value="${contact.id}"/>
+                <c:param name="method" value="DELETE"/>
             </c:url>
 
             <td><input type="checkbox"/></td>
-            <td><a href="${url}"><c:out value="${contact.fullName}"/></a></td>
+            <td><a href="${editUrl}"><c:out value="${contact.fullName}"/></a></td>
             <td><c:out value="${contact.dateOfBirth}"/></td>
             <td><c:out value="${contact.address}"/></td>
             <td><c:out value="${contact.placeOfWork}"/></td>
-            <td><a href="${url}">
-                    <input type="button" value="Edit">
-                </a>
+            <td><a href="${editUrl}">
+                <input type="button" value="Изменить">
+            </a>
             </td>
             <!-- add javascript for http delete processing -->
-            <td><a href="${url}">
-                <input type="button" value="Delete">
+            <td><a href="${deleteUrl}">
+                <input type="button" value="Удалить">
             </a>
             </td>
         </tr>
