@@ -10,13 +10,16 @@ import entities.Contact;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DtoUtils;
+import util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContactListCommand extends AbstractCommand {
     private static Logger logger = LogManager.getLogger(ContactCommand.class);
@@ -28,16 +31,44 @@ public class ContactListCommand extends AbstractCommand {
     @Override
     public void execute() throws ServletException, IOException {
         process();
-        super.forward("index");
     }
 
     @Override
     public void process() throws ServletException, IOException {
-        int offset = 0;
-        if (request.getParameter("offset") != null) {
-            offset = Integer.valueOf(request.getParameter("offset"));
+        String method = request.getMethod();
+        Map<String, String> query = new LinkedHashMap<>();
+        String queryString = request.getQueryString();
+        if (queryString != null){
+            query = StringUtils.splitQuery(queryString);
         }
 
+        int offset = 0;
+        if (query.get("offset") != null) {
+            offset = Integer.valueOf(query.get("offset"));
+        }
+
+        switch (method){
+            case "GET":
+                showContactList(offset);
+
+                forward("index");
+                break;
+            case "POST":
+                if (query.containsKey("method") && query.get("method").equals("delete")){
+                    String [] selectedIdStrings = request.getParameterValues("selected");
+                    List<Long> selectedIds = new ArrayList<>();
+                    for (String id: selectedIdStrings){
+                        selectedIds.add(Long.valueOf(id));
+                    }
+                    deleteSelectedContacts(selectedIds);
+                }
+
+                redirect("/");
+                break;
+        }
+    }
+
+    private void showContactList(int offset){
         ContactDao contactDao = new ContactDao();
         List<Contact> contactList = contactDao.getWithOffset(10, offset);
 
@@ -55,5 +86,14 @@ public class ContactListCommand extends AbstractCommand {
         }
 
         request.setAttribute("contactList", contactDtoList);
+    }
+
+    private void deleteSelectedContacts(List<Long> ids) {
+        ContactDao contactDao = new ContactDao();
+        for (Long id: ids){
+            contactDao.delete(id);
+
+            logger.info("Deleting contact #" + id);
+        }
     }
 }
