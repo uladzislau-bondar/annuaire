@@ -17,7 +17,7 @@ public class FrontFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String uri = request.getRequestURI();
 
-        if (uri.startsWith("/WEB-INF")) {
+        if (uri.startsWith("/WEB-INF") || uri.startsWith("/resources")) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             servletRequest.getRequestDispatcher("/app" + uri)
