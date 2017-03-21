@@ -3,9 +3,9 @@
 <html>
 <head>
     <title><c:out value="${title}"/></title>
-    <%--<c:import url="/WEB-INF/js/validate.js" />--%>
+    <script type="text/javascript" src="<c:url value="/resources/js/popup.js" />"></script>
 
-    <script src="<c:url value="/resources/js/popup.js" />"></script>
+    <%--<script type="text/javascript" src="../js/popup.js"></script>--%>
 </head>
 <body>
 
@@ -111,8 +111,9 @@
         </tr>
     </c:forEach>
 </table>
-<!-- todo phones button to popup (creating) && deleting selected items -->
-<button onclick="createNewPhone()" value="Create" ></button>
+
+<!-- todo doesn't invoke js function -->
+<button onclick="createNewPhone()" >Create</button>
 
 <table>
     <tr>
