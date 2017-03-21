@@ -115,20 +115,20 @@
     </c:forEach>
     <!-- additional row for popup data-->
     <tr id="additionalRows">
-        <%--<td><input type="checkbox" name="selected" value="${phone.id}"></td>--%>
+        <td><input type="checkbox" name="selected" value="${phone.id}"></td>
         <td><input type="text" name="countryCode" readonly="readonly"></td>
-        <%--<td><c:out value="${phone.type}"/></td>--%>
-        <%--<td><c:out value="${phone.comment}"/></td>--%>
+        <td><c:out value="${phone.type}"/></td>
+        <td><c:out value="${phone.comment}"/></td>
 
-        <%--<!-- todo add phone editing and deleting -->--%>
-        <%--<td><a href="#">--%>
-            <%--<input type="button" value="Edit">--%>
-        <%--</a>--%>
-        <%--</td>--%>
-        <%--<td><a href="${deleteUrl}">--%>
-            <%--<input type="button" value="Удалить">--%>
-        <%--</a>--%>
-        <%--</td>--%>
+        <!-- todo add phone editing and deleting -->
+        <td><a href="#">
+            <input type="button" value="Edit">
+        </a>
+        </td>
+        <td><a href="${deleteUrl}">
+            <input type="button" value="Удалить">
+        </a>
+        </td>
     </tr>
 </table>
 
