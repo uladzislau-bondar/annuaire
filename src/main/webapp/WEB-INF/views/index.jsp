@@ -36,7 +36,6 @@
 
                 <td>
                     <input type="checkbox" name="selected" value="${contact.id}"/>
-
                 </td>
                 <td><a href="${editUrl}"><c:out value="${contact.fullName}"/></a></td>
                 <td><c:out value="${contact.dateOfBirth}"/></td>

@@ -143,6 +143,7 @@ public class ContactCommand extends AbstractCommand {
     private void fillRequestWithContact(Long id) {
         ContactDao contactDao = new ContactDao();
         Contact contact = contactDao.getById(id);
+        request.setAttribute("id", contact.getId());
         request.setAttribute("firstName", contact.getFirstName());
         request.setAttribute("lastName", contact.getLastName());
         request.setAttribute("middleName", contact.getMiddleName());

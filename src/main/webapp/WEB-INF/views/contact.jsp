@@ -91,8 +91,13 @@
         <th></th>
     </tr>
     <c:forEach items="${phones}" var="phone">
+        <c:url value="/phone" var="deleteUrl">
+            <c:param name="id" value="${phone.id}"/>
+            <c:param name="contactId" value="${id}" />
+            <c:param name="method" value="delete"/>
+        </c:url>
         <tr>
-            <td><input type="checkbox"/></td>
+            <td><input type="checkbox" name="selected" value="${phone.id}"></td>
             <td><c:out value="${phone.number}"/></td>
             <td><c:out value="${phone.type}"/></td>
             <td><c:out value="${phone.comment}"/></td>
@@ -102,8 +107,8 @@
                 <input type="button" value="Edit">
             </a>
             </td>
-            <td><a href="#">
-                <input type="button" value="Delete">
+            <td><a href="${deleteUrl}">
+                <input type="button" value="Удалить">
             </a>
             </td>
         </tr>

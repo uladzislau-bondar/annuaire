@@ -15,6 +15,9 @@ public class CommandFactory {
         else if (path.equals("/contact")){
             command = new ContactCommand(request, response);
         }
+        else if (path.equals("/phone")){
+            command = new PhoneCommand(request, response);
+        }
 
         return command;
     }
