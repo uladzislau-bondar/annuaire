@@ -110,7 +110,6 @@
     </c:forEach>
 </table>
 
-<!-- todo doesn't invoke js function -->
 <button onclick="createNewPhone()" >Create</button>
 
 <table>
