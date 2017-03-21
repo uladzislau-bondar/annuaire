@@ -5,8 +5,8 @@
     <title>Contact List</title>
 </head>
 <body>
-<a href="search.jsp">
-    <input type="button" value="Search"> <br>
+<a href="<c:url value="/search" /> ">
+    <input type="button" value="Поиск"> <br>
 </a>
 
 <table>
@@ -26,7 +26,7 @@
             </c:url>
             <c:url value="/contact" var="deleteUrl">
                 <c:param name="id" value="${contact.id}"/>
-                <c:param name="method" value="DELETE"/>
+                <c:param name="method" value="delete"/>
             </c:url>
 
             <td><input type="checkbox"/></td>
@@ -39,9 +39,10 @@
             </a>
             </td>
             <!-- add javascript for http delete processing -->
-            <td><a href="${deleteUrl}">
-                <input type="button" value="Удалить">
-            </a>
+            <td>
+                <form action="${deleteUrl}" method="post">
+                    <input type="submit" value="Удалить">
+                </form>
             </td>
         </tr>
     </c:forEach>

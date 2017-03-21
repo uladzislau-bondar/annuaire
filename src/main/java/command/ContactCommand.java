@@ -45,20 +45,25 @@ public class ContactCommand extends AbstractCommand {
 
         switch (method) {
             case "GET":
-                if (query == null) {
+                if (query.isEmpty()) {
                     showCreationForm();
                 } else {
-                    Long contactId = Long.valueOf(request.getParameter("id"));
+                    Long contactId = Long.valueOf(query.get("id"));
                     showContact(contactId);
                 }
 
                 forward("contact");
                 break;
             case "POST":
-                if (query == null) {
+                if (query.isEmpty()) {
                     saveContact();
-                } else if (query.contains("id") && query.contains("method=delete")){
-                    Long contactId = Long.valueOf(request.getParameter("id"));
+                } else if (query.containsKey("id") && query.containsKey("method")){
+                    Long contactId = Long.valueOf(query.get("id"));
+                    if (query.get("method").equals("delete")){
+                        deleteContact(contactId);
+                    }
+                } else if (query.containsKey("id")) {
+                    Long contactId = Long.valueOf(query.get("id"));
                     updateContact(contactId);
                 }
 
@@ -116,6 +121,13 @@ public class ContactCommand extends AbstractCommand {
         addressDao.save(address);
 
         logger.info("Updating contact #" + id);
+    }
+
+    private void deleteContact(Long id) {
+        ContactDao contactDao = new ContactDao();
+        contactDao.delete(id);
+
+        logger.info("Deleting contact #" + id);
     }
 
     private void fillRequestWithData(Long id) {
