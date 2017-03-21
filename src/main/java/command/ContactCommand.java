@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class ContactCommand extends AbstractCommand {
@@ -40,7 +41,7 @@ public class ContactCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         String method = request.getMethod();
-        String query = request.getQueryString();
+        Map<String, String> query = StringUtils.splitQuery(request.getQueryString());
 
         switch (method) {
             case "GET":
@@ -56,7 +57,7 @@ public class ContactCommand extends AbstractCommand {
             case "POST":
                 if (query == null) {
                     saveContact();
-                } else {
+                } else if (query.contains("id") && query.contains("method=delete")){
                     Long contactId = Long.valueOf(request.getParameter("id"));
                     updateContact(contactId);
                 }
