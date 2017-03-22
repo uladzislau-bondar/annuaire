@@ -32,15 +32,26 @@
 <input type="text" name="dateOfBirth"
        value="<c:out value="${dateOfBirth}" />"
        pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd"/> <br>
+<!-- todo fix bug with radio buttons -->
 Пол:
-<input type="radio" name="sex"
-       value="MALE"
-<c:if test="${sex == 'MALE'}"> checked="checked"
-</c:if> >Мужчина</input>
-<input type="radio" name="sex"
-       value="FEMALE"
-<c:if test="${sex == 'FEMALE'}"> checked="checked"
-</c:if> >Женщина</input> <br>
+<c:choose>
+    <c:when test="${sex =='MALE'}">
+        <input type="radio" name="sex" value="MALE" checked="checked"/>Мужчина
+        <input type="radio" name="sex" value="FEMALE" />Женщина <br>
+    </c:when>
+    <c:otherwise >
+        <input type="radio" name="sex" value="MALE"/>Мужчина
+        <input type="radio" name="sex" value="FEMALE" checked="checked"/>Женщина <br>
+    </c:otherwise>
+</c:choose>
+<%--<input type="radio" name="sex"--%>
+       <%--value="MALE"--%>
+<%--<c:if test="${sex == 'MALE'}"> checked="checked"--%>
+<%--</c:if> >Мужчина</input>--%>
+<%--<input type="radio" name="sex"--%>
+       <%--value="FEMALE"--%>
+<%--<c:if test="${sex == 'FEMALE'}"> checked="checked"--%>
+<%--</c:if> >Женщина</input> <br>--%>
 Гражданство:
 <input type="text" name="citizenship"
        value="<c:out value="${citizenship}" />"
