@@ -74,13 +74,4 @@ public class StringUtils {
 
         return longValues;
     }
-
-//    public static List<PhoneType> stringArrayToListOfPhoneTypes(String[] values){
-//        List<PhoneType> typeValues = new ArrayList<>();
-//        for (String value: values){
-//            typeValues.add(PhoneType.valueOf(value));
-//        }
-//
-//        return typeValues;
-//    }
 }

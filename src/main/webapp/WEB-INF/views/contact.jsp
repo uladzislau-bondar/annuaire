@@ -10,10 +10,9 @@
 <!-- todo photo form -->
 
 <c:url value="/contact" var="postUrl">
-    <!-- todo test doesn't work -->
-    <%--<c:if test="${param.id}">--%>
-    <%--<c:param name="id" value="${param.id}"/>--%>
-    <%--</c:if>--%>
+    <c:if test="${param.id ne null}">
+        <c:param name="id" value="${param.id}"/>
+    </c:if>
 </c:url>
 Имя:
 <input type="text" name="firstName"
