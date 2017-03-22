@@ -3,6 +3,7 @@
 <html>
 <head>
     <title><c:out value="${title}"/></title>
+    <script type="text/javascript" src="../../resources/js/save.js"></script>
     <script type="text/javascript" src="../../resources/js/popup.js"></script>
 </head>
 <body>
@@ -111,7 +112,7 @@ Email:
     </c:forEach>
 </table>
 
-<input type="button" onclick="showPhoneCreationForm()" value="Создать телефон"/>
+<input type="button" onclick="showPhoneCreationPopup()" value="Создать телефон"/>
 
 <table>
     <tr>
