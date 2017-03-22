@@ -97,25 +97,18 @@
 
         <insert tableName="contacts">
             <column name="id" value="1"/>
-            <column name="firstName" value="Ulad"/>
-            <column name="lastName" value="Bondar"/>
+            <column name="firstName" value="colin"/>
+            <column name="lastName" value="zeal"/>
             <column name="dateOfBirth" valueComputed="${now}"/>
-            <column name="placeOfWork" value="BSUIR"/>
-        </insert>
-
-        <insert tableName="contacts">
-            <column name="firstName" value="Ivan"/>
-            <column name="lastName" value="Sakovich"/>
-            <column name="placeOfWork" value="MSLU"/>
+            <column name="placeOfWork" value="bsuir"/>
         </insert>
 
         <insert tableName="addresses">
             <column name="id" value="1"/>
             <column name="contactId" value="1"/>
             <column name="country" value="BLR"/>
-            <column name="city" value="Gomel"/>
+            <column name="city" value="Minsk"/>
             <column name="address" value="some address"/>
-            <column name="zip" value="246000"/>
         </insert>
 
         <insert tableName="phones">
@@ -139,7 +132,7 @@
         <insert tableName="attachments">
             <column name="id" value="1"/>
             <column name="contactId" value="1"/>
-            <column name="name" value="sone attachment name"/>
+            <column name="name" value="some attachment name"/>
             <column name="dateOfUpload" value="${now}"/>
             <column name="comment" value="some comment"/>
             <column name="filePath" value="some path"/>
