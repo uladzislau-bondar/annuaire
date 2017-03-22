@@ -11,6 +11,10 @@ function createNewPhone() {
     window.close();
 }
 
+function closePopup() {
+    window.close();
+}
+
 function fillPhoneFromPopup() {
     var phone = {};
     phone.id = 1;

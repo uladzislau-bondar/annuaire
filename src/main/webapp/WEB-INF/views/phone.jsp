@@ -11,7 +11,6 @@
        value="<c:out value="${countryCode}" />"
        pattern="\d+"/> <br>
 </body>
-<!-- todo add operator code -->
 Номер телефона:
 <input type="text" name="number"
        value="<c:out value="${number}" />"
@@ -31,6 +30,6 @@
        maxlength="64"/> <br>
 
 <input type="button" value="Сохранить" onclick="createNewPhone()" />
-<input type="button" value="Отменить" />
+<input type="button" value="Отменить" onclick="closePopup()"/>
 </body>
 </html>
