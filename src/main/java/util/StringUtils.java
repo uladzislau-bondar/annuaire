@@ -1,6 +1,8 @@
 package util;
 
 
+import enums.PhoneType;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Date;
@@ -55,7 +57,7 @@ public class StringUtils {
         }
     }
 
-    public static List<Long> valuesOf(String[] values){
+    public static List<Long> stringArrayToListOfLongs(String[] values){
         List<Long> longValues = new ArrayList<>();
         for (String value: values){
             longValues.add(Long.valueOf(value));
@@ -63,4 +65,22 @@ public class StringUtils {
 
         return longValues;
     }
+
+    public static List<Integer> stringArrayToListOfIntegers(String[] values){
+        List<Integer> longValues = new ArrayList<>();
+        for (String value: values){
+            longValues.add(Integer.valueOf(value));
+        }
+
+        return longValues;
+    }
+
+//    public static List<PhoneType> stringArrayToListOfPhoneTypes(String[] values){
+//        List<PhoneType> typeValues = new ArrayList<>();
+//        for (String value: values){
+//            typeValues.add(PhoneType.valueOf(value));
+//        }
+//
+//        return typeValues;
+//    }
 }

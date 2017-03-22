@@ -51,7 +51,7 @@ public class ContactListCommand extends AbstractCommand {
             case "POST":
                 if (query.containsKey("method")){
                     if (query.get("method").equals("delete")){
-                        List<Long> ids = StringUtils.valuesOf(request.getParameterValues("selected"));
+                        List<Long> ids = StringUtils.stringArrayToListOfLongs(request.getParameterValues("selected"));
                         deleteSelectedContacts(ids);
                     }
                 }

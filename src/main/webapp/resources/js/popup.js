@@ -22,14 +22,6 @@ function fillPhoneFromPopup() {
     return phone;
 }
 
-function fillPhoneFromTableRow(row) {
-    var phone = {};
-    phone.number = row.children[1].innerHTML;
-    phone.type = row.children[2].innerHTML;
-    phone.comment = row.children[3].innerHTML;
-
-    return phone;
-}
 
 //todo refactor
 //todo process deleting and editing
@@ -37,7 +29,8 @@ function appendNewRow(phone) {
     var tr = window.opener.document.createElement("tr");
     tr.setAttribute("name", "addedRow");
     tr.innerHTML = "<td><input type='checkbox' name='selected' id='phone" + phone.id + "'></td>" +
-        "<td>" + "+" + phone.countryCode + "-" + phone.number + "</td>" +
+        "<td>" + phone.countryCode + "</td>" +
+        "<td>" + phone.number    + "</td>" +
         "<td>" + phone.type + "</td>" +
         "<td>" + phone.comment + "</td>" +
         "<td><input type='button' value='Изменить' onclick='deleteRow()'></td>" +
@@ -57,32 +50,39 @@ function save(path) {
     alert(path);
 
     var phones = parsePhones();
-    post(path, phones);
+    var contact = parseContact();
+    post(path, contact, phones);
 }
 
-function post(path, params) {
+function post(path, contact, phones) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", path);
 
-    params.forEach(function (item) {
-        for (var key in item) {
-            if (item.hasOwnProperty(key)) {
-                alert(key);
-                alert(item[key]);
-
-                var hiddenField = document.createElement("input");
-                hiddenField.setAttribute("type", "hidden");
-                hiddenField.setAttribute("name", key);
-                hiddenField.setAttribute("value", item[key]);
-
-                form.appendChild(hiddenField);
-            }
-        }
-    });
+    appendArrayToForm(form, phones);
+    appendObjectToForm(form, contact);
 
     document.body.appendChild(form);
     form.submit();
+}
+
+function appendArrayToForm(form, array) {
+    array.forEach(function (item) {
+        appendObjectToForm(form, item);
+    });
+}
+
+function appendObjectToForm(form, item) {
+    for (var key in item) {
+        if (item.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", item[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
 }
 
 function parsePhones() {
@@ -91,13 +91,39 @@ function parsePhones() {
     var rows = document.getElementsByName("addedRow");
 
     rows.forEach(function (row) {
-        phones.push(fillPhoneFromTableRow(row));
+        phones.push(parseAddedPhone(row));
     });
 
     return phones;
 }
 
+function parseAddedPhone(row) {
+    var phone = {};
+    phone.countryCode = row.children[1].innerHTML;
+    phone.number = row.children[2].innerHTML;
+    phone.type = row.children[3].innerHTML;
+    phone.comment = row.children[4].innerHTML;
+
+    return phone;
+}
+
 function parseContact() {
     var contact = {};
 
+    contact.firstName = document.getElementsByName("firstName")[0].value;
+    contact.lastName = document.getElementsByName("lastName")[0].value;
+    contact.middleName = document.getElementsByName("middleName")[0].value;
+    contact.dateOfBirth = document.getElementsByName("dateOfBirth")[0].value;
+    contact.sex = document.getElementsByName("sex")[0].value;
+    contact.citizenship = document.getElementsByName("citizenship")[0].value;
+    contact.maritalStatus = document.getElementsByName("maritalStatus")[0].value;
+    contact.website = document.getElementsByName("website")[0].value;
+    contact.email = document.getElementsByName("email")[0].value;
+    contact.placeOfWork = document.getElementsByName("placeOfWork")[0].value;
+    contact.country = document.getElementsByName("country")[0].value;
+    contact.city = document.getElementsByName("city")[0].value;
+    contact.address = document.getElementsByName("address")[0].value;
+    contact.zip = document.getElementsByName("zip")[0].value;
+
+    return contact;
 }

@@ -11,6 +11,7 @@ import entities.Attachment;
 import entities.Contact;
 import builders.ContactBuilder;
 import entities.Phone;
+import enums.PhoneType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DtoUtils;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,12 @@ public class ContactCommand extends AbstractCommand {
         AddressDao addressDao = new AddressDao();
         addressDao.save(address);
 
-        buildPhonesFromRequest();
+        List<Phone> phones = buildPhonesFromRequest();
+        PhoneDao phoneDao = new PhoneDao();
+        for (Phone phone: phones){
+            phone.setContactId(contactId);
+            phoneDao.save(phone);
+        }
 
         logger.info("Saving new contact");
     }
@@ -232,10 +238,24 @@ public class ContactCommand extends AbstractCommand {
         return addr;
     }
 
-    private void buildPhonesFromRequest(){
-        String [] countryCodes = request.getParameterValues("countryCode");
+    private List<Phone> buildPhonesFromRequest(){
+        List<Integer> countryCodes = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("countryCode"));
+        List<Integer> numbers = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("number"));
+        List<String> phoneTypes = Arrays.asList(request.getParameterValues("type"));
+        List<String> comments = Arrays.asList(request.getParameterValues("comment"));
 
-        logger.info(countryCodes[0]);
+        List<Phone> phones = new ArrayList<>();
+        for (int i = 0; i< countryCodes.size(); i++){
+            Phone phone = new Phone();
+            phone.setCountryCode(countryCodes.get(i));
+            phone.setNumber(numbers.get(i));
+            phone.setType(phoneTypes.get(i));
+            phone.setComment(comments.get(i));
+
+            phones.add(phone);
+        }
+
+        return phones;
     }
 
 }
