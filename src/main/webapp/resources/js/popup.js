@@ -47,20 +47,20 @@ function editRow(id) {
 }
 
 function save(path) {
-    alert(path);
-
-    var phones = parsePhones();
     var contact = parseContact();
-    post(path, contact, phones);
+    var address = parseAddress();
+    var phones = parsePhones();
+    post(path, contact, address, phones);
 }
 
-function post(path, contact, phones) {
+function post(path, contact, address, phones) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", path);
 
-    appendArrayToForm(form, phones);
     appendObjectToForm(form, contact);
+    appendObjectToForm(form, address);
+    appendArrayToForm(form, phones);
 
     document.body.appendChild(form);
     form.submit();
@@ -109,7 +109,6 @@ function parseAddedPhone(row) {
 
 function parseContact() {
     var contact = {};
-
     contact.firstName = document.getElementsByName("firstName")[0].value;
     contact.lastName = document.getElementsByName("lastName")[0].value;
     contact.middleName = document.getElementsByName("middleName")[0].value;
@@ -120,10 +119,16 @@ function parseContact() {
     contact.website = document.getElementsByName("website")[0].value;
     contact.email = document.getElementsByName("email")[0].value;
     contact.placeOfWork = document.getElementsByName("placeOfWork")[0].value;
-    contact.country = document.getElementsByName("country")[0].value;
-    contact.city = document.getElementsByName("city")[0].value;
-    contact.address = document.getElementsByName("address")[0].value;
-    contact.zip = document.getElementsByName("zip")[0].value;
 
     return contact;
+}
+
+function parseAddress() {
+    var address = {};
+    address.country = document.getElementsByName("country")[0].value;
+    address.city = document.getElementsByName("city")[0].value;
+    address.address = document.getElementsByName("address")[0].value;
+    address.zip = document.getElementsByName("zip")[0].value;
+
+    return address;
 }

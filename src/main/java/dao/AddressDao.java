@@ -2,7 +2,6 @@ package dao;
 
 
 import db.constants.AddressConstants;
-import db.constants.ContactConstants;
 import entities.Address;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,13 +74,13 @@ public class AddressDao extends AbstractTemplateDao<Address, Long> {
 
     @Override
     public void update(Address address) {
-        try (PreparedStatement statement = getPreparedStatement(AddressConstants.UPDATE)) {
+        try (PreparedStatement statement = getPreparedStatement(AddressConstants.UPDATE_BY_CONTACT_ID)) {
             statement.setLong(1, address.getContactId());
             statement.setString(2, address.getCountry());
             statement.setString(3, address.getCity());
             statement.setString(4, address.getAddress());
             statement.setInt(5, address.getZip());
-            statement.setLong(6, address.getId());
+            statement.setLong(6, address.getContactId());
 
             logger.info(statement.toString());
 

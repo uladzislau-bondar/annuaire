@@ -119,8 +119,6 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void updateContact(Long id) {
-        //todo add saving phones
-
         Contact contact = buildContactFromRequest();
         contact.setId(id);
         ContactDao contactDao = new ContactDao();
@@ -129,7 +127,14 @@ public class ContactCommand extends AbstractCommand {
         Address address = buildAddressFromRequest();
         address.setContactId(contact.getId());
         AddressDao addressDao = new AddressDao();
-        addressDao.save(address);
+        addressDao.update(address);
+
+        List<Phone> phones = buildPhonesFromRequest();
+        PhoneDao phoneDao = new PhoneDao();
+        for (Phone phone: phones){
+            phone.setContactId(contact.getId());
+            phoneDao.save(phone);
+        }
 
         logger.info("Updating contact #" + id);
     }
