@@ -104,7 +104,7 @@ Email:
             <c:param name="contactId" value="${id}"/>
             <c:param name="method" value="delete"/>
         </c:url>
-        <tr>
+        <tr id="phone${phone.id}">
             <td><input type="checkbox" name="selected" value="${phone.id}"></td>
             <td><c:out value="${phone.number}"/></td>
             <td><c:out value="${phone.type}"/></td>
@@ -112,7 +112,7 @@ Email:
 
             <!-- todo add phone editing and deleting -->
             <td><a href="#">
-                <input type="button" value="Изменить">
+                <input type="button" onclick="showPhoneEditingPopup('${phone.id}')" value="Изменить">
             </a>
             </td>
             <td><a href="${deleteUrl}">

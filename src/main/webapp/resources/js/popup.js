@@ -3,6 +3,13 @@ function showPhoneCreationPopup() {
     popup.focus();
 }
 
+function showPhoneEditingPopup(id) {
+    var popup = window.open("/phone", "Edit phone", "width=800, height=800");
+    popup.document.getElementsByName("countryCode")[0].value =
+        window.document.getElementById("phone" + id).children[0].innerHTML;
+    popup.focus();
+}
+
 function createNewPhone() {
     if (window.opener != null) {
         var phone = parsePhoneFromPopup();
