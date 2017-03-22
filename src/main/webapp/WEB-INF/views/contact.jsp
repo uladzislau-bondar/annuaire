@@ -15,7 +15,7 @@
     <%--<c:param name="id" value="${param.id}"/>--%>
     <%--</c:if>--%>
 </c:url>
-<form action="${postUrl}" method="post">
+<form action="${postUrl}" method="post" onsubmit="save('${postUrl}')">
     Имя:
     <input type="text" name="firstName"
            value="<c:out value="${firstName}" />"
@@ -78,10 +78,10 @@
            value="<c:out value="${zip}" />"
            pattern="\d+"/> <br>
 
-    <input type="submit"/>
+    <input type="submit" />
 </form>
 
-<table>
+<table id="phonesTable">
     <tr>
         <th></th>
         <th>Номер</th>
@@ -104,7 +104,7 @@
 
             <!-- todo add phone editing and deleting -->
             <td><a href="#">
-                <input type="button" value="Edit">
+                <input type="button" value="Изменить">
             </a>
             </td>
             <td><a href="${deleteUrl}">
@@ -113,23 +113,6 @@
             </td>
         </tr>
     </c:forEach>
-    <!-- additional row for popup data-->
-    <tr id="additionalRows">
-        <td><input type="checkbox" name="selected" value="${phone.id}"></td>
-        <td><input type="text" name="countryCode" readonly="readonly"></td>
-        <td><c:out value="${phone.type}"/></td>
-        <td><c:out value="${phone.comment}"/></td>
-
-        <!-- todo add phone editing and deleting -->
-        <td><a href="#">
-            <input type="button" value="Edit">
-        </a>
-        </td>
-        <td><a href="${deleteUrl}">
-            <input type="button" value="Удалить">
-        </a>
-        </td>
-    </tr>
 </table>
 
 <button onclick="showPhoneCreationForm()" >Create</button>

@@ -107,6 +107,8 @@ public class ContactCommand extends AbstractCommand {
         AddressDao addressDao = new AddressDao();
         addressDao.save(address);
 
+        buildPhonesFromRequest();
+
         logger.info("Saving new contact");
     }
 
@@ -228,6 +230,12 @@ public class ContactCommand extends AbstractCommand {
         addr.setZip(zip);
 
         return addr;
+    }
+
+    private void buildPhonesFromRequest(){
+        String [] countryCodes = request.getParameterValues("countryCode");
+
+        logger.info(countryCodes[0]);
     }
 
 }
