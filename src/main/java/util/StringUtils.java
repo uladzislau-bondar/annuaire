@@ -6,10 +6,7 @@ import enums.PhoneType;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StringUtils {
     public static Map<String, String> splitQuery(String query) throws UnsupportedEncodingException {
@@ -59,19 +56,32 @@ public class StringUtils {
 
     public static List<Long> stringArrayToListOfLongs(String[] values){
         List<Long> longValues = new ArrayList<>();
-        for (String value: values){
-            longValues.add(Long.valueOf(value));
+        if (values != null){
+            for (String value: values){
+                longValues.add(Long.valueOf(value));
+            }
         }
 
         return longValues;
     }
 
     public static List<Integer> stringArrayToListOfIntegers(String[] values){
-        List<Integer> longValues = new ArrayList<>();
-        for (String value: values){
-            longValues.add(Integer.valueOf(value));
+        List<Integer> integerValues = new ArrayList<>();
+        if (values != null){
+            for (String value: values){
+                integerValues.add(Integer.valueOf(value));
+            }
         }
 
-        return longValues;
+        return integerValues;
+    }
+
+    public static List<String> stringArrayToListOfStrings(String[] values){
+        List<String> stringValues = new ArrayList<>();
+        if (values != null){
+            stringValues = Arrays.asList(values);
+        }
+
+        return stringValues;
     }
 }

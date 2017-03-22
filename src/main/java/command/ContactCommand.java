@@ -246,8 +246,8 @@ public class ContactCommand extends AbstractCommand {
     private List<Phone> buildPhonesFromRequest(){
         List<Integer> countryCodes = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("countryCode"));
         List<Integer> numbers = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("number"));
-        List<String> phoneTypes = Arrays.asList(request.getParameterValues("type"));
-        List<String> comments = Arrays.asList(request.getParameterValues("comment"));
+        List<String> phoneTypes = StringUtils.stringArrayToListOfStrings(request.getParameterValues("type"));
+        List<String> comments = StringUtils.stringArrayToListOfStrings(request.getParameterValues("comment"));
 
         List<Phone> phones = new ArrayList<>();
         for (int i = 0; i< countryCodes.size(); i++){
