@@ -61,24 +61,25 @@ function save(path) {
 }
 
 function post(path, params) {
-    var method = "post";
-
     var form = document.createElement("form");
-    form.setAttribute("method", method);
+    form.setAttribute("method", "post");
     form.setAttribute("action", path);
 
-    for (var key in params) {
-        if (params.hasOwnProperty(key)) {
-            alert(key);
+    params.forEach(function (item) {
+        for (var key in item) {
+            if (item.hasOwnProperty(key)) {
+                alert(key);
+                alert(item[key]);
 
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", item[key]);
 
-            form.appendChild(hiddenField);
+                form.appendChild(hiddenField);
+            }
         }
-    }
+    });
 
     document.body.appendChild(form);
     form.submit();
@@ -89,19 +90,14 @@ function parsePhones() {
 
     var rows = document.getElementsByName("addedRow");
 
-    alert(rows[0].innerHTML);
-
     rows.forEach(function (row) {
         phones.push(fillPhoneFromTableRow(row));
     });
+
+    return phones;
 }
-// function fillRowWithElementsFromPhone(row, phone) {
-//     row.appendNewCell()
-// }
-//
-// function appendNewCell(content) {
-//     var td = document.createElement("td");
-//     td.innerHTML = content;
-//
-//     return td;
-// }
+
+function parseContact() {
+    var contact = {};
+
+}

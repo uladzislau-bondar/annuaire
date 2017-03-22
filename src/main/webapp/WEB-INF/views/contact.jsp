@@ -3,7 +3,7 @@
 <html>
 <head>
     <title><c:out value="${title}"/></title>
-    <script type="text/javascript" src="../../resources/js/popup.js" ></script>
+    <script type="text/javascript" src="../../resources/js/popup.js"></script>
 </head>
 <body>
 
@@ -78,74 +78,74 @@
            value="<c:out value="${zip}" />"
            pattern="\d+"/> <br>
 
-    <input type="submit" />
+
+    <table id="phonesTable">
+        <tr>
+            <th></th>
+            <th>Номер</th>
+            <th>Тип</th>
+            <th>Комментарий</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <c:forEach items="${phones}" var="phone">
+            <c:url value="/phone" var="deleteUrl">
+                <c:param name="id" value="${phone.id}"/>
+                <c:param name="contactId" value="${id}"/>
+                <c:param name="method" value="delete"/>
+            </c:url>
+            <tr>
+                <td><input type="checkbox" name="selected" value="${phone.id}"></td>
+                <td><c:out value="${phone.number}"/></td>
+                <td><c:out value="${phone.type}"/></td>
+                <td><c:out value="${phone.comment}"/></td>
+
+                <!-- todo add phone editing and deleting -->
+                <td><a href="#">
+                    <input type="button" value="Изменить">
+                </a>
+                </td>
+                <td><a href="${deleteUrl}">
+                    <input type="button" value="Удалить">
+                </a>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <input type="button" onclick="showPhoneCreationForm()" value="Создать телефон" />
+
+    <table>
+        <tr>
+            <th></th>
+            <th>Название</th>
+            <th>Дата загрузки</th>
+            <th>Комментарий</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <c:forEach items="${attachments}" var="attachment">
+            <tr>
+                <td><input type="checkbox"/></td>
+                <td><c:out value="${attachment.name}"/></td>
+                <td><c:out value="${attachment.dateOfUpload}"/></td>
+                <td><c:out value="${attachment.comment}"/></td>
+
+                <!-- todo add attachment editing and deleting -->
+                <td><a href="#">
+                    <input type="button" value="Edit">
+                </a>
+                </td>
+                <td><a href="#">
+                    <input type="button" value="Delete">
+                </a>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+    <!-- todo attachments button to popup -->
+
+    <input type="submit"/>
 </form>
-
-<table id="phonesTable">
-    <tr>
-        <th></th>
-        <th>Номер</th>
-        <th>Тип</th>
-        <th>Комментарий</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <c:forEach items="${phones}" var="phone">
-        <c:url value="/phone" var="deleteUrl">
-            <c:param name="id" value="${phone.id}"/>
-            <c:param name="contactId" value="${id}" />
-            <c:param name="method" value="delete"/>
-        </c:url>
-        <tr>
-            <td><input type="checkbox" name="selected" value="${phone.id}"></td>
-            <td><c:out value="${phone.number}"/></td>
-            <td><c:out value="${phone.type}"/></td>
-            <td><c:out value="${phone.comment}"/></td>
-
-            <!-- todo add phone editing and deleting -->
-            <td><a href="#">
-                <input type="button" value="Изменить">
-            </a>
-            </td>
-            <td><a href="${deleteUrl}">
-                <input type="button" value="Удалить">
-            </a>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-
-<button onclick="showPhoneCreationForm()" >Create</button>
-
-<table>
-    <tr>
-        <th></th>
-        <th>Название</th>
-        <th>Дата загрузки</th>
-        <th>Комментарий</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <c:forEach items="${attachments}" var="attachment">
-        <tr>
-            <td><input type="checkbox"/></td>
-            <td><c:out value="${attachment.name}"/></td>
-            <td><c:out value="${attachment.dateOfUpload}"/></td>
-            <td><c:out value="${attachment.comment}"/></td>
-
-            <!-- todo add attachment editing and deleting -->
-            <td><a href="#">
-                <input type="button" value="Edit">
-            </a>
-            </td>
-            <td><a href="#">
-                <input type="button" value="Delete">
-            </a>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-<!-- todo attachments button to popup -->
-
 </body>
 </html>
