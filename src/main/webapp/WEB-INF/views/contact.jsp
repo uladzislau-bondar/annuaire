@@ -110,13 +110,8 @@ Email:
             <td><c:out value="${phone.number}"/></td>
             <td><c:out value="${phone.type}"/></td>
             <td><c:out value="${phone.comment}"/></td>
-
-            <!-- todo add phone editing and deleting -->
-            <td><input type="button" onclick="showPhoneEditingPopup(this)" value="Изменить"></td>
-            <td><a href="${deleteUrl}">
-                <input type="button" value="Удалить">
-            </a>
-            </td>
+            <td><input type="button" onclick="editPhone(this)" value="Изменить"></td>
+            <td><input type="button" onclick="deletePhone(this)" value="Удалить"></td>
         </tr>
     </c:forEach>
 </table>

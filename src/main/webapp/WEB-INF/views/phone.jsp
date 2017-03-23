@@ -6,6 +6,7 @@
     <script type="text/javascript" src="../../resources/js/popup.js" ></script>
 </head>
 <body>
+<input type="hidden" name="hidden" />
 <input type="hidden" name="id" />
 Код страны:
 <input type="text" name="countryCode"

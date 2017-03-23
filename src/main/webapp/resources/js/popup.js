@@ -3,7 +3,7 @@ function showPhoneCreationPopup() {
     popup.focus();
 }
 
-function showPhoneEditingPopup(element) {
+function editPhone(element) {
     //todo refactor getting id
     var id = element.parentNode.parentNode.id.substring(5);
     var popup = window.open("/phone", "Edit phone", "width=800, height=800");
@@ -11,6 +11,7 @@ function showPhoneEditingPopup(element) {
     popup.onload = function () {
         var dto = parsePhoneFromWindow(id);
         var phone = dtoToPhone(dto);
+        popup.document.getElementsByName("hidden")[0].value = phone.hidden;
         popup.document.getElementsByName("id")[0].value = phone.id;
         popup.document.getElementsByName("countryCode")[0].value = phone.countryCode;
         popup.document.getElementsByName("number")[0].value = phone.number;
@@ -43,6 +44,11 @@ function editPhone(id) {
     if (window.opener != null) {
         var phone = parsePhoneFromPopup();
         var dto = phoneToDto(phone);
+        if (dto.hidden == 'existed'){
+            dto.hidden = 'updated';
+        }
+        window.opener.document.getElementById("phone" + id).children[0].getElementsByTagName("input")[0].value =
+            dto.hidden;
         window.opener.document.getElementById("phone" + id).children[1].getElementsByTagName("input")[0].value =
             dto.id;
         window.opener.document.getElementById("phone" + id).children[2].innerHTML = dto.number;
@@ -51,12 +57,37 @@ function editPhone(id) {
     }
 }
 
+function deletePhone(element) {
+    var id = element.parentNode.parentNode.id.substring(5);
+    var type = document.getElementById("phone" + id).children[0].getElementsByTagName("input")[0].value;
+
+    if (type == 'added'){
+        deletePhoneRow(id);
+    } else {
+        deleteExistedPhone(id);
+    }
+}
+
+function deletePhoneRow(id) {
+    document.getElementById("phone" + id).outerHTML = "";
+}
+
+function deleteExistedPhone(id) {
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("value", "phone" + id);
+    document.body.appendChild(input);
+
+    deletePhoneRow(id);
+}
+
 function closePopup() {
     window.close();
 }
 
 function parsePhoneFromPopup() {
     var phone = {};
+    phone.hidden = document.getElementsByName("hidden")[0].value;
     phone.id = document.getElementsByName("id")[0].value;
     phone.countryCode = document.getElementsByName("countryCode")[0].value;
     phone.number = document.getElementsByName("number")[0].value;
@@ -68,6 +99,7 @@ function parsePhoneFromPopup() {
 
 function parsePhoneFromWindow(id) {
     var dto = {};
+    dto.hidden = document.getElementById("phone" + id).children[0].getElementsByTagName("input")[0].value;
     dto.id = id;
     dto.number = document.getElementById("phone" + id).children[2].innerHTML;
     dto.type = document.getElementById("phone" + id).children[3].innerHTML;
@@ -77,7 +109,6 @@ function parsePhoneFromWindow(id) {
 }
 
 
-//todo process deleting and editing
 function appendAddedPhoneRow(phone) {
     var tr = window.opener.document.createElement("tr");
     tr.setAttribute("id", "phone" + phone.id);
@@ -86,21 +117,14 @@ function appendAddedPhoneRow(phone) {
         "<td>" + phone.number + "</td>" +
         "<td>" + phone.type + "</td>" +
         "<td>" + phone.comment + "</td>" +
-        "<td><input type='button' value='Изменить' onclick='showPhoneEditingPopup(this)'></td>" +
-        "<td><input type='button' value='Удалить' onclick='deleteRow()'></td>";
+        "<td><input type='button' value='Изменить' onclick='editPhone(this)'></td>" +
+        "<td><input type='button' value='Удалить' onclick='deletePhone(this)'></td>";
     window.opener.document.getElementById("phonesTable").getElementsByTagName("tbody")[0].appendChild(tr);
-}
-
-function deleteRow(id) {
-
-}
-
-function editRow(id) {
-
 }
 
 function phoneToDto(phone){
     var dto = {};
+    dto.hidden = phone.hidden;
     dto.id = phone.id;
     dto.number = "+" + phone.countryCode + "-" + phone.number;
     dto.type = phone.type;
@@ -111,6 +135,7 @@ function phoneToDto(phone){
 
 function dtoToPhone(dto) {
     var phone = {};
+    phone.hidden = dto.hidden;
     phone.id = dto.id;
     phone.countryCode = dto.number.match(/\+(.*)\-/)[1];
     phone.number = dto.number.substr(dto.number.indexOf("-") + 1);
