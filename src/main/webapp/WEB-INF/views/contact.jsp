@@ -4,7 +4,7 @@
 <head>
     <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/save.js"></script>
-    <script type="text/javascript" src="../../resources/js/popup.js"></script>
+    <script type="text/javascript" src="../../resources/js/phone.js"></script>
 </head>
 <body>
 
@@ -37,19 +37,19 @@
 <c:choose>
     <c:when test="${sex =='MALE'}">
         <input type="radio" name="sex" value="MALE" checked="checked"/>Мужчина
-        <input type="radio" name="sex" value="FEMALE" />Женщина <br>
+        <input type="radio" name="sex" value="FEMALE"/>Женщина <br>
     </c:when>
-    <c:otherwise >
+    <c:otherwise>
         <input type="radio" name="sex" value="MALE"/>Мужчина
         <input type="radio" name="sex" value="FEMALE" checked="checked"/>Женщина <br>
     </c:otherwise>
 </c:choose>
 <%--<input type="radio" name="sex"--%>
-       <%--value="MALE"--%>
+<%--value="MALE"--%>
 <%--<c:if test="${sex == 'MALE'}"> checked="checked"--%>
 <%--</c:if> >Мужчина</input>--%>
 <%--<input type="radio" name="sex"--%>
-       <%--value="FEMALE"--%>
+<%--value="FEMALE"--%>
 <%--<c:if test="${sex == 'FEMALE'}"> checked="checked"--%>
 <%--</c:if> >Женщина</input> <br>--%>
 Гражданство:
@@ -119,6 +119,7 @@ Email:
 <input type="button" onclick="showPhoneCreationPopup()" value="Создать телефон"/>
 
 <table>
+    <thead>
     <tr>
         <th></th>
         <th>Название</th>
@@ -127,6 +128,8 @@ Email:
         <th></th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     <c:forEach items="${attachments}" var="attachment">
         <tr>
             <td><input type="checkbox"/></td>
@@ -145,6 +148,7 @@ Email:
             </td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
 <!-- todo attachments button to popup -->
 

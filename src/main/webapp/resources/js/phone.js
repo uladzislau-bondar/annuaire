@@ -24,7 +24,7 @@ function savePopup() {
     if (document.getElementsByName("id")[0].value != '') {
         var id = document.getElementsByName("id")[0].value;
 
-        editPhone(id);
+        updatePhone(id);
     } else {
         createNewPhone();
     }
@@ -40,7 +40,7 @@ function createNewPhone() {
     }
 }
 
-function editPhone(id) {
+function updatePhone(id) {
     if (window.opener != null) {
         var phone = parsePhoneFromPopup();
         var dto = phoneToDto(phone);

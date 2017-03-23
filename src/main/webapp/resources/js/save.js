@@ -1,18 +1,73 @@
 function save(path) {
-    var contact = parseContact();
-    var address = parseAddress();
-    var phones = parsePhones();
-    post(path, contact, address, phones);
-}
-
-function post(path, contact, address, phones) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", path);
 
+    var contact = parseContact();
+    var address = parseAddress();
+
+    var phones = parsePhones();
+    var addedPhones = phones.filter(function (phone) {
+        return phone.hidden == 'added';
+    });
+    var addedPhonesObject = {};
+    addedPhonesObject.phonesToAdd = JSON.stringify(addedPhones);
+
+    var updatedPhones = phones.filter(function (phone) {
+        return phone.hidden == 'updated';
+    });
+    var updatedPhonesObject = {};
+    updatedPhonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
+
+    var deletedPhones = parseDeletedPhones();
+    deletedPhones.forEach(function (item) {
+        form.appendChild(item);
+    });
+
     appendObjectToForm(form, contact);
     appendObjectToForm(form, address);
-    appendArrayToForm(form, phones);
+    appendObjectToForm(form, addedPhonesObject);
+    appendObjectToForm(form, updatedPhonesObject);
+    appendArrayToForm(form, deletedPhones);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function post(path) {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", path);
+
+    var contact = parseContact();
+    var address = parseAddress();
+
+    var phones = parsePhones();
+    var addedPhones = phones.filter(function (phone) {
+        return phone.hidden == 'added';
+    });
+    var addedPhonesObject = {};
+    addedPhonesObject.phonesToAdd = JSON.stringify(addedPhones);
+    alert(addedPhonesObject.phonesToAdd);
+
+    var updatedPhones = phones.filter(function (phone) {
+        return phone.hidden == 'updated';
+    });
+    var updatedPhonesObject = {};
+    updatedPhonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
+    alert(updatedPhonesObject.phonesToAdd);
+
+    var deletedPhones = parseDeletedPhones();
+    deletedPhones.forEach(function (item) {
+        alert(item.value);
+        document.body.appendChild(item);
+    });
+
+    appendObjectToForm(form, contact);
+    appendObjectToForm(form, address);
+    appendObjectToForm(form, addedPhonesObject);
+    appendObjectToForm(form, updatedPhonesObject);
+    appendArrayToForm(form, deletedPhones);
 
     document.body.appendChild(form);
     form.submit();
@@ -40,21 +95,25 @@ function appendObjectToForm(form, item) {
 function parsePhones() {
     var phones = [];
 
-    var rows = document.getElementsByName("addedRow");
+    var tableRows = Array.prototype.slice
+        .call(document.getElementById("phonesTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr"));
+    var rows = tableRows.slice(1);
 
     rows.forEach(function (row) {
-        phones.push(parseAddedPhone(row));
+        phones.push(parsePhone(row));
     });
 
     return phones;
 }
 
-function parseAddedPhone(row) {
+function parsePhone(row) {
     var phone = {};
-    phone.countryCode = row.children[1].innerHTML;
-    phone.number = row.children[2].innerHTML;
-    phone.type = row.children[3].innerHTML;
-    phone.comment = row.children[4].innerHTML;
+    phone.hidden = row.children[0].getElementsByTagName("input")[0].value;
+    phone.id = row.children[1].getElementsByTagName("input")[0].value;
+    phone.countryCode = row.children[2].innerHTML;
+    phone.number = row.children[3].innerHTML;
+    phone.type = row.children[4].innerHTML;
+    phone.comment = row.children[5].innerHTML;
 
     return phone;
 }
@@ -83,4 +142,8 @@ function parseAddress() {
     address.zip = document.getElementsByName("zip")[0].value;
 
     return address;
+}
+
+function parseDeletedPhones() {
+    return Array.prototype.slice.call(document.getElementsByName("phoneToDelete"));
 }

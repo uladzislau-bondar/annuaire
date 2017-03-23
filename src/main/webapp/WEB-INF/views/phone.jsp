@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Title</title>
-    <script type="text/javascript" src="../../resources/js/popup.js" ></script>
+    <script type="text/javascript" src="../../resources/js/phone.js" ></script>
 </head>
 <body>
 <input type="hidden" name="hidden" />
