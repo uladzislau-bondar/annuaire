@@ -75,7 +75,8 @@ function deletePhoneRow(id) {
 function deleteExistedPhone(id) {
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");
-    input.setAttribute("value", "phone" + id);
+    input.setAttribute("name", "phoneToDelete");
+    input.setAttribute("value", id);
     document.body.appendChild(input);
 
     deletePhoneRow(id);
