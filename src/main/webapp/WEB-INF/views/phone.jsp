@@ -6,6 +6,7 @@
     <script type="text/javascript" src="../../resources/js/popup.js" ></script>
 </head>
 <body>
+<input type="hidden" name="id" />
 Код страны:
 <input type="text" name="countryCode"
        value="<c:out value="${countryCode}" />"
@@ -15,6 +16,7 @@
 <input type="text" name="number"
        value="<c:out value="${number}" />"
        pattern="\d+"/> <br>
+<!-- todo deal with radio -->
 Тип телефона:
 <input type="radio" name="type"
        value="HOME"
@@ -29,7 +31,7 @@
        value="<c:out value="${comment}" />"
        maxlength="64"/> <br>
 
-<input type="button" value="Сохранить" onclick="createNewPhone()" />
+<input type="button" value="Сохранить" onclick="savePopup()" />
 <input type="button" value="Отменить" onclick="closePopup()"/>
 </body>
 </html>
