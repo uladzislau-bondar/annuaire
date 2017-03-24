@@ -104,9 +104,8 @@ function appendObjectToForm(form, item) {
 function parsePhones() {
     var phones = [];
 
-    var tableRows = Array.prototype.slice
+    var rows = Array.prototype.slice
         .call(document.getElementById("phonesTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr"));
-    var rows = tableRows.slice(1);
 
     rows.forEach(function (row) {
         phones.push(parsePhone(row));

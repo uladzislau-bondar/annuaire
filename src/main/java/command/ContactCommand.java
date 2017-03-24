@@ -282,12 +282,14 @@ public class ContactCommand extends AbstractCommand {
         String addedPhonesJson = request.getParameter("phonesToAdd");
 
         //todo
+        return new ArrayList<>();
     }
 
     private List<Phone> buildUpdatedPhonesFromRequest() {
         String updatedPhonesJson = request.getParameter("phonesToUpdate");
 
         //todo
+        return new ArrayList<>();
     }
 
     private List<Long> buildDeletedPhonesIdsFromRequest() {

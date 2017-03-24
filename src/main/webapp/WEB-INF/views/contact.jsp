@@ -90,6 +90,7 @@ Email:
 
 
 <table id="phonesTable">
+    <thead>
     <tr>
         <th></th>
         <th>Номер</th>
@@ -98,6 +99,7 @@ Email:
         <th></th>
         <th></th>
     </tr>
+    </thead>
     <c:forEach items="${phones}" var="phone">
         <c:url value="/phone" var="deleteUrl">
             <c:param name="id" value="${phone.id}"/>
