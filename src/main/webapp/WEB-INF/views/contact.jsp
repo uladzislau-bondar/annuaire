@@ -88,7 +88,6 @@ Email:
        value="<c:out value="${zip}" />"
        pattern="\d+"/> <br>
 
-
 <table id="phonesTable">
     <thead>
     <tr>
@@ -119,10 +118,9 @@ Email:
     </c:forEach>
     </tbody>
 </table>
-
 <input type="button" onclick="showPhoneCreationPopup()" value="Создать телефон"/>
 
-<table>
+<table id="attachmentTable">
     <thead>
     <tr>
         <th></th>
@@ -135,26 +133,19 @@ Email:
     </thead>
     <tbody>
     <c:forEach items="${attachments}" var="attachment">
-        <tr>
-            <td><input type="checkbox"/></td>
+        <tr id="attachment${attachment.id}">
+            <td><input type="hidden" value="existed"></td>
+            <td><input type="checkbox" name="selected" value="${attachment.id}"></td>
             <td><c:out value="${attachment.name}"/></td>
             <td><c:out value="${attachment.dateOfUpload}"/></td>
             <td><c:out value="${attachment.comment}"/></td>
-
-            <!-- todo add attachment editing and deleting -->
-            <td><a href="#">
-                <input type="button" value="Edit">
-            </a>
-            </td>
-            <td><a href="#">
-                <input type="button" value="Delete">
-            </a>
-            </td>
+            <td><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
+            <td><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-<!-- todo attachments button to popup -->
+<input type="button" onclick="showAttachmentCreationPopup()" value="Создать присоединение"/>
 
 <input type="button" value="Сохранить" onclick="save('${postUrl}')"/>
 </body>

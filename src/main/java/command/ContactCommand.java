@@ -228,26 +228,6 @@ public class ContactCommand extends AbstractCommand {
         return addr;
     }
 
-//    private List<Phone> buildPhonesFromRequest() {
-//        List<Integer> countryCodes = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("countryCode"));
-//        List<Integer> numbers = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("number"));
-//        List<String> phoneTypes = StringUtils.stringArrayToListOfStrings(request.getParameterValues("type"));
-//        List<String> comments = StringUtils.stringArrayToListOfStrings(request.getParameterValues("comment"));
-//
-//        List<Phone> phones = new ArrayList<>();
-//        for (int i = 0; i < countryCodes.size(); i++) {
-//            Phone phone = new Phone();
-//            phone.setCountryCode(countryCodes.get(i));
-//            phone.setNumber(numbers.get(i));
-//            phone.setType(phoneTypes.get(i));
-//            phone.setComment(comments.get(i));
-//
-//            phones.add(phone);
-//        }
-//
-//        return phones;
-//    }
-
     private void processAddressSaving(Long contactId) {
         Address address = buildAddressFromRequest();
         address.setContactId(contactId);
