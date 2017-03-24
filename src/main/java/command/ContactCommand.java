@@ -4,6 +4,7 @@ import dao.AddressDao;
 import dao.AttachmentDao;
 import dao.ContactDao;
 import dao.PhoneDao;
+import db.Connector;
 import dto.AttachmentDto;
 import dto.PhoneDto;
 import entities.Address;
@@ -11,7 +12,6 @@ import entities.Attachment;
 import entities.Contact;
 import builders.ContactBuilder;
 import entities.Phone;
-import enums.PhoneType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DtoUtils;
@@ -21,18 +21,26 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 
 public class ContactCommand extends AbstractCommand {
     private final static Logger logger = LogManager.getLogger(ContactCommand.class);
+    private ContactDao contactDao;
+    private AddressDao addressDao;
+    private PhoneDao phoneDao;
+    private AttachmentDao attachmentDao;
 
     public ContactCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
+        contactDao = new ContactDao();
+        addressDao = new AddressDao();
+        phoneDao = new PhoneDao();
+        attachmentDao = new AttachmentDao();
     }
 
     @Override
@@ -51,8 +59,8 @@ public class ContactCommand extends AbstractCommand {
                     showCreationForm();
 
                     forward("contact");
-                } else if (query.containsKey("method")){
-                    if (query.get("method").equals("delete")){
+                } else if (query.containsKey("method")) {
+                    if (query.get("method").equals("delete")) {
                         Long contactId = Long.valueOf(query.get("id"));
                         deleteContact(contactId);
                     }
@@ -97,50 +105,29 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void saveContact() {
-        //todo add saving phones
-
+        //todo transaction
         Contact contact = buildContactFromRequest();
-        ContactDao contactDao = new ContactDao();
         Long contactId = contactDao.save(contact);
 
-        Address address = buildAddressFromRequest();
-        address.setContactId(contactId);
-        AddressDao addressDao = new AddressDao();
-        addressDao.save(address);
-
-        List<Phone> phones = buildPhonesFromRequest();
-        PhoneDao phoneDao = new PhoneDao();
-        for (Phone phone: phones){
-            phone.setContactId(contactId);
-            phoneDao.save(phone);
-        }
+        processAddressSaving(contactId);
+        processPhones(contactId);
 
         logger.info("Saving new contact");
     }
 
     private void updateContact(Long id) {
+        //todo transaction
         Contact contact = buildContactFromRequest();
         contact.setId(id);
-        ContactDao contactDao = new ContactDao();
         contactDao.update(contact);
 
-        Address address = buildAddressFromRequest();
-        address.setContactId(contact.getId());
-        AddressDao addressDao = new AddressDao();
-        addressDao.update(address);
-
-        List<Phone> phones = buildPhonesFromRequest();
-        PhoneDao phoneDao = new PhoneDao();
-        for (Phone phone: phones){
-            phone.setContactId(contact.getId());
-            phoneDao.save(phone);
-        }
+        processAddressUpdate(id);
+        processPhones(id);
 
         logger.info("Updating contact #" + id);
     }
 
     private void deleteContact(Long id) {
-        ContactDao contactDao = new ContactDao();
         contactDao.delete(id);
 
         logger.info("Deleting contact #" + id);
@@ -154,7 +141,6 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void fillRequestWithContact(Long id) {
-        ContactDao contactDao = new ContactDao();
         Contact contact = contactDao.getById(id);
         request.setAttribute("id", contact.getId());
         request.setAttribute("firstName", contact.getFirstName());
@@ -170,7 +156,6 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void fillRequestWithAddress(Long contactId) {
-        AddressDao addressDao = new AddressDao();
         Address address = addressDao.getByContactId(contactId);
         request.setAttribute("country", address.getCountry());
         request.setAttribute("city", address.getCity());
@@ -180,7 +165,6 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void fillRequestWithPhones(Long contactId) {
-        PhoneDao phoneDao = new PhoneDao();
         List<Phone> phones = phoneDao.getByContactId(contactId);
         List<PhoneDto> phoneDtoList = new ArrayList<>();
         for (Phone phone : phones) {
@@ -191,7 +175,6 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void fillRequestWithAttachments(Long contactId) {
-        AttachmentDao attachmentDao = new AttachmentDao();
         List<Attachment> attachments = attachmentDao.getByContactId(contactId);
         List<AttachmentDto> attachmentDtoList = new ArrayList<>();
         for (Attachment attachment : attachments) {
@@ -243,14 +226,14 @@ public class ContactCommand extends AbstractCommand {
         return addr;
     }
 
-    private List<Phone> buildPhonesFromRequest(){
+    private List<Phone> buildPhonesFromRequest() {
         List<Integer> countryCodes = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("countryCode"));
         List<Integer> numbers = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("number"));
         List<String> phoneTypes = StringUtils.stringArrayToListOfStrings(request.getParameterValues("type"));
         List<String> comments = StringUtils.stringArrayToListOfStrings(request.getParameterValues("comment"));
 
         List<Phone> phones = new ArrayList<>();
-        for (int i = 0; i< countryCodes.size(); i++){
+        for (int i = 0; i < countryCodes.size(); i++) {
             Phone phone = new Phone();
             phone.setCountryCode(countryCodes.get(i));
             phone.setNumber(numbers.get(i));
@@ -261,6 +244,54 @@ public class ContactCommand extends AbstractCommand {
         }
 
         return phones;
+    }
+
+    private void processAddressSaving(Long contactId){
+        Address address = buildAddressFromRequest();
+        address.setContactId(contactId);
+        addressDao.save(address);
+    }
+
+    private void processAddressUpdate(Long contactId) {
+        Address address = buildAddressFromRequest();
+        address.setContactId(contactId);
+        addressDao.update(address);
+    }
+
+    private void processPhones(Long contactId) {
+        List<Phone> addedPhones = buildAddedPhonesFromRequest();
+        for (Phone phone : addedPhones) {
+            phone.setContactId(contactId);
+            phoneDao.save(phone);
+        }
+
+        List<Phone> updatedPhones = buildUpdatedPhonesFromRequest();
+        for (Phone phone : updatedPhones) {
+            phone.setContactId(contactId);
+            phoneDao.update(phone);
+        }
+
+        List<Long> deletedPhonesIds = buildDeletedPhonesIdsFromRequest();
+        for (Long id : deletedPhonesIds) {
+            phoneDao.delete(id);
+        }
+
+    }
+
+    private List<Phone> buildAddedPhonesFromRequest() {
+        String addedPhonesJson = request.getParameter("phonesToAdd");
+
+        //todo
+    }
+
+    private List<Phone> buildUpdatedPhonesFromRequest() {
+        String updatedPhonesJson = request.getParameter("phonesToUpdate");
+
+        //todo
+    }
+
+    private List<Long> buildDeletedPhonesIdsFromRequest() {
+        return StringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
     }
 
 }

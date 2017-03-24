@@ -6,7 +6,12 @@ function save(path) {
     var contact = parseContact();
     var address = parseAddress();
 
-    var phones = parsePhones();
+    var phoneDtos = parsePhones();
+    var phones = [];
+    phoneDtos.forEach(function (item) {
+        phones.push(dtoToPhone(item));
+        alert(item.hidden);
+    });
     var addedPhones = phones.filter(function (phone) {
         return phone.hidden == 'added';
     });
@@ -34,44 +39,48 @@ function save(path) {
     form.submit();
 }
 
-function post(path) {
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", path);
-
-    var contact = parseContact();
-    var address = parseAddress();
-
-    var phones = parsePhones();
-    var addedPhones = phones.filter(function (phone) {
-        return phone.hidden == 'added';
-    });
-    var addedPhonesObject = {};
-    addedPhonesObject.phonesToAdd = JSON.stringify(addedPhones);
-    alert(addedPhonesObject.phonesToAdd);
-
-    var updatedPhones = phones.filter(function (phone) {
-        return phone.hidden == 'updated';
-    });
-    var updatedPhonesObject = {};
-    updatedPhonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
-    alert(updatedPhonesObject.phonesToAdd);
-
-    var deletedPhones = parseDeletedPhones();
-    deletedPhones.forEach(function (item) {
-        alert(item.value);
-        document.body.appendChild(item);
-    });
-
-    appendObjectToForm(form, contact);
-    appendObjectToForm(form, address);
-    appendObjectToForm(form, addedPhonesObject);
-    appendObjectToForm(form, updatedPhonesObject);
-    appendArrayToForm(form, deletedPhones);
-
-    document.body.appendChild(form);
-    form.submit();
-}
+// function post(path) {
+//     var form = document.createElement("form");
+//     form.setAttribute("method", "post");
+//     form.setAttribute("action", path);
+//
+//     var contact = parseContact();
+//     var address = parseAddress();
+//
+//     var phoneDtos = parsePhones();
+//     var phones = [];
+//     phoneDtos.forEach(function (item) {
+//         phones.push(dtoToPhone(item));
+//     });
+//     var addedPhones = phones.filter(function (phone) {
+//         return phone.hidden == 'added';
+//     });
+//     var addedPhonesObject = {};
+//     addedPhonesObject.phonesToAdd = JSON.stringify(addedPhones);
+//     alert(addedPhonesObject.phonesToAdd);
+//
+//     var updatedPhones = phones.filter(function (phone) {
+//         return phone.hidden == 'updated';
+//     });
+//     var updatedPhonesObject = {};
+//     updatedPhonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
+//     alert(updatedPhonesObject.phonesToAdd);
+//
+//     var deletedPhones = parseDeletedPhones();
+//     deletedPhones.forEach(function (item) {
+//         alert(item.value);
+//         document.body.appendChild(item);
+//     });
+//
+//     appendObjectToForm(form, contact);
+//     appendObjectToForm(form, address);
+//     appendObjectToForm(form, addedPhonesObject);
+//     appendObjectToForm(form, updatedPhonesObject);
+//     appendArrayToForm(form, deletedPhones);
+//
+//     document.body.appendChild(form);
+//     form.submit();
+// }
 
 function appendArrayToForm(form, array) {
     array.forEach(function (item) {
@@ -110,10 +119,9 @@ function parsePhone(row) {
     var phone = {};
     phone.hidden = row.children[0].getElementsByTagName("input")[0].value;
     phone.id = row.children[1].getElementsByTagName("input")[0].value;
-    phone.countryCode = row.children[2].innerHTML;
-    phone.number = row.children[3].innerHTML;
-    phone.type = row.children[4].innerHTML;
-    phone.comment = row.children[5].innerHTML;
+    phone.number = row.children[2].innerHTML;
+    phone.type = row.children[3].innerHTML;
+    phone.comment = row.children[4].innerHTML;
 
     return phone;
 }
