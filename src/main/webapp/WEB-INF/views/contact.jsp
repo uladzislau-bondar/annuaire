@@ -5,16 +5,13 @@
     <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/save.js"></script>
     <script type="text/javascript" src="../../resources/js/phone.js"></script>
+    <script type="text/javascript" src="../../resources/js/attachment.js"></script>
 </head>
 <body>
 
-<!-- todo photo form -->
+<!-- todo first head element of tables -->
 
-<c:url value="/contact" var="postUrl">
-    <c:if test="${param.id ne null}">
-        <c:param name="id" value="${param.id}"/>
-    </c:if>
-</c:url>
+<!-- todo photo form -->
 Имя:
 <input type="text" name="firstName"
        value="<c:out value="${firstName}" />"
@@ -101,11 +98,6 @@ Email:
     </thead>
     <tbody>
     <c:forEach items="${phones}" var="phone">
-        <c:url value="/phone" var="deleteUrl">
-            <c:param name="id" value="${phone.id}"/>
-            <c:param name="contactId" value="${id}"/>
-            <c:param name="method" value="delete"/>
-        </c:url>
         <tr id="phone${phone.id}">
             <td><input type="hidden" value="existed"></td>
             <td><input type="checkbox" name="selected" value="${phone.id}"></td>
@@ -118,9 +110,10 @@ Email:
     </c:forEach>
     </tbody>
 </table>
-<input type="button" onclick="showPhoneCreationPopup()" value="Создать телефон"/>
+<input type="button" onclick="showPhoneCreationPopup()" value="Создать телефон"/> <br>
+<input type="button" onclick="deleteSelectedPhones()" value="Удалить выбранные"/> <br>
 
-<table id="attachmentTable">
+<table id="attachmentsTable">
     <thead>
     <tr>
         <th></th>
@@ -145,8 +138,14 @@ Email:
     </c:forEach>
     </tbody>
 </table>
-<input type="button" onclick="showAttachmentCreationPopup()" value="Создать присоединение"/>
+<input type="button" onclick="showAttachmentCreationPopup()" value="Создать присоединение"/> <br>
+<input type="button" onclick="deleteSelectedAttachments()" value="Удалить выбранные"/> <br>
 
+<c:url value="/contact" var="postUrl">
+    <c:if test="${param.id ne null}">
+        <c:param name="id" value="${param.id}"/>
+    </c:if>
+</c:url>
 <input type="button" value="Сохранить" onclick="save('${postUrl}')"/>
 </body>
 </html>

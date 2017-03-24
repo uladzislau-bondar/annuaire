@@ -9,6 +9,7 @@
 <input type="hidden" name="id" />
 Название:
 <input type="text" name="name" pattern="\d+"/> <br>
+<input type="hidden" name="dateOfUpload" />
 Комментарий:
 <input type="text" name="comment" maxlength="64"/> <br>
 <!-- todo add button to select attachment -->

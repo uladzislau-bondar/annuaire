@@ -59,6 +59,10 @@ function updatePhone(id) {
 
 function deletePhone(element) {
     var id = element.parentNode.parentNode.id.substring(5);
+    deletePhoneById(id);
+}
+
+function deletePhoneById(id) {
     var type = document.getElementById("phone" + id).children[0].getElementsByTagName("input")[0].value;
 
     if (type == 'added'){
@@ -66,6 +70,18 @@ function deletePhone(element) {
     } else {
         deleteExistedPhone(id);
     }
+}
+
+function deleteSelectedPhones() {
+    var rows = Array.prototype.slice.call(document.getElementById("phonesTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr"));
+    rows.forEach(function (row) {
+        var checkBox = row.getElementsByTagName("td")[1].getElementsByTagName("input")[0];
+        var id = checkBox.value;
+
+        if (checkBox.checked){
+            deletePhoneById(id);
+        }
+    })
 }
 
 function deletePhoneRow(id) {

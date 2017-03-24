@@ -36,49 +36,6 @@ function save(path) {
     form.submit();
 }
 
-// function post(path) {
-//     var form = document.createElement("form");
-//     form.setAttribute("method", "post");
-//     form.setAttribute("action", path);
-//
-//     var contact = parseContact();
-//     var address = parseAddress();
-//
-//     var phoneDtos = parsePhones();
-//     var phones = [];
-//     phoneDtos.forEach(function (item) {
-//         phones.push(dtoToPhone(item));
-//     });
-//     var addedPhones = phones.filter(function (phone) {
-//         return phone.hidden == 'added';
-//     });
-//     var addedPhonesObject = {};
-//     addedPhonesObject.phonesToAdd = JSON.stringify(addedPhones);
-//     alert(addedPhonesObject.phonesToAdd);
-//
-//     var updatedPhones = phones.filter(function (phone) {
-//         return phone.hidden == 'updated';
-//     });
-//     var updatedPhonesObject = {};
-//     updatedPhonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
-//     alert(updatedPhonesObject.phonesToAdd);
-//
-//     var deletedPhones = parseDeletedPhones();
-//     deletedPhones.forEach(function (item) {
-//         alert(item.value);
-//         document.body.appendChild(item);
-//     });
-//
-//     appendObjectToForm(form, contact);
-//     appendObjectToForm(form, address);
-//     appendObjectToForm(form, addedPhonesObject);
-//     appendObjectToForm(form, updatedPhonesObject);
-//     appendArrayToForm(form, deletedPhones);
-//
-//     document.body.appendChild(form);
-//     form.submit();
-// }
-
 function appendArrayToForm(form, array) {
     array.forEach(function (item) {
         appendObjectToForm(form, item);
