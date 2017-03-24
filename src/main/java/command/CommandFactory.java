@@ -9,14 +9,20 @@ public class CommandFactory {
         String path = request.getPathInfo();
 
         Command command = null;
-        if (path.equals("/") || path.equals("/contacts")){
-            command = new ContactListCommand(request, response);
-        }
-        else if (path.equals("/contact")){
-            command = new ContactCommand(request, response);
-        }
-        else if (path.equals("/phone")){
-            command = new PhoneCommand(request, response);
+        switch (path) {
+            case "/":
+            case "/contacts":
+                command = new ContactListCommand(request, response);
+                break;
+            case "/contact":
+                command = new ContactCommand(request, response);
+                break;
+            case "/phone":
+                command = new PhoneCommand(request, response);
+                break;
+            case "/attachment":
+                command = new AttachmentCommand(request, response);
+                break;
         }
 
         return command;

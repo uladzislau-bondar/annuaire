@@ -20,7 +20,7 @@ function editPhone(element) {
     }
 }
 
-function savePopup() {
+function savePhone() {
     if (document.getElementsByName("id")[0].value != '') {
         var id = document.getElementsByName("id")[0].value;
 
