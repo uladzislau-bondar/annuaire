@@ -10,19 +10,17 @@ function save(path) {
     var phones = [];
     phoneDtos.forEach(function (item) {
         phones.push(dtoToPhone(item));
-        alert(item.hidden);
     });
     var addedPhones = phones.filter(function (phone) {
         return phone.hidden == 'added';
     });
-    var addedPhonesObject = {};
-    addedPhonesObject.phonesToAdd = JSON.stringify(addedPhones);
-
     var updatedPhones = phones.filter(function (phone) {
         return phone.hidden == 'updated';
     });
-    var updatedPhonesObject = {};
-    updatedPhonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
+
+    var phonesObject = {};
+    phonesObject.phonesToAdd = JSON.stringify(addedPhones);
+    phonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
 
     var deletedPhones = parseDeletedPhones();
     deletedPhones.forEach(function (item) {
@@ -31,8 +29,7 @@ function save(path) {
 
     appendObjectToForm(form, contact);
     appendObjectToForm(form, address);
-    appendObjectToForm(form, addedPhonesObject);
-    appendObjectToForm(form, updatedPhonesObject);
+    appendObjectToForm(form, phonesObject);
     appendArrayToForm(form, deletedPhones);
 
     document.body.appendChild(form);

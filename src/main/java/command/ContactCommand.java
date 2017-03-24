@@ -14,6 +14,8 @@ import builders.ContactBuilder;
 import entities.Phone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import util.DtoUtils;
 import util.StringUtils;
 
@@ -226,27 +228,27 @@ public class ContactCommand extends AbstractCommand {
         return addr;
     }
 
-    private List<Phone> buildPhonesFromRequest() {
-        List<Integer> countryCodes = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("countryCode"));
-        List<Integer> numbers = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("number"));
-        List<String> phoneTypes = StringUtils.stringArrayToListOfStrings(request.getParameterValues("type"));
-        List<String> comments = StringUtils.stringArrayToListOfStrings(request.getParameterValues("comment"));
+//    private List<Phone> buildPhonesFromRequest() {
+//        List<Integer> countryCodes = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("countryCode"));
+//        List<Integer> numbers = StringUtils.stringArrayToListOfIntegers(request.getParameterValues("number"));
+//        List<String> phoneTypes = StringUtils.stringArrayToListOfStrings(request.getParameterValues("type"));
+//        List<String> comments = StringUtils.stringArrayToListOfStrings(request.getParameterValues("comment"));
+//
+//        List<Phone> phones = new ArrayList<>();
+//        for (int i = 0; i < countryCodes.size(); i++) {
+//            Phone phone = new Phone();
+//            phone.setCountryCode(countryCodes.get(i));
+//            phone.setNumber(numbers.get(i));
+//            phone.setType(phoneTypes.get(i));
+//            phone.setComment(comments.get(i));
+//
+//            phones.add(phone);
+//        }
+//
+//        return phones;
+//    }
 
-        List<Phone> phones = new ArrayList<>();
-        for (int i = 0; i < countryCodes.size(); i++) {
-            Phone phone = new Phone();
-            phone.setCountryCode(countryCodes.get(i));
-            phone.setNumber(numbers.get(i));
-            phone.setType(phoneTypes.get(i));
-            phone.setComment(comments.get(i));
-
-            phones.add(phone);
-        }
-
-        return phones;
-    }
-
-    private void processAddressSaving(Long contactId){
+    private void processAddressSaving(Long contactId) {
         Address address = buildAddressFromRequest();
         address.setContactId(contactId);
         addressDao.save(address);
@@ -280,16 +282,40 @@ public class ContactCommand extends AbstractCommand {
 
     private List<Phone> buildAddedPhonesFromRequest() {
         String addedPhonesJson = request.getParameter("phonesToAdd");
+        JSONArray addedPhones = new JSONArray(addedPhonesJson);
+        List<Phone> phones = new ArrayList<>();
+        for (int i = 0; i < addedPhones.length(); i++) {
+            JSONObject object = addedPhones.getJSONObject(i);
+            Phone phone = new Phone();
+            phone.setCountryCode(Integer.valueOf(object.getString("countryCode")));
+            phone.setNumber(Integer.valueOf(object.getString("number")));
+            phone.setType(object.getString("type"));
+            phone.setComment(object.getString("comment"));
 
-        //todo
-        return new ArrayList<>();
+            phones.add(phone);
+        }
+
+        return phones;
     }
 
     private List<Phone> buildUpdatedPhonesFromRequest() {
         String updatedPhonesJson = request.getParameter("phonesToUpdate");
 
-        //todo
-        return new ArrayList<>();
+        JSONArray updatedPhones = new JSONArray(updatedPhonesJson);
+        List<Phone> phones = new ArrayList<>();
+        for (int i = 0; i < updatedPhones.length(); i++) {
+            JSONObject object = updatedPhones.getJSONObject(i);
+            Phone phone = new Phone();
+            phone.setId(Long.valueOf(object.getString("id")));
+            phone.setCountryCode(Integer.valueOf(object.getString("countryCode")));
+            phone.setNumber(Integer.valueOf(object.getString("number")));
+            phone.setType(object.getString("type"));
+            phone.setComment(object.getString("comment"));
+
+            phones.add(phone);
+        }
+
+        return phones;
     }
 
     private List<Long> buildDeletedPhonesIdsFromRequest() {

@@ -100,6 +100,7 @@ Email:
         <th></th>
     </tr>
     </thead>
+    <tbody>
     <c:forEach items="${phones}" var="phone">
         <c:url value="/phone" var="deleteUrl">
             <c:param name="id" value="${phone.id}"/>
@@ -116,6 +117,7 @@ Email:
             <td><input type="button" onclick="deletePhone(this)" value="Удалить"></td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
 
 <input type="button" onclick="showPhoneCreationPopup()" value="Создать телефон"/>
