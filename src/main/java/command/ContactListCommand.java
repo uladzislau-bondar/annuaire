@@ -22,9 +22,11 @@ import java.util.Map;
 
 public class ContactListCommand extends AbstractCommand {
     private static Logger logger = LogManager.getLogger(ContactCommand.class);
+    private ContactDao contactDao;
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
+        contactDao = new ContactDao();
     }
 
     @Override
@@ -50,19 +52,21 @@ public class ContactListCommand extends AbstractCommand {
                 break;
             case "POST":
                 if (query.containsKey("method")){
+                    List<Long> ids = StringUtils.stringArrayToListOfLongs(request.getParameterValues("selected"));
                     if (query.get("method").equals("delete")){
-                        List<Long> ids = StringUtils.stringArrayToListOfLongs(request.getParameterValues("selected"));
                         deleteSelectedContacts(ids);
+                        redirect("/");
+
+                    } else if (query.get("method").equals("email")){
+                        emailSelectedContacts(ids);
+                        forward("email");
                     }
                 }
-
-                redirect("/");
                 break;
         }
     }
 
     private void showContactList(int offset){
-        ContactDao contactDao = new ContactDao();
         List<Contact> contactList = contactDao.getWithOffset(10, offset);
 
         AddressDao addressDao = new AddressDao();
@@ -82,12 +86,22 @@ public class ContactListCommand extends AbstractCommand {
     }
 
     private void deleteSelectedContacts(List<Long> ids) {
-        ContactDao contactDao = new ContactDao();
         for (Long id: ids){
             contactDao.delete(id);
 
             logger.info("Deleting contact #" + id);
         }
+    }
+
+    private void emailSelectedContacts(List<Long> ids) {
+        List<String> emails = new ArrayList<>();
+        for (Long id : ids) {
+            emails.add(contactDao.getByEmailById(id));
+        }
+
+        String emailsList = String.join("; ", emails);
+        logger.info(emailsList);
+        request.setAttribute("emails", emailsList);
     }
 
 }

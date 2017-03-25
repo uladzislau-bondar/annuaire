@@ -10,8 +10,13 @@
 </head>
 <body>
 
-<!-- todo first head element of tables -->
+<c:url value="/contact" var="postUrl">
+    <c:if test="${param.id ne null}">
+        <c:param name="id" value="${param.id}"/>
+    </c:if>
+</c:url>
 
+<!-- todo first head element of tables -->
 <input id="photoInput" type="file" name="photo" onchange="changePhoto(this);" accept="image/jpeg" style="display: none;" />
 <img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
 
@@ -145,11 +150,7 @@ Email:
 <input type="button" onclick="showAttachmentCreationPopup()" value="Создать присоединение"/> <br>
 <input type="button" onclick="deleteSelectedAttachments()" value="Удалить выбранные"/> <br>
 
-<c:url value="/contact" var="postUrl">
-    <c:if test="${param.id ne null}">
-        <c:param name="id" value="${param.id}"/>
-    </c:if>
-</c:url>
+
 <input type="button" value="Сохранить" onclick="save('${postUrl}')"/>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Contact List</title>
+    <script type="text/javascript" src="../../resources/js/index.js" ></script>
 </head>
 <body>
 <a href="<c:url value="/search" /> ">
@@ -12,8 +13,11 @@
 <c:url value="/" var="deleteSelectedUrl">
     <c:param name="method" value="delete"/>
 </c:url>
+<c:url value="/" var="emailSelectedUrl">
+    <c:param name="method" value="email"/>
+</c:url>
 
-<form action="${deleteSelectedUrl}" method="post">
+<form id="contactsForm" action="<c:url value="/" />" method="post" onsubmit="checkButton()">
     <table>
         <tr>
             <th></th>
@@ -54,15 +58,12 @@
         </c:forEach>
     </table>
 
-    <input type="submit" value="Удалить">
+    <input id="deleteButton" type="button" value="Удалить" onclick="processSelected(this)">
+    <input id="emailButton" type="button" value="Отправить email" onclick="processSelected(this)">
 </form>
 
 <a href="<c:url value="/contact" />">
     <input type="button" value="Create">
-</a>
-
-<a href="email.jsp">
-    <input type="button" value="Send email">
 </a>
 </body>
 </html>

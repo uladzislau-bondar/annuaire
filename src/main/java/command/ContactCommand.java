@@ -314,7 +314,7 @@ public class ContactCommand extends AbstractCommand {
 
     private void buildPhotoFromRequest() throws ServletException, IOException {
         Part photo = request.getPart("photo");
-        InputStream fileContent = photo.getInputStream();
+        
         String applicationPath = request.getServletContext().getRealPath("");
         String uploadFilePath = applicationPath + File.separator + "/uploads";
 

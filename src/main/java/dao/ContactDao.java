@@ -146,6 +146,25 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return contacts;
     }
 
+    public String getByEmailById(Long id) {
+        String email = null;
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_EMAIL_BY_ID)) {
+            statement.setLong(1, id);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+            if (set.next()){
+                email = set.getString("email");
+            }
+
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return email;
+    }
+
     private List<Contact> fillListFromResultSet(ResultSet set) throws SQLException {
         List<Contact> contacts = new ArrayList<>();
 
