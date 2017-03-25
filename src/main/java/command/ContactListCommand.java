@@ -7,16 +7,21 @@ import dao.PhoneDao;
 import dto.ContactDto;
 import entities.Address;
 import entities.Contact;
+import org.antlr.stringtemplate.StringTemplate;
+import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DtoUtils;
 import util.StringUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +64,7 @@ public class ContactListCommand extends AbstractCommand {
 
                     } else if (query.get("method").equals("email")){
                         emailSelectedContacts(ids);
-                        forward("email");
+                        forward("/email");
                     }
                 }
                 break;
@@ -93,14 +98,26 @@ public class ContactListCommand extends AbstractCommand {
         }
     }
 
-    private void emailSelectedContacts(List<Long> ids) {
+    private void emailSelectedContacts(List<Long> ids) throws IOException{
         List<String> emails = new ArrayList<>();
         for (Long id : ids) {
-            emails.add(contactDao.getByEmailById(id));
+            emails.add(contactDao.getEmailById(id));
         }
 
-        String emailsList = String.join("; ", emails);
+        String emailsList = emails.size() < 2 ? "" : String.join("; ", emails);
         logger.info(emailsList);
+
+        ServletContext context = request.getServletContext();
+        String templatePath = context.getRealPath("/WEB-INF/templates");
+        StringTemplateGroup group = new StringTemplateGroup("email", templatePath);
+        StringTemplate birthday = group.getInstanceOf("birthday");
+        StringTemplate christmas = group.getInstanceOf("christmas");
+
+        Map<String, String> templates = new HashMap<>();
+        templates.put("birthday", birthday.getTemplate());
+        templates.put("christmas", christmas.getTemplate());
+
+        request.setAttribute("templates", templates);
         request.setAttribute("emails", emailsList);
     }
 

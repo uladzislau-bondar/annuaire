@@ -146,7 +146,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return contacts;
     }
 
-    public String getByEmailById(Long id) {
+    public String getEmailById(Long id) {
         String email = null;
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_EMAIL_BY_ID)) {
             statement.setLong(1, id);

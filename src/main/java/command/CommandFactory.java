@@ -23,6 +23,9 @@ public class CommandFactory {
             case "/attachment":
                 command = new AttachmentCommand(request, response);
                 break;
+            case "/email":
+                command = new EmailCommand(request, response);
+                break;
         }
 
         return command;
