@@ -6,12 +6,15 @@
     <script type="text/javascript" src="../../resources/js/save.js"></script>
     <script type="text/javascript" src="../../resources/js/phone.js"></script>
     <script type="text/javascript" src="../../resources/js/attachment.js"></script>
+    <script type="text/javascript" src="../../resources/js/photo.js"></script>
 </head>
 <body>
 
 <!-- todo first head element of tables -->
 
-<!-- todo photo form -->
+<input id="photoInput" type="file" name="photo" onchange="changePhoto(this);" style="display: none;" />
+<img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
+
 Имя:
 <input type="text" name="firstName"
        value="<c:out value="${firstName}" />"
