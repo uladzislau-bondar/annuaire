@@ -2,6 +2,7 @@ function save(path) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", path);
+    form.setAttribute("enctype", "multipart/form-data");
 
     var contact = parseContact();
     var address = parseAddress();
@@ -31,6 +32,9 @@ function save(path) {
     appendObjectToForm(form, address);
     appendObjectToForm(form, phonesObject);
     appendArrayToForm(form, deletedPhones);
+    appendPhotoToForm(form);
+
+    alert(form.innerHTML);
 
     document.body.appendChild(form);
     form.submit();
@@ -42,17 +46,22 @@ function appendArrayToForm(form, array) {
     });
 }
 
-function appendObjectToForm(form, item) {
-    for (var key in item) {
-        if (item.hasOwnProperty(key)) {
+function appendObjectToForm(form, obj) {
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
             var hiddenField = document.createElement("input");
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", item[key]);
+            hiddenField.setAttribute("value", obj[key]);
 
             form.appendChild(hiddenField);
         }
     }
+}
+
+function appendPhotoToForm(form) {
+    var photo = document.getElementById("photoInput").cloneNode(true);
+    form.appendChild(photo);
 }
 
 function parsePhones() {

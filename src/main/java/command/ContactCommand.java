@@ -22,7 +22,11 @@ import util.StringUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -118,6 +122,12 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void updateContact(Long id) {
+        try{
+            buildPhotoFromRequest();
+        } catch (Exception e){
+            logger.error(e);
+        }
+
         //todo transaction
         Contact contact = buildContactFromRequest();
         contact.setId(id);
@@ -300,6 +310,24 @@ public class ContactCommand extends AbstractCommand {
 
     private List<Long> buildDeletedPhonesIdsFromRequest() {
         return StringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
+    }
+
+    private void buildPhotoFromRequest() throws ServletException, IOException {
+        Part photo = request.getPart("photo");
+        InputStream fileContent = photo.getInputStream();
+        String applicationPath = request.getServletContext().getRealPath("");
+        String uploadFilePath = applicationPath + File.separator + "/uploads";
+
+        File fileSaveDir = new File(uploadFilePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdirs();
+        }
+        System.out.println("Upload File Directory="+fileSaveDir.getAbsolutePath());
+
+        String fileName = null;
+        photo.write(uploadFilePath + File.separator + "hello.img");
+
+
     }
 
 }

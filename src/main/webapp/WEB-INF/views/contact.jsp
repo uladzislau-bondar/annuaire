@@ -12,7 +12,7 @@
 
 <!-- todo first head element of tables -->
 
-<input id="photoInput" type="file" name="photo" onchange="changePhoto(this);" style="display: none;" />
+<input id="photoInput" type="file" name="photo" onchange="changePhoto(this);" accept="image/jpeg" style="display: none;" />
 <img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
 
 Имя:
