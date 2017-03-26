@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -163,6 +164,26 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         }
 
         return email;
+    }
+
+    public List<String> getEmailsByDateOfBirth(Date date) {
+        List<String> emails = new ArrayList<>();
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_EMAILS_BY_DATE_OF_BIRTH)) {
+            statement.setDate(1, date);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+            while (set.next()){
+                String email = set.getString("email");
+                emails.add(email);
+            }
+
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return emails;
     }
 
     private List<Contact> fillListFromResultSet(ResultSet set) throws SQLException {

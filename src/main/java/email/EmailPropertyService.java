@@ -46,5 +46,9 @@ public class EmailPropertyService {
     public String getUsername(){ return properties.getProperty("username");}
 
     public String getPassword(){return properties.getProperty("password");}
+
+    public String getAdminEmail(){return properties.getProperty("admin.email");}
+
+    public String getSender(){return properties.getProperty("from");}
 }
 
