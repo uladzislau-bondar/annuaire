@@ -140,7 +140,7 @@ Email:
             <td><c:out value="${attachment.name}"/></td>
             <td><c:out value="${attachment.dateOfUpload}"/></td>
             <td><c:out value="${attachment.comment}"/></td>
-            <td><input type="file" name="file" style="visibility:hidden;"></td>
+            <td><input type="file" name="file" style="display:none;"/></td>
             <td><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
             <td><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
         </tr>

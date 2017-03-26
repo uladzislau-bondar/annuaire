@@ -13,7 +13,7 @@
 Комментарий:
 <input type="text" name="comment" maxlength="64"/> <br>
 Выберите файл:
-<input type="file" name="file" />
+<input type="button" value="Выберите файл" onclick="pickFile()"/>
 
 <input type="button" value="Сохранить" onclick="saveAttachment()" />
 <input type="button" value="Отменить" onclick="closePopup()"/>

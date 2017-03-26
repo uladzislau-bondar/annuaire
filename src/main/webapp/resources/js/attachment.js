@@ -15,7 +15,6 @@ function editAttachment(element) {
         popup.document.getElementsByName("name")[0].value = attachment.name;
         popup.document.getElementsByName("dateOfUpload")[0].value = attachment.dateOfUpload;
         popup.document.getElementsByName("comment")[0].value = attachment.comment;
-        popup.document.getElementsByName("file")[0].value = attachment.file;
     }
 }
 
@@ -35,9 +34,17 @@ function createNewAttachment() {
         var attachment = parseAttachmentFromPopup();
         attachment.id = generateId();
         //todo add date
-        alert(attachment.file.name);
         appendAddedAttachmentRow(attachment);
     }
+}
+
+function pickFile() {
+    var id = document.getElementsByName("id")[0].value;
+    var fileInput = window.opener.document.getElementById("attachment"+id).children[5].getElementsByTagName("input")[0];
+    alert(fileInput.name);
+    fileInput.click();
+
+    //todo return focus
 }
 
 function updateAttachment(id) {
@@ -53,8 +60,6 @@ function updateAttachment(id) {
         window.opener.document.getElementById("attachment" + id).children[2].innerHTML = attachment.name;
         window.opener.document.getElementById("attachment" + id).children[3].innerHTML = attachment.dateOfUpload;
         window.opener.document.getElementById("attachment" + id).children[4].innerHTML = attachment.comment;
-        window.opener.document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0].value =
-            attachment.file;
     }
 }
 
@@ -112,8 +117,6 @@ function parseAttachmentFromPopup() {
     attachment.name = document.getElementsByName("name")[0].value;
     attachment.dateOfUpload = document.getElementsByName("dateOfUpload")[0].value;
     attachment.comment = document.getElementsByName("comment")[0].value;
-    attachment.file = document.getElementsByName("file")[0].files[0];
-    alert(attachment.file.name);
 
     return attachment;
 }
@@ -125,7 +128,6 @@ function parseAttachmentFromWindow(id) {
     attachment.name = document.getElementById("attachment" + id).children[2].innerHTML;
     attachment.dateOfUpload = document.getElementById("attachment" + id).children[3].innerHTML;
     attachment.comment = document.getElementById("attachment" + id).children[4].innerHTML;
-    attachment.file = document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0].files[0];
 
     return attachment;
 }
@@ -139,7 +141,6 @@ function appendAddedAttachmentRow(attachment) {
         "<td>" + attachment.name + "</td>" +
         "<td>" + attachment.dateOfUpload + "</td>" +
         "<td>" + attachment.comment + "</td>" +
-        "<td><input type='file' name='file' style='visibility:hidden;' value='" + attachment.file + "'></td>" +
         "<td><input type='button' value='Изменить' onclick='editAttachment(this)'></td>" +
         "<td><input type='button' value='Удалить' onclick='deleteAttachment(this)'></td>";
     window.opener.document.getElementById("attachmentsTable").getElementsByTagName("tbody")[0].appendChild(tr);
