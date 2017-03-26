@@ -99,8 +99,16 @@
             <column name="id" value="1"/>
             <column name="firstName" value="colin"/>
             <column name="lastName" value="zeal"/>
-            <column name="dateOfBirth" valueComputed="${now}"/>
+            <column name="dateOfBirth" valueDate="2017-03-27"/>
             <column name="placeOfWork" value="bsuir"/>
+        </insert>
+
+        <insert tableName="contacts">
+            <column name="id" value="2"/>
+            <column name="firstName" value="john"/>
+            <column name="lastName" value="smith"/>
+            <column name="dateOfBirth" valueDate="2017-03-27"/>
+            <column name="placeOfWork" value="st wilford's school"/>
         </insert>
 
         <insert tableName="addresses">
