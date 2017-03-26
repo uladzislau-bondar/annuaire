@@ -36,7 +36,7 @@ public class SearchCommand extends AbstractCommand {
             case "POST":
                 search();
 
-                //todo redirect to index page
+                forward("index");
                 break;
             default:
                 forward("error");
@@ -58,6 +58,10 @@ public class SearchCommand extends AbstractCommand {
         String sex = request.getParameter("sex");
         String citizenship = request.getParameter("citizenship");
         String maritalStatus = request.getParameter("maritalStatus");
+        String country = request.getParameter("country");
+        String city = request.getParameter("city");
+        String address = request.getParameter("address");
+        int zip = Integer.valueOf(request.getParameter("zip"));
 
         //todo process retrieving contacts from db and redirecting to index page
     }
