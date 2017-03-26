@@ -17,7 +17,7 @@
     <c:param name="method" value="email"/>
 </c:url>
 
-<form id="contactsForm" action="<c:url value="/" />" method="post" onsubmit="checkButton()">
+<form id="contactsForm" action="<c:url value="/" />" method="post">
     <table>
         <tr>
             <th></th>

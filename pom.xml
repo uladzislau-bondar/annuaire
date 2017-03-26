@@ -99,6 +99,14 @@
             <version>4.0.7</version>
         </dependency>
 
+        <!-- Apache Commons Email -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+
 
     </dependencies>
 

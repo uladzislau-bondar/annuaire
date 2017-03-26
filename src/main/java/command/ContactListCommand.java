@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ContactListCommand extends AbstractCommand {
-    private static Logger logger = LogManager.getLogger(ContactCommand.class);
+    private static Logger logger = LogManager.getLogger(ContactListCommand.class);
     private ContactDao contactDao;
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
@@ -64,7 +64,7 @@ public class ContactListCommand extends AbstractCommand {
 
                     } else if (query.get("method").equals("email")){
                         emailSelectedContacts(ids);
-                        forward("/email");
+                        forward("email");
                     }
                 }
                 break;
@@ -104,7 +104,8 @@ public class ContactListCommand extends AbstractCommand {
             emails.add(contactDao.getEmailById(id));
         }
 
-        String emailsList = emails.size() < 2 ? "" : String.join("; ", emails);
+        //todo
+        String emailsList = String.join("; ", emails);
         logger.info(emailsList);
 
         ServletContext context = request.getServletContext();

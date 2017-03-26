@@ -1,5 +1,5 @@
 function changeTemplate(index) {
-    var textarea = document.getElementById("text");
+    var textarea = document.getElementById("message");
     if (index == 0){
         textarea.value = "";
     } else if (index == 1){

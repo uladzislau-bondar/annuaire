@@ -11,7 +11,7 @@
     <input type="text" name="emails"
            value="${emails}"><br>
     Тема:
-    <input type="text" name="topic"/> <br>
+    <input type="text" name="subject"/> <br>
     Шаблон:
     <select onchange="changeTemplate(this.selectedIndex)">
         <option value="default">...</option>
@@ -23,10 +23,10 @@
         <input type="hidden" name="${template.key}" value="${template.value}"/>
     </c:forEach>
 
-    <textarea id="text">
+    <textarea id="message" name="message">
     </textarea> <br>
 
-    <input type="button" value="Отправить" />
+    <input type="submit" value="Отправить" />
     <input type="button" value="Отменить" />
 </form>
 </body>
