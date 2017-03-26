@@ -1,9 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Contact List</title>
-    <script type="text/javascript" src="../../resources/js/index.js" ></script>
+    <script type="text/javascript" src="../../resources/js/index.js"></script>
 </head>
 <body>
 <a href="<c:url value="/search" /> ">
@@ -65,5 +67,18 @@
 <a href="<c:url value="/contact" />">
     <input type="button" value="Create">
 </a>
+
+<div class="pagination">
+    <fmt:parseNumber var="pagesCount" type="number" value="${fn:length(contactList)/10}"/>
+    <c:set var="currentPage" value="${empty param.offset ? 0 : param.offset}"/>
+
+    <c:forEach begin="0" end="${pagesCount}" var="page">
+        <c:url var="url" value="/">
+            <c:param name="offset" value="${page*10}"/>
+        </c:url>
+        <a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>
+        <c:out value="${page+1}"/></a>
+    </c:forEach>
+</div>
 </body>
 </html>
