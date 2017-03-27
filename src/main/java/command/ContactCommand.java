@@ -312,6 +312,7 @@ public class ContactCommand extends AbstractCommand {
         return StringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
     }
 
+    // todo uploading doesn't work
     private void buildPhotoFromRequest() throws ServletException, IOException {
         Part photo = request.getPart("photo");
         
@@ -322,12 +323,10 @@ public class ContactCommand extends AbstractCommand {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
-        System.out.println("Upload File Directory="+fileSaveDir.getAbsolutePath());
-
-        String fileName = null;
+        logger.info("Upload File Directory="+fileSaveDir.getAbsolutePath());
+        String fileName = Paths.get(photo.getSubmittedFileName()).getFileName().toString();
+        logger.info(fileName);
         photo.write(uploadFilePath + File.separator + "hello.img");
-
-
     }
 
 }

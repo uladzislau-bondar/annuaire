@@ -1,11 +1,5 @@
-function save(path) {
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", path);
-    form.setAttribute("enctype", "multipart/form-data");
-
-    var contact = parseContact();
-    var address = parseAddress();
+function save() {
+    var form = document.getElementById("form");
 
     var phoneDtos = parsePhones();
     var phones = [];
@@ -28,15 +22,9 @@ function save(path) {
         form.appendChild(item);
     });
 
-    appendObjectToForm(form, contact);
-    appendObjectToForm(form, address);
     appendObjectToForm(form, phonesObject);
     appendArrayToForm(form, deletedPhones);
-    appendPhotoToForm(form);
 
-    alert(form.innerHTML);
-
-    document.body.appendChild(form);
     form.submit();
 }
 
@@ -59,10 +47,6 @@ function appendObjectToForm(form, obj) {
     }
 }
 
-function appendPhotoToForm(form) {
-    var photo = document.getElementById("photoInput").cloneNode(true);
-    form.appendChild(photo);
-}
 
 function parsePhones() {
     var phones = [];
@@ -86,32 +70,6 @@ function parsePhone(row) {
     phone.comment = row.children[4].innerHTML;
 
     return phone;
-}
-
-function parseContact() {
-    var contact = {};
-    contact.firstName = document.getElementsByName("firstName")[0].value;
-    contact.lastName = document.getElementsByName("lastName")[0].value;
-    contact.middleName = document.getElementsByName("middleName")[0].value;
-    contact.dateOfBirth = document.getElementsByName("dateOfBirth")[0].value;
-    contact.sex = document.getElementsByName("sex")[0].value;
-    contact.citizenship = document.getElementsByName("citizenship")[0].value;
-    contact.maritalStatus = document.getElementsByName("maritalStatus")[0].value;
-    contact.website = document.getElementsByName("website")[0].value;
-    contact.email = document.getElementsByName("email")[0].value;
-    contact.placeOfWork = document.getElementsByName("placeOfWork")[0].value;
-
-    return contact;
-}
-
-function parseAddress() {
-    var address = {};
-    address.country = document.getElementsByName("country")[0].value;
-    address.city = document.getElementsByName("city")[0].value;
-    address.address = document.getElementsByName("address")[0].value;
-    address.zip = document.getElementsByName("zip")[0].value;
-
-    return address;
 }
 
 function parseDeletedPhones() {
