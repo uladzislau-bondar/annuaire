@@ -3,8 +3,8 @@ package db;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import properties.DBPropertyService;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -18,13 +18,13 @@ public class Connector {
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                String jdbcDriverClassName = PropertyService.getInstance().getJDBCDriver();
+                String jdbcDriverClassName = DBPropertyService.getInstance().getJDBCDriver();
                 Driver driver = (Driver) Class.forName(jdbcDriverClassName).newInstance();
                 DriverManager.registerDriver(driver);
 
-                String url = PropertyService.getInstance().getJDBCUrl();
-                String username = PropertyService.getInstance().getJDBCUsername();
-                String password = PropertyService.getInstance().getJDBCPassword();
+                String url = DBPropertyService.getInstance().getJDBCUrl();
+                String username = DBPropertyService.getInstance().getJDBCUsername();
+                String password = DBPropertyService.getInstance().getJDBCPassword();
 
                 connection = DriverManager.getConnection(url, username, password);
             }

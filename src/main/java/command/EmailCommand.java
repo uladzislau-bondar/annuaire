@@ -1,7 +1,7 @@
 package command;
 
+import properties.EmailPropertyService;
 
-import email.EmailPropertyService;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;

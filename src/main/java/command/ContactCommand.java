@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import properties.UploadPropertyService;
 import util.DtoUtils;
 import util.StringUtils;
 
@@ -111,9 +112,14 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void saveContact() {
-        //todo transaction
         Contact contact = buildContactFromRequest();
         Long contactId = contactDao.save(contact);
+
+        try {
+            buildPhotoFromRequest(contactId);
+        } catch (Exception e) {
+            logger.error(e);
+        }
 
         processAddressSaving(contactId);
         processPhones(contactId);
@@ -122,9 +128,9 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void updateContact(Long id) {
-        try{
-            buildPhotoFromRequest();
-        } catch (Exception e){
+        try {
+            buildPhotoFromRequest(id);
+        } catch (Exception e) {
             logger.error(e);
         }
 
@@ -313,20 +319,18 @@ public class ContactCommand extends AbstractCommand {
     }
 
     // todo uploading doesn't work
-    private void buildPhotoFromRequest() throws ServletException, IOException {
+    private void buildPhotoFromRequest(Long contactId) throws ServletException, IOException {
         Part photo = request.getPart("photo");
-        
-        String applicationPath = request.getServletContext().getRealPath("");
-        String uploadFilePath = applicationPath + File.separator + "/uploads";
+
+        String uploadFilePath = UploadPropertyService.getInstance().getPath() + File.separator + "/contact" + contactId;
 
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
-        logger.info("Upload File Directory="+fileSaveDir.getAbsolutePath());
         String fileName = Paths.get(photo.getSubmittedFileName()).getFileName().toString();
         logger.info(fileName);
-        photo.write(uploadFilePath + File.separator + "hello.img");
+        photo.write(uploadFilePath + File.separator + fileName);
     }
 
 }
