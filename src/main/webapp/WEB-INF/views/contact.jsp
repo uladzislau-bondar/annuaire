@@ -187,9 +187,7 @@
             <input type="text" name="name" pattern="\d+"/> <br>
             <input type="hidden" name="dateOfUpload"/>
             Комментарий:
-            <input type="text" name="comment" maxlength="64"/> <br>
-            Выберите файл:
-            <input type="button" value="Выберите файл" onclick="pickFile()"/>
+            <input type="text" id="attachmentComment" name="comment" maxlength="64"/> <br>
 
             <input type="button" value="Сохранить" onclick="saveAttachment()"/>
             <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>

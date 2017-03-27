@@ -155,6 +155,7 @@ function generateId() {
 
 function openAttachmentModal() {
     var modal = document.getElementById('attachmentModal');
+    insertAfter(fileInput(), document.getElementById("attachmentComment"));
     modal.style.display = "block";
 }
 
@@ -162,4 +163,16 @@ function closeAttachmentModal() {
     var modal = document.getElementById('attachmentModal');
     clearModal();
     modal.style.display = "none";
+}
+
+function fileInput() {
+    var input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("name", "attachment");
+
+    return input;
+}
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
