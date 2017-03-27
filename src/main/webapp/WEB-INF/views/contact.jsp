@@ -3,6 +3,7 @@
 <html>
 <head>
     <title><c:out value="${title}"/></title>
+    <script type="text/javascript" src="../../resources/js/contact.js"></script>
     <script type="text/javascript" src="../../resources/js/save.js"></script>
     <script type="text/javascript" src="../../resources/js/phone.js"></script>
     <script type="text/javascript" src="../../resources/js/attachment.js"></script>
@@ -150,7 +151,7 @@ Email:
     </c:forEach>
     </tbody>
 </table>
-<input type="button" onclick="showAttachmentCreationPopup()" value="Создать присоединение"/> <br>
+<input type="button" onclick="openAttachmentModal()" value="Создать присоединение"/> <br>
 <input type="button" onclick="deleteSelectedAttachments()" value="Удалить выбранные"/> <br>
 
 <input type="button" value="Сохранить" onclick="save('${postUrl}')"/>
@@ -175,6 +176,24 @@ Email:
 
         <input type="button" value="Сохранить" onclick="savePhone()"/>
         <input type="button" value="Отменить" onclick="closePhoneModal()"/>
+    </div>
+</div>
+
+<div id="attachmentModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAttachmentModal()">&times;</span>
+        <input type="hidden" name="hidden" />
+        <input type="hidden" name="id" />
+        Название:
+        <input type="text" name="name" pattern="\d+"/> <br>
+        <input type="hidden" name="dateOfUpload" />
+        Комментарий:
+        <input type="text" name="comment" maxlength="64"/> <br>
+        Выберите файл:
+        <input type="button" value="Выберите файл" onclick="pickFile()"/>
+
+        <input type="button" value="Сохранить" onclick="saveAttachment()" />
+        <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>
     </div>
 </div>
 

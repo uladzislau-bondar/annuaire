@@ -1,72 +1,75 @@
-function showAttachmentCreationPopup() {
-    var popup = window.open("/attachment", "Create new attachment", "width=800, height=800");
-    popup.focus();
-}
-
 function editAttachment(element) {
-    //todo refactor getting id
     var id = element.parentNode.parentNode.id.substring(10);
-    var popup = window.open("/attachment", "Edit attachment", "width=800, height=800");
-    popup.focus();
-    popup.onload = function () {
-        var attachment = parseAttachmentFromWindow(id);
-        popup.document.getElementsByName("hidden")[0].value = attachment.hidden;
-        popup.document.getElementsByName("id")[0].value = attachment.id;
-        popup.document.getElementsByName("name")[0].value = attachment.name;
-        popup.document.getElementsByName("dateOfUpload")[0].value = attachment.dateOfUpload;
-        popup.document.getElementsByName("comment")[0].value = attachment.comment;
-    }
+    var attachment = parseAttachmentFromWindow(id);
+
+    var modal = document.getElementById('attachmentModal');
+    var inputs = modal.getElementsByTagName("input");
+
+    inputs[0].value = attachment.hidden;
+    inputs[1].value = attachment.id;
+    inputs[2].value = attachment.name;
+    inputs[3].value = attachment.dateOfUpload;
+    inputs[4].value = attachment.comment;
+
+    modal.style.display = "block";
 }
 
 function saveAttachment() {
-    if (document.getElementsByName("id")[0].value != '') {
-        var id = document.getElementsByName("id")[0].value;
+    var modal = document.getElementById('attachmentModal');
+    if (modal.getElementsByTagName("input")[1].value != '') {
+        var id = modal.getElementsByTagName("input")[1].value;
 
         updateAttachment(id);
     } else {
         createNewAttachment();
     }
-    window.close();
+
+    clearModal();
+    modal.style.display = "none";
+}
+
+function clearModal() {
+    var inputs = document.getElementById('attachmentModal').getElementsByTagName("input");
+    inputs[0].value = "";
+    inputs[1].value = "";
+    inputs[2].value = "";
+    inputs[3].value = "";
+    inputs[4].value = "";
 }
 
 function createNewAttachment() {
-    if (window.opener != null) {
-        var attachment = parseAttachmentFromPopup();
-        attachment.id = generateId();
-        //todo add date
-        appendAddedAttachmentRow(attachment);
-    }
+    var attachment = parseAttachmentFromModal();
+    attachment.id = generateId();
+    //todo add date
+    appendAddedAttachmentRow(attachment);
 }
 
+//todo change
 function pickFile() {
     var id = document.getElementsByName("id")[0].value;
-    var fileInput = window.opener.document.getElementById("attachment"+id).children[5].getElementsByTagName("input")[0];
+    var fileInput = window.opener.document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0];
     alert(fileInput.name);
     fileInput.click();
-
-    //todo return focus
 }
 
 function updateAttachment(id) {
-    if (window.opener != null) {
-        var attachment = parseAttachmentFromPopup();
-        if (attachment.hidden == 'existed'){
-            attachment.hidden = 'updated';
-        }
-        window.opener.document.getElementById("attachment" + id).children[0].getElementsByTagName("input")[0].value =
-            attachment.hidden;
-        window.opener.document.getElementById("attachment" + id).children[1].getElementsByTagName("input")[0].value =
-            attachment.id;
-        window.opener.document.getElementById("attachment" + id).children[2].innerHTML = attachment.name;
-        window.opener.document.getElementById("attachment" + id).children[3].innerHTML = attachment.dateOfUpload;
-        window.opener.document.getElementById("attachment" + id).children[4].innerHTML = attachment.comment;
+    var attachment = parseAttachmentFromModal();
+    if (attachment.hidden == 'existed') {
+        attachment.hidden = 'updated';
     }
+    document.getElementById("attachment" + id).children[0].getElementsByTagName("input")[0].value =
+        attachment.hidden;
+    document.getElementById("attachment" + id).children[1].getElementsByTagName("input")[0].value =
+        attachment.id;
+    document.getElementById("attachment" + id).children[2].innerHTML = attachment.name;
+    document.getElementById("attachment" + id).children[3].innerHTML = attachment.dateOfUpload;
+    document.getElementById("attachment" + id).children[4].innerHTML = attachment.comment;
 }
 
 function deleteAttachmentById(id) {
     var type = document.getElementById("attachment" + id).children[0].getElementsByTagName("input")[0].value;
 
-    if (type == 'added'){
+    if (type == 'added') {
         deleteAttachmentRow(id);
     } else {
         deleteExistedAttachment(id);
@@ -84,12 +87,11 @@ function deleteSelectedAttachments() {
         var checkBox = row.getElementsByTagName("td")[1].getElementsByTagName("input")[0];
         var id = checkBox.value;
 
-        if (checkBox.checked){
+        if (checkBox.checked) {
             deleteAttachmentById(id);
         }
     })
 }
-
 
 
 function deleteAttachmentRow(id) {
@@ -110,13 +112,14 @@ function closePopup() {
     window.close();
 }
 
-function parseAttachmentFromPopup() {
+function parseAttachmentFromModal() {
+    var inputs = document.getElementById('attachmentModal').getElementsByTagName("input");
     var attachment = {};
-    attachment.hidden = document.getElementsByName("hidden")[0].value;
-    attachment.id = document.getElementsByName("id")[0].value;
-    attachment.name = document.getElementsByName("name")[0].value;
-    attachment.dateOfUpload = document.getElementsByName("dateOfUpload")[0].value;
-    attachment.comment = document.getElementsByName("comment")[0].value;
+    attachment.hidden = inputs[0].value;
+    attachment.id = inputs[1].value;
+    attachment.name = inputs[2].value;
+    attachment.dateOfUpload = inputs[3].value;
+    attachment.comment = inputs[4].value;
 
     return attachment;
 }
@@ -134,18 +137,29 @@ function parseAttachmentFromWindow(id) {
 
 
 function appendAddedAttachmentRow(attachment) {
-    var tr = window.opener.document.createElement("tr");
+    var tr = document.createElement("tr");
     tr.setAttribute("id", "attachment" + attachment.id);
     tr.innerHTML = "<td><input type='hidden' value='added'></td>" +
-        "<td><input type='checkbox' name='selected' value="+ attachment.id + "></td>" +
+        "<td><input type='checkbox' name='selected' value=" + attachment.id + "></td>" +
         "<td>" + attachment.name + "</td>" +
         "<td>" + attachment.dateOfUpload + "</td>" +
         "<td>" + attachment.comment + "</td>" +
         "<td><input type='button' value='Изменить' onclick='editAttachment(this)'></td>" +
         "<td><input type='button' value='Удалить' onclick='deleteAttachment(this)'></td>";
-    window.opener.document.getElementById("attachmentsTable").getElementsByTagName("tbody")[0].appendChild(tr);
+    document.getElementById("attachmentsTable").getElementsByTagName("tbody")[0].appendChild(tr);
 }
 
 function generateId() {
     return (new Date()).getTime();
+}
+
+function openAttachmentModal() {
+    var modal = document.getElementById('attachmentModal');
+    modal.style.display = "block";
+}
+
+function closeAttachmentModal() {
+    var modal = document.getElementById('attachmentModal');
+    clearModal();
+    modal.style.display = "none";
 }

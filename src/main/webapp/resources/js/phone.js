@@ -179,14 +179,6 @@ function generateId() {
     return (new Date()).getTime();
 }
 
-
-window.onclick = function (event) {
-    var modal = document.getElementById('phoneModal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
-
 function openPhoneModal() {
     var modal = document.getElementById('phoneModal');
     modal.style.display = "block";
@@ -194,5 +186,6 @@ function openPhoneModal() {
 
 function closePhoneModal() {
     var modal = document.getElementById('phoneModal');
+    clearModal();
     modal.style.display = "none";
 }
