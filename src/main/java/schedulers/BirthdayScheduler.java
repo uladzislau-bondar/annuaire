@@ -12,7 +12,7 @@ public class BirthdayScheduler {
 
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity("birthday")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 12 * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 0 * * ?"))
                 .startNow()
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);

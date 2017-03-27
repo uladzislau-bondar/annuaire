@@ -177,6 +177,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             while (set.next()){
                 String email = set.getString("email");
                 emails.add(email);
+
+                logger.info(email);
             }
 
         } catch (SQLException e) {
