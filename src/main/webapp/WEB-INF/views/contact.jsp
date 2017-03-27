@@ -7,6 +7,8 @@
     <script type="text/javascript" src="../../resources/js/phone.js"></script>
     <script type="text/javascript" src="../../resources/js/attachment.js"></script>
     <script type="text/javascript" src="../../resources/js/photo.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../resources/css/contact.css">
 </head>
 <body>
 
@@ -17,7 +19,8 @@
 </c:url>
 
 <!-- todo first head element of tables -->
-<input id="photoInput" type="file" name="photo" onchange="changePhoto(this);" accept="image/jpeg" style="display: none;" />
+<input id="photoInput" type="file" name="photo" onchange="changePhoto(this);" accept="image/jpeg"
+       style="display: none;"/>
 <img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
 
 Имя:
@@ -118,7 +121,7 @@ Email:
     </c:forEach>
     </tbody>
 </table>
-<input type="button" onclick="showPhoneCreationPopup()" value="Создать телефон"/> <br>
+<input type="button" onclick="openPhoneModal()" value="Создать телефон"/> <br>
 <input type="button" onclick="deleteSelectedPhones()" value="Удалить выбранные"/> <br>
 
 <table id="attachmentsTable">
@@ -150,7 +153,30 @@ Email:
 <input type="button" onclick="showAttachmentCreationPopup()" value="Создать присоединение"/> <br>
 <input type="button" onclick="deleteSelectedAttachments()" value="Удалить выбранные"/> <br>
 
-
 <input type="button" value="Сохранить" onclick="save('${postUrl}')"/>
+
+<div id="phoneModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closePhoneModal()">&times;</span>
+        <input type="hidden" name="hidden"/>
+        <input type="hidden" name="id"/>
+        Код страны:
+        <input type="text" name="countryCode" pattern="\d+"/> <br>
+        Номер телефона:
+        <input type="text" name="number" pattern="\d+"/> <br>
+        <!-- todo deal with radio -->
+        Тип телефона:
+        <input type="radio" name="type"
+               value="HOME">Домашний</input>
+        <input type="radio" name="type"
+               value="MOBILE">Мобильный</input><br>
+        Комментарий:
+        <input type="text" name="comment" maxlength="64"/> <br>
+
+        <input type="button" value="Сохранить" onclick="savePhone()"/>
+        <input type="button" value="Отменить" onclick="closePhoneModal()"/>
+    </div>
+</div>
+
 </body>
 </html>

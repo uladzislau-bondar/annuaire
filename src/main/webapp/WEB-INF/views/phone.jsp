@@ -9,7 +9,6 @@
 <input type="hidden" name="id" />
 Код страны:
 <input type="text" name="countryCode" pattern="\d+"/> <br>
-</body>
 Номер телефона:
 <input type="text" name="number" pattern="\d+"/> <br>
 <!-- todo deal with radio -->
