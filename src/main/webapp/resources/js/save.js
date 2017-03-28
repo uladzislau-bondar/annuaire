@@ -22,8 +22,14 @@ function save() {
         form.appendChild(item);
     });
 
+    var deletedAttachments = parseDeletedAttachments();
+    deletedAttachments.forEach(function (item) {
+        form.appendChild(item);
+    });
+
     appendObjectToForm(form, phonesObject);
     appendArrayToForm(form, deletedPhones);
+    appendArrayToForm(form, deletedAttachments);
 
     form.submit();
 }
@@ -74,4 +80,9 @@ function parsePhone(row) {
 
 function parseDeletedPhones() {
     return Array.prototype.slice.call(document.getElementsByName("phoneToDelete"));
+}
+
+function parseDeletedAttachments()
+{
+    return Array.prototype.slice.call(document.getElementsByName("attachmentToDelete"));
 }

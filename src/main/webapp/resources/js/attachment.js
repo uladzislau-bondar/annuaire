@@ -10,6 +10,7 @@ function editAttachment(element) {
     inputs[2].value = attachment.name;
     inputs[3].value = attachment.dateOfUpload;
     inputs[4].value = attachment.comment;
+    showFileInput(id);
 
     modal.style.display = "block";
 }
@@ -50,9 +51,20 @@ function createNewAttachment() {
 
 function saveFile(id) {
     var file = document.getElementsByName("file")[0];
-    file.setAttribute("id", id);
+    file.setAttribute("id", "file" + id);
     file.setAttribute("name", "addedAttachment");
     file.style.display = "none";
+}
+
+function showFileInput(id) {
+    var input = document.getElementById("file" + id);
+    if (input == null){
+        input = fileInput();
+        input.setAttribute("id", "file" + id);
+        insertAfter(fileInput(), document.getElementById("attachmentComment"));
+    } else{
+        input.style.display = "block";
+    }
 }
 
 function updateAttachment(id) {
@@ -67,6 +79,22 @@ function updateAttachment(id) {
     document.getElementById("attachment" + id).children[2].innerHTML = attachment.name;
     document.getElementById("attachment" + id).children[3].innerHTML = attachment.dateOfUpload;
     document.getElementById("attachment" + id).children[4].innerHTML = attachment.comment;
+    updateFile(attachment.id);
+}
+
+function updateFile(id) {
+    var file = document.getElementsByName("file")[0];
+    if (file == null){
+        file = getExistedFile(id)
+    }
+
+    file.setAttribute("id", "file" + id);
+    file.setAttribute("name", "updatedAttachment");
+    file.style.display = "none";
+}
+
+function getExistedFile(id) {
+    return document.getElementById("file" + id);
 }
 
 function deleteAttachmentById(id) {
@@ -76,6 +104,15 @@ function deleteAttachmentById(id) {
         deleteAttachmentRow(id);
     } else {
         deleteExistedAttachment(id);
+    }
+
+    deleteFile(id);
+}
+
+function deleteFile(id) {
+    var file = document.getElementById("file" + id);
+    if (file != null){
+        file.remove();
     }
 }
 

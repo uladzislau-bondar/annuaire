@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -129,12 +130,6 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void updateContact(Long id) {
-        try {
-            buildPhotoFromRequest(id);
-            saveAttachments();
-        } catch (Exception e) {
-            logger.error(e);
-        }
 
         //todo transaction
         Contact contact = buildContactFromRequest();
@@ -143,6 +138,12 @@ public class ContactCommand extends AbstractCommand {
 
         processAddressUpdate(id);
         processPhones(id);
+        try {
+            buildPhotoFromRequest(id);
+            processAttachments(id);
+        } catch (Exception e) {
+            logger.error(e);
+        }
 
         logger.info("Updating contact #" + id);
     }
@@ -278,6 +279,25 @@ public class ContactCommand extends AbstractCommand {
 
     }
 
+    private void processAttachments(Long contactId) throws ServletException, IOException{
+        List<Attachment> addedAttachments = buildAddedAttachmentsFromRequest();
+        for (Attachment attachment : addedAttachments) {
+            attachment.setContactId(contactId);
+            attachmentDao.save(attachment);
+        }
+
+        List<Attachment> updatedAttachments = buildUpdatedAttachmentsFromRequest();
+        for (Attachment attachment : updatedAttachments) {
+            attachment.setContactId(contactId);
+            attachmentDao.update(attachment);
+        }
+
+        List<Long> deletedAttachmentsIds = buildDeletedAttachmentsIdsFromRequest();
+        for (Long id : deletedAttachmentsIds) {
+            attachmentDao.delete(id);
+        }
+    }
+
     private List<Phone> buildAddedPhonesFromRequest() {
         String addedPhonesJson = request.getParameter("phonesToAdd");
         JSONArray addedPhones = new JSONArray(addedPhonesJson);
@@ -320,7 +340,7 @@ public class ContactCommand extends AbstractCommand {
         return StringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
     }
 
-    // todo uploading doesn't work
+
     private void buildPhotoFromRequest(Long contactId) throws ServletException, IOException {
         Part photo = request.getPart("photo");
 
@@ -330,17 +350,37 @@ public class ContactCommand extends AbstractCommand {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
-        String fileName = Paths.get(photo.getSubmittedFileName()).getFileName().toString();
-        logger.info(fileName);
-        photo.write(uploadFilePath + File.separator + fileName);
+
+        String name = "profilePic";
+        logger.info(name);
+        photo.write(uploadFilePath + File.separator + name);
     }
 
-    private void saveAttachments() throws ServletException, IOException {
-        List<Part> attachments = request.getParts().stream().filter(part -> "addedAttachment".equals(part.getName())).collect(Collectors.toList());
-        for (Part filePart : attachments) {
+    private List<Attachment> buildAddedAttachmentsFromRequest() throws ServletException, IOException{
+        List<Part> added = request.getParts().stream().filter(part -> "addedAttachment".equals(part.getName())).collect(Collectors.toList());
+        List<Attachment> attachments = new ArrayList<>();
+        for (Part filePart : added) {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             logger.info(fileName);
         }
+        return null;
+    }
+
+    private List<Attachment> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException{
+        List<Part> updated = request.getParts().stream().filter(part -> "updatedAttachment".equals(part.getName())).collect(Collectors.toList());
+        for (Part filePart : updated) {
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            logger.info(fileName);
+        }
+
+        return null;
+    }
+
+    private void saveAttachments() throws ServletException, IOException {
+    }
+
+    private List<Long> buildDeletedAttachmentsIdsFromRequest() {
+        return StringUtils.stringArrayToListOfLongs(request.getParameterValues("attachmentToDelete"));
     }
 
 }
