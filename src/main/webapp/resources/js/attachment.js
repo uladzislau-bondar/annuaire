@@ -35,21 +35,24 @@ function clearModal() {
     inputs[2].value = "";
     inputs[3].value = "";
     inputs[4].value = "";
+
+    deleteUndefinedAttachments();
 }
 
 function createNewAttachment() {
     var attachment = parseAttachmentFromModal();
     attachment.id = generateId();
     //todo add date
+    saveFile(attachment.id);
     appendAddedAttachmentRow(attachment);
 }
 
-//todo change
-function pickFile() {
-    var id = document.getElementsByName("id")[0].value;
-    var fileInput = window.opener.document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0];
-    alert(fileInput.name);
-    fileInput.click();
+
+function saveFile(id) {
+    var file = document.getElementsByName("file")[0];
+    file.setAttribute("id", id);
+    file.setAttribute("name", "addedAttachment");
+    file.style.display = "none";
 }
 
 function updateAttachment(id) {
@@ -108,10 +111,6 @@ function deleteExistedAttachment(id) {
     deleteAttachmentRow(id);
 }
 
-function closePopup() {
-    window.close();
-}
-
 function parseAttachmentFromModal() {
     var inputs = document.getElementById('attachmentModal').getElementsByTagName("input");
     var attachment = {};
@@ -168,9 +167,16 @@ function closeAttachmentModal() {
 function fileInput() {
     var input = document.createElement("input");
     input.setAttribute("type", "file");
-    input.setAttribute("name", "attachment");
+    input.setAttribute("name", "file");
 
     return input;
+}
+
+function deleteUndefinedAttachments() {
+    var undefinedAttachments = Array.prototype.slice.call(document.getElementsByName("file"));
+    undefinedAttachments.forEach(function (attachment) {
+        attachment.remove();
+    });
 }
 
 function insertAfter(newNode, referenceNode) {

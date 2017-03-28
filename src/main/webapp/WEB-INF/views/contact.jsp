@@ -23,7 +23,7 @@
 
     <input id="photoInput" type="file" name="photo" onchange="changePhoto(this);"
            accept="image/jpeg" style="display: none;"/>
-    <img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
+    <img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()"><br>
 
     Имя:
     <input type="text" name="firstName"
@@ -145,7 +145,6 @@
                 <td><c:out value="${attachment.name}"/></td>
                 <td><c:out value="${attachment.dateOfUpload}"/></td>
                 <td><c:out value="${attachment.comment}"/></td>
-                <td><input type="file" name="file" style="display:none;"/></td>
                 <td><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
                 <td><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
             </tr>

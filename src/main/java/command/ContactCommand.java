@@ -33,6 +33,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class ContactCommand extends AbstractCommand {
@@ -130,6 +131,7 @@ public class ContactCommand extends AbstractCommand {
     private void updateContact(Long id) {
         try {
             buildPhotoFromRequest(id);
+            saveAttachments();
         } catch (Exception e) {
             logger.error(e);
         }
@@ -331,6 +333,14 @@ public class ContactCommand extends AbstractCommand {
         String fileName = Paths.get(photo.getSubmittedFileName()).getFileName().toString();
         logger.info(fileName);
         photo.write(uploadFilePath + File.separator + fileName);
+    }
+
+    private void saveAttachments() throws ServletException, IOException {
+        List<Part> attachments = request.getParts().stream().filter(part -> "addedAttachment".equals(part.getName())).collect(Collectors.toList());
+        for (Part filePart : attachments) {
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            logger.info(fileName);
+        }
     }
 
 }

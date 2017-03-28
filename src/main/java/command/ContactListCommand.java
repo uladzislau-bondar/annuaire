@@ -49,20 +49,20 @@ public class ContactListCommand extends AbstractCommand {
             offset = Integer.valueOf(query.get("offset"));
         }
 
-        switch (method){
+        switch (method) {
             case "GET":
                 showContactList(offset);
 
                 forward("index");
                 break;
             case "POST":
-                if (query.containsKey("method")){
+                if (query.containsKey("method")) {
                     List<Long> ids = StringUtils.stringArrayToListOfLongs(request.getParameterValues("selected"));
-                    if (query.get("method").equals("delete")){
+                    if (query.get("method").equals("delete")) {
                         deleteSelectedContacts(ids);
                         redirect("/");
 
-                    } else if (query.get("method").equals("email")){
+                    } else if (query.get("method").equals("email")) {
                         emailSelectedContacts(ids);
                         forward("email");
                     }
@@ -71,7 +71,7 @@ public class ContactListCommand extends AbstractCommand {
         }
     }
 
-    private void showContactList(int offset){
+    private void showContactList(int offset) {
         List<Contact> contactList = contactDao.getWithOffset(10, offset);
 
         AddressDao addressDao = new AddressDao();
@@ -91,14 +91,14 @@ public class ContactListCommand extends AbstractCommand {
     }
 
     private void deleteSelectedContacts(List<Long> ids) {
-        for (Long id: ids){
+        for (Long id : ids) {
             contactDao.delete(id);
 
             logger.info("Deleting contact #" + id);
         }
     }
 
-    private void emailSelectedContacts(List<Long> ids) throws IOException{
+    private void emailSelectedContacts(List<Long> ids) throws IOException {
         List<String> emails = new ArrayList<>();
         for (Long id : ids) {
             emails.add(contactDao.getEmailById(id));
