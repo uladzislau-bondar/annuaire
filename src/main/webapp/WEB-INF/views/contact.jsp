@@ -144,7 +144,8 @@
                 <td><input type="checkbox" name="selected" value="${attachment.id}"></td>
                 <td><c:out value="${attachment.name}"/></td>
                 <td><c:out value="${attachment.dateOfUpload}"/></td>
-                <td><c:out value="${attachment.comment}"/></td>3
+                <td><c:out value="${attachment.comment}"/></td>
+                <td><input type="hidden" name="fileName"></td>
                 <td><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
                 <td><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
             </tr>
@@ -187,7 +188,7 @@
             <input type="hidden" name="dateOfUpload"/>
             Комментарий:
             <input type="text" id="attachmentComment" name="comment" maxlength="64"/> <br>
-
+            <input type="hidden" id="attachmentFileName" name="fileName">
             <input type="button" value="Сохранить" onclick="saveAttachment()"/>
             <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>
         </div>

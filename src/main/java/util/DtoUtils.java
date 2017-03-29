@@ -51,7 +51,7 @@ public class DtoUtils {
             result.append(" ");
         }
         if (StringUtils.isNotEmpty(contact.getMiddleName())){
-            result.append(contact.getFirstName());
+            result.append(contact.getMiddleName());
             result.append(" ");
         }
         if (StringUtils.isNotEmpty(contact.getFirstName())){
@@ -64,15 +64,15 @@ public class DtoUtils {
     private static String createAddress(Contact contact){
         StringBuilder result = new StringBuilder();
         if (StringUtils.isNotEmpty(contact.getCountry())){
-            result.append(contact.getFirstName());
+            result.append(contact.getCountry());
             result.append("/");
         }
         if (StringUtils.isNotEmpty(contact.getCity())){
-            result.append(contact.getFirstName());
+            result.append(contact.getCity());
             result.append("/");
         }
         if (StringUtils.isNotEmpty(contact.getAddress())){
-            result.append(contact.getLastName());
+            result.append(contact.getAddress());
         }
 
         return result.toString();

@@ -10,6 +10,7 @@ function editAttachment(element) {
     inputs[2].value = attachment.name;
     inputs[3].value = attachment.dateOfUpload;
     inputs[4].value = attachment.comment;
+    document.getElementById("attachmentFileName").value = attachment.fileName;
     showFileInput(id);
 
     modal.style.display = "block";
@@ -29,6 +30,7 @@ function saveAttachment() {
     modal.style.display = "none";
 }
 
+
 function clearAttachmentModal() {
     var inputs = document.getElementById('attachmentModal').getElementsByTagName("input");
     inputs[0].value = "";
@@ -36,6 +38,7 @@ function clearAttachmentModal() {
     inputs[2].value = "";
     inputs[3].value = "";
     inputs[4].value = "";
+    document.getElementById("attachmentFileName").value = "";
 
     deleteUndefinedAttachments();
 }
@@ -43,6 +46,7 @@ function clearAttachmentModal() {
 function createNewAttachment() {
     var attachment = parseAttachmentFromModal();
     attachment.id = generateId();
+    attachment.fileName = getFilePath(document.getElementsByName("file")[0]);
     //todo add date
     saveFile(attachment.id);
     appendAddedAttachmentRow(attachment);
@@ -72,6 +76,14 @@ function updateAttachment(id) {
     if (attachment.hidden == 'existed') {
         attachment.hidden = 'updated';
     }
+
+    var file = document.getElementsByName("file")[0];
+    if (file == null){
+        file = getExistedFile(id)
+    }
+    attachment.fileName = getFilePath(file);
+
+
     document.getElementById("attachment" + id).children[0].getElementsByTagName("input")[0].value =
         attachment.hidden;
     document.getElementById("attachment" + id).children[1].getElementsByTagName("input")[0].value =
@@ -79,6 +91,9 @@ function updateAttachment(id) {
     document.getElementById("attachment" + id).children[2].innerHTML = attachment.name;
     document.getElementById("attachment" + id).children[3].innerHTML = attachment.dateOfUpload;
     document.getElementById("attachment" + id).children[4].innerHTML = attachment.comment;
+    document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0].value =
+        attachment.fileName;
+
     updateFile(attachment.id);
 }
 
@@ -156,6 +171,7 @@ function parseAttachmentFromModal() {
     attachment.name = inputs[2].value;
     attachment.dateOfUpload = inputs[3].value;
     attachment.comment = inputs[4].value;
+    attachment.fileName = inputs[5].value;
 
     return attachment;
 }
@@ -167,6 +183,7 @@ function parseAttachmentFromWindow(id) {
     attachment.name = document.getElementById("attachment" + id).children[2].innerHTML;
     attachment.dateOfUpload = document.getElementById("attachment" + id).children[3].innerHTML;
     attachment.comment = document.getElementById("attachment" + id).children[4].innerHTML;
+    attachment.fileName = document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0].value;
 
     return attachment;
 }
@@ -180,6 +197,7 @@ function appendAddedAttachmentRow(attachment) {
         "<td>" + attachment.name + "</td>" +
         "<td>" + attachment.dateOfUpload + "</td>" +
         "<td>" + attachment.comment + "</td>" +
+        "<td><input type='hidden' name='fileName' value='" + attachment.fileName + "'></td>" +
         "<td><input type='button' value='Изменить' onclick='editAttachment(this)'></td>" +
         "<td><input type='button' value='Удалить' onclick='deleteAttachment(this)'></td>";
     document.getElementById("attachmentsTable").getElementsByTagName("tbody")[0].appendChild(tr);
@@ -218,4 +236,8 @@ function deleteUndefinedAttachments() {
 
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+function getFilePath(input){
+    return input.value.replace(/^.*[\\\/]/, '');
 }

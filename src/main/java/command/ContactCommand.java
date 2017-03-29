@@ -272,9 +272,25 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private List<Attachment> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException {
+        String updatedPhonesAttachments = request.getParameter("attachmentsToUpdate");
+        JSONArray updatedAttachments = new JSONArray(updatedPhonesAttachments);
+
+        List<Attachment> attachments = new ArrayList<>();
+        for (int i = 0; i < updatedAttachments.length(); i++) {
+            JSONObject object = updatedAttachments.getJSONObject(i);
+            Attachment attachment = new Attachment();
+            attachment.setId(Long.valueOf(object.getString("id")));
+            attachment.setName(object.getString("name"));
+            // todo date
+            attachment.setComment(object.getString("comment"));
+
+            attachments.add(attachment);
+        }
+
         List<Part> updated = request.getParts().stream().filter(part -> "updatedAttachment".equals(part.getName())).collect(Collectors.toList());
-        for (Part filePart : updated) {
+        for (Part part : updated) {
             //todo process
+
         }
 
         return new ArrayList<>();

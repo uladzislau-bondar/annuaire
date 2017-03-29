@@ -17,6 +17,18 @@ function save() {
     phonesObject.phonesToAdd = JSON.stringify(addedPhones);
     phonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
 
+    var attachments = parseAttachments();
+    var addedAttachments = attachments.forEach(function (attachment) {
+        return attachment.hidden == 'added'
+    });
+    var updatedAttachments = attachments.filter(function (attachment) {
+        return attachment.hidden == 'updated';
+    });
+
+    var attachmentsObject = {};
+    attachmentsObject.attachmentsToAdd = JSON.stringify(addedAttachments);
+    attachmentsObject.attachmentsToUpdate = JSON.stringify(updatedAttachments);
+
     var deletedPhones = parseDeletedPhones();
     deletedPhones.forEach(function (item) {
         form.appendChild(item);
@@ -28,6 +40,7 @@ function save() {
     });
 
     appendObjectToForm(form, phonesObject);
+    appendArrayToForm(form, attachmentsObject);
     appendArrayToForm(form, deletedPhones);
     appendArrayToForm(form, deletedAttachments);
 
@@ -67,6 +80,19 @@ function parsePhones() {
     return phones;
 }
 
+function parseAttachments() {
+    var attachments = [];
+
+    var rows = Array.prototype.slice
+        .call(document.getElementById("attachmentsTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr"));
+
+    rows.forEach(function (row) {
+        attachments.push(parseAttachment(row));
+    });
+
+    return attachments;
+}
+
 function parsePhone(row) {
     var phone = {};
     phone.hidden = row.children[0].getElementsByTagName("input")[0].value;
@@ -76,6 +102,18 @@ function parsePhone(row) {
     phone.comment = row.children[4].innerHTML;
 
     return phone;
+}
+
+function parseAttachment(row) {
+    var attachment = {};
+    attachment.hidden = row.children[0].getElementsByTagName("input")[0].value;
+    attachment.id = row.children[1].getElementsByTagName("input")[0].value;
+    attachment.name = row.children[2].innerHTML;
+    attachment.dateOfUpload = row.children[3].innerHTML;
+    attachment.comment = row.children[4].innerHTML;
+    attachment.fileName = row.children[5].getElementsByTagName("input")[0].value;
+
+    return attachment;
 }
 
 function parseDeletedPhones() {
