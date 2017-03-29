@@ -8,6 +8,15 @@ public class AttachmentDto {
     private String name;
     private Date dateOfUpload;
     private String comment;
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public Long getId() {
         return id;

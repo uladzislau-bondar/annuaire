@@ -18,7 +18,7 @@ function save() {
     phonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
 
     var attachments = parseAttachments();
-    var addedAttachments = attachments.forEach(function (attachment) {
+    var addedAttachments = attachments.filter(function (attachment) {
         return attachment.hidden == 'added'
     });
     var updatedAttachments = attachments.filter(function (attachment) {
@@ -40,7 +40,7 @@ function save() {
     });
 
     appendObjectToForm(form, phonesObject);
-    appendArrayToForm(form, attachmentsObject);
+    appendObjectToForm(form, attachmentsObject);
     appendArrayToForm(form, deletedPhones);
     appendArrayToForm(form, deletedAttachments);
 

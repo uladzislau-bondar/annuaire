@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import properties.UploadPropertyService;
 import service.ContactService;
 import util.DtoUtils;
 import util.MyStringUtils;
@@ -275,22 +276,28 @@ public class ContactCommand extends AbstractCommand {
         String updatedPhonesAttachments = request.getParameter("attachmentsToUpdate");
         JSONArray updatedAttachments = new JSONArray(updatedPhonesAttachments);
 
-        List<Attachment> attachments = new ArrayList<>();
+        List<AttachmentDto> attachments = new ArrayList<>();
         for (int i = 0; i < updatedAttachments.length(); i++) {
             JSONObject object = updatedAttachments.getJSONObject(i);
-            Attachment attachment = new Attachment();
+            AttachmentDto attachment = new AttachmentDto();
             attachment.setId(Long.valueOf(object.getString("id")));
             attachment.setName(object.getString("name"));
             // todo date
             attachment.setComment(object.getString("comment"));
-
+            attachment.setFileName(object.getString("fileName"));
             attachments.add(attachment);
         }
 
         List<Part> updated = request.getParts().stream().filter(part -> "updatedAttachment".equals(part.getName())).collect(Collectors.toList());
         for (Part part : updated) {
             //todo process
-
+            for (AttachmentDto attachment : attachments) {
+                if (part.getSubmittedFileName().equals(attachment.getFileName())){
+                    // works for now
+                    writeToFile(part);
+                    logger.info("writing file");
+                }
+            }
         }
 
         return new ArrayList<>();
@@ -298,6 +305,11 @@ public class ContactCommand extends AbstractCommand {
 
     private List<Long> buildDeletedAttachmentsIdsFromRequest() {
         return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("attachmentToDelete"));
+    }
+
+    private void writeToFile(Part part) throws IOException{
+        String path = UploadPropertyService.getInstance().getPath();
+        part.write(path + part.getSubmittedFileName());
     }
 
 }
