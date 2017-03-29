@@ -1,12 +1,9 @@
 package command;
 
-import dao.AddressDao;
-import dao.AttachmentDao;
-import dao.ContactDao;
-import dao.PhoneDao;
 import dto.AttachmentDto;
+import dto.ContactDatabaseDto;
+import dto.ContactFrontDto;
 import dto.PhoneDto;
-import entities.Address;
 import entities.Attachment;
 import entities.Contact;
 import builders.ContactBuilder;
@@ -15,20 +12,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import properties.UploadPropertyService;
-import service.ShowContactService;
-import service.UpdateContactService;
-import builders.UpdateContactServiceBuilder;
+import service.ContactService;
 import util.DtoUtils;
-import util.StringUtils;
+import util.MyStringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +30,11 @@ import java.util.stream.Collectors;
 
 public class ContactCommand extends AbstractCommand {
     private final static Logger logger = LogManager.getLogger(ContactCommand.class);
-    private ContactDao contactDao;
-    private AddressDao addressDao;
-    private PhoneDao phoneDao;
-    private AttachmentDao attachmentDao;
+    private ContactService service;
 
     public ContactCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
+        service = new ContactService();
     }
 
     @Override
@@ -55,7 +45,7 @@ public class ContactCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         String method = request.getMethod();
-        Map<String, String> query = StringUtils.splitQuery(request.getQueryString());
+        Map<String, String> query = MyStringUtils.splitQuery(request.getQueryString());
 
         switch (method) {
             case "GET":
@@ -96,78 +86,50 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void showCreationForm() {
-        setTitle("Create new contact");
-
         logger.info("Show form for creating new contact");
+        setTitle("Contact Creation Form");
     }
 
     private void showContact(Long id) {
-        ShowContactService service = new ShowContactService();
-        Contact contact = service.getContactById(id);
-        fillRequestWithData(contact);
-        setTitle("Showing contact");
+        logger.info("Show form for editing contact #{}", id);
+        setTitle("Contact " + id);
 
-        logger.info("Show form for editing contact #" + id);
+        ContactDatabaseDto contact = service.get(id);
+        fillRequestWithData(contact);
     }
 
     private void saveContact() {
-        Contact contact = buildContactFromRequest();
-        Long contactId = contactDao.save(contact);
+        logger.info("Saving new contact");
 
         try {
-            buildPhotoFromRequest(contactId);
-        } catch (Exception e) {
+            ContactFrontDto contact = buildContactFromRequest();
+            service.save(contact);
+        } catch (ServletException | IOException e) {
             logger.error(e);
         }
-
-        processAddressSaving(contactId);
-        processPhones(contactId);
-
-        logger.info("Saving new contact");
     }
 
     private void updateContact(Long id) {
+        logger.info("Updating contact #{}", id);
+
         try {
-            Contact contact = buildContactFromRequest();
-            contact.setId(id);
-            Address address = buildAddressFromRequest();
-            List<Phone> addedPhones = buildAddedPhonesFromRequest();
-            List<Phone> updatedPhones = buildUpdatedPhonesFromRequest();
-            List<Long> deletedPhonesIds = buildDeletedPhonesIdsFromRequest();
-            List<Attachment> addedAttachments = buildAddedAttachmentsFromRequest();
-            List<Attachment> updatedAttachments = buildUpdatedAttachmentsFromRequest();
-            List<Long> deletedAttachmentsIds = buildDeletedAttachmentsIdsFromRequest();
-
-            UpdateContactServiceBuilder builder = new UpdateContactServiceBuilder()
-                    .contact(contact)
-                    .address(address)
-                    .addedPhones(addedPhones)
-                    .updatedPhones(updatedPhones)
-                    .deletedPhonesIds(deletedPhonesIds)
-                    .addedAttachments(addedAttachments)
-                    .updatedAttachments(updatedAttachments)
-                    .deletedAttachmentsIds(deletedAttachmentsIds);
-
-            UpdateContactService service = builder.build();
-            service.update();
-        } catch (Exception e) {
+            ContactFrontDto contact = buildContactFromRequest();
+            service.update(contact, id);
+        } catch (ServletException | IOException e) {
             logger.error(e);
         }
-
-        logger.info("Updating contact #" + id);
     }
 
     private void deleteContact(Long id) {
-        contactDao.delete(id);
+        logger.info("Deleting contact #{}", id);
 
-        logger.info("Deleting contact #" + id);
+        service.delete(id);
     }
 
-    private void fillRequestWithData(Contact contact) {
-        fillRequestWithContact(contact);
-        fillRequestWithAddress(contact.getAddress());
-        fillRequestWithPhones(contact.getPhones());
-        fillRequestWithAttachments(contact.getAttachments());
+    private void fillRequestWithData(ContactDatabaseDto dto) {
+        fillRequestWithContact(dto.getContact());
+        fillRequestWithPhones(dto.getPhones());
+        fillRequestWithAttachments(dto.getAttachments());
     }
 
     private void fillRequestWithContact(Contact contact) {
@@ -182,13 +144,10 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("website", contact.getWebsite());
         request.setAttribute("email", contact.getEmail());
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
-    }
-
-    private void fillRequestWithAddress(Address address) {
-        request.setAttribute("country", address.getCountry());
-        request.setAttribute("city", address.getCity());
-        request.setAttribute("address", address.getAddress());
-        String zip = StringUtils.intToString(address.getZip());
+        request.setAttribute("country", contact.getCountry());
+        request.setAttribute("city", contact.getCity());
+        request.setAttribute("address", contact.getAddress());
+        String zip = MyStringUtils.intToString(contact.getZip());
         request.setAttribute("zip", zip);
     }
 
@@ -210,17 +169,37 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("attachments", attachmentDtoList);
     }
 
-    private Contact buildContactFromRequest() {
+    private ContactFrontDto buildContactFromRequest() throws ServletException, IOException {
+        ContactFrontDto dto = new ContactFrontDto();
+        dto.setContact(buildContactInfoFromRequest());
+        dto.setPhoto(request.getPart("photo"));
+
+        dto.setUpdatedPhones(buildUpdatedPhonesFromRequest());
+        dto.setAddedPhones(buildAddedPhonesFromRequest());
+        dto.setDeletedPhonesIds(buildDeletedPhonesIdsFromRequest());
+
+        dto.setUpdatedAttachments(buildUpdatedAttachmentsFromRequest());
+        dto.setAddedAttachments(buildAddedAttachmentsFromRequest());
+        dto.setDeletedAttachmentsIds(buildDeletedAttachmentsIdsFromRequest());
+
+        return dto;
+    }
+
+    private Contact buildContactInfoFromRequest() {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String middleName = request.getParameter("middleName");
-        Date dateOfBirth = StringUtils.emptyToDate(request.getParameter("dateOfBirth"));
+        Date dateOfBirth = MyStringUtils.emptyToDate(request.getParameter("dateOfBirth"));
         String sex = request.getParameter("sex");
         String citizenship = request.getParameter("citizenship");
         String maritalStatus = request.getParameter("maritalStatus");
         String website = request.getParameter("website");
         String email = request.getParameter("email");
         String placeOfWork = request.getParameter("placeOfWork");
+        String country = request.getParameter("country");
+        String city = request.getParameter("city");
+        String address = request.getParameter("address");
+        int zip = MyStringUtils.emptyToInt(request.getParameter("zip"));
 
         ContactBuilder builder = new ContactBuilder();
         builder.firstName(firstName)
@@ -232,75 +211,13 @@ public class ContactCommand extends AbstractCommand {
                 .maritalStatus(maritalStatus)
                 .website(website)
                 .email(email)
-                .placeOfWork(placeOfWork);
+                .placeOfWork(placeOfWork)
+                .country(country)
+                .city(city)
+                .address(address)
+                .zip(zip);
 
         return builder.build();
-    }
-
-    private Address buildAddressFromRequest() {
-        String country = request.getParameter("country");
-        String city = request.getParameter("city");
-        String address = request.getParameter("address");
-        int zip = StringUtils.emptyToInt(request.getParameter("zip"));
-
-        Address addr = new Address();
-        addr.setCountry(country);
-        addr.setCity(city);
-        addr.setAddress(address);
-        addr.setZip(zip);
-
-        return addr;
-    }
-
-    private void processAddressSaving(Long contactId) {
-        Address address = buildAddressFromRequest();
-        address.setContactId(contactId);
-        addressDao.save(address);
-    }
-
-    private void processAddressUpdate(Long contactId) {
-        Address address = buildAddressFromRequest();
-        address.setContactId(contactId);
-        addressDao.update(address);
-    }
-
-    private void processPhones(Long contactId) {
-        List<Phone> addedPhones = buildAddedPhonesFromRequest();
-        for (Phone phone : addedPhones) {
-            phone.setContactId(contactId);
-            phoneDao.save(phone);
-        }
-
-        List<Phone> updatedPhones = buildUpdatedPhonesFromRequest();
-        for (Phone phone : updatedPhones) {
-            phone.setContactId(contactId);
-            phoneDao.update(phone);
-        }
-
-        List<Long> deletedPhonesIds = buildDeletedPhonesIdsFromRequest();
-        for (Long id : deletedPhonesIds) {
-            phoneDao.delete(id);
-        }
-
-    }
-
-    private void processAttachments(Long contactId) throws ServletException, IOException{
-        List<Attachment> addedAttachments = buildAddedAttachmentsFromRequest();
-        for (Attachment attachment : addedAttachments) {
-            attachment.setContactId(contactId);
-            attachmentDao.save(attachment);
-        }
-
-        List<Attachment> updatedAttachments = buildUpdatedAttachmentsFromRequest();
-        for (Attachment attachment : updatedAttachments) {
-            attachment.setContactId(contactId);
-            attachmentDao.update(attachment);
-        }
-
-        List<Long> deletedAttachmentsIds = buildDeletedAttachmentsIdsFromRequest();
-        for (Long id : deletedAttachmentsIds) {
-            attachmentDao.delete(id);
-        }
     }
 
     private List<Phone> buildAddedPhonesFromRequest() {
@@ -342,47 +259,29 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private List<Long> buildDeletedPhonesIdsFromRequest() {
-        return StringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
+        return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
     }
 
-
-    private void buildPhotoFromRequest(Long contactId) throws ServletException, IOException {
-        Part photo = request.getPart("photo");
-
-        String uploadFilePath = UploadPropertyService.getInstance().getPath() + File.separator + "/contact" + contactId;
-
-        File fileSaveDir = new File(uploadFilePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdirs();
-        }
-
-        String name = "profilePic";
-        logger.info(name);
-        photo.write(uploadFilePath + File.separator + name);
-    }
-
-    private List<Attachment> buildAddedAttachmentsFromRequest() throws ServletException, IOException{
+    private List<Attachment> buildAddedAttachmentsFromRequest() throws ServletException, IOException {
         List<Part> added = request.getParts().stream().filter(part -> "addedAttachment".equals(part.getName())).collect(Collectors.toList());
         List<Attachment> attachments = new ArrayList<>();
         for (Part filePart : added) {
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            logger.info(fileName);
+            //todo process
         }
         return new ArrayList<>();
     }
 
-    private List<Attachment> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException{
+    private List<Attachment> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException {
         List<Part> updated = request.getParts().stream().filter(part -> "updatedAttachment".equals(part.getName())).collect(Collectors.toList());
         for (Part filePart : updated) {
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            logger.info(fileName);
+            //todo process
         }
 
         return new ArrayList<>();
     }
 
     private List<Long> buildDeletedAttachmentsIdsFromRequest() {
-        return StringUtils.stringArrayToListOfLongs(request.getParameterValues("attachmentToDelete"));
+        return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("attachmentToDelete"));
     }
 
 }

@@ -8,7 +8,7 @@ import java.net.URLDecoder;
 import java.sql.Date;
 import java.util.*;
 
-public class StringUtils {
+public class MyStringUtils {
     public static Map<String, String> splitQuery(String query) throws UnsupportedEncodingException {
         Map<String, String> queryPairs = new LinkedHashMap<>();
         if (query != null) {
@@ -43,14 +43,6 @@ public class StringUtils {
             return "";
         } else {
             return String.valueOf(value);
-        }
-    }
-
-    static String nullToEmpty(String value) {
-        if (value == null || value.isEmpty()) {
-            return "";
-        } else {
-            return value;
         }
     }
 

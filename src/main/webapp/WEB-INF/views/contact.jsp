@@ -144,7 +144,7 @@
                 <td><input type="checkbox" name="selected" value="${attachment.id}"></td>
                 <td><c:out value="${attachment.name}"/></td>
                 <td><c:out value="${attachment.dateOfUpload}"/></td>
-                <td><c:out value="${attachment.comment}"/></td>
+                <td><c:out value="${attachment.comment}"/></td>3
                 <td><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
                 <td><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
             </tr>

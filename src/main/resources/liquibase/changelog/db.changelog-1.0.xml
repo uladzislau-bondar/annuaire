@@ -6,13 +6,12 @@
     <property name="now" value="now()" dbms="mysql"/>
 
     <changeSet author="colinforzeal" id="1" runAlways="true">
-        <dropTable tableName="addresses"/>
         <dropTable tableName="phones"/>
         <dropTable tableName="attachments"/>
         <dropTable tableName="contacts"/>
 
         <createTable tableName="contacts">
-            <column name="id" type="BIGINT" autoIncrement="true">e
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="firstName" type="VARCHAR(32)">
@@ -38,16 +37,6 @@
             <column name="placeOfWork" type="VARCHAR(32)">
             </column>
             <column name="photoPath" type="VARCHAR(255)">
-            </column>
-        </createTable>
-
-        <createTable tableName="addresses">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="contactId" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="fk_contact_address_id"
-                             references="contacts(id)" deleteCascade="true"/>
             </column>
             <column name="country" type="VARCHAR(32)">
             </column>
@@ -101,6 +90,9 @@
             <column name="lastName" value="zeal"/>
             <column name="dateOfBirth" valueDate="2017-03-27"/>
             <column name="placeOfWork" value="bsuir"/>
+            <column name="country" value="BLR"/>
+            <column name="city" value="Minsk"/>
+            <column name="address" value="some address"/>
         </insert>
 
         <insert tableName="contacts">
@@ -109,14 +101,6 @@
             <column name="lastName" value="smith"/>
             <column name="dateOfBirth" valueDate="2017-03-27"/>
             <column name="placeOfWork" value="st wilford's school"/>
-        </insert>
-
-        <insert tableName="addresses">
-            <column name="id" value="1"/>
-            <column name="contactId" value="1"/>
-            <column name="country" value="BLR"/>
-            <column name="city" value="Minsk"/>
-            <column name="address" value="some address"/>
         </insert>
 
         <insert tableName="phones">

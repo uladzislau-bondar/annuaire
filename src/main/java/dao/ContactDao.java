@@ -36,6 +36,10 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(10, contact.getPlaceOfWork());
             String photoPath = DaoUtils.fileToPath(contact.getPhoto());
             statement.setString(11, photoPath);
+            statement.setString(12, contact.getCountry());
+            statement.setString(13, contact.getCity());
+            statement.setString(14, contact.getAddress());
+            statement.setInt(15, contact.getZip());
 
             logger.info(statement.toString());
 
@@ -98,7 +102,11 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(10, contact.getPlaceOfWork());
             String photoPath = DaoUtils.fileToPath(contact.getPhoto());
             statement.setString(11, photoPath);
-            statement.setLong(12, contact.getId());
+            statement.setString(12, contact.getCountry());
+            statement.setString(13, contact.getCity());
+            statement.setString(14, contact.getAddress());
+            statement.setInt(15, contact.getZip());
+            statement.setLong(16, contact.getId());
 
             logger.info(statement.toString());
 
@@ -200,7 +208,11 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .maritalStatus(set.getString("maritalStatus"))
                     .website(set.getString("website"))
                     .email(set.getString("email"))
-                    .placeOfWork(set.getString("placeOfWork"));
+                    .placeOfWork(set.getString("placeOfWork"))
+                    .country(set.getString("country"))
+                    .city(set.getString("city"))
+                    .address(set.getString("address"))
+                    .zip(set.getInt("zip"));
                     //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
 
             Contact contact = builder.build();
@@ -225,7 +237,11 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .maritalStatus(set.getString("maritalStatus"))
                     .website(set.getString("website"))
                     .email(set.getString("email"))
-                    .placeOfWork(set.getString("placeOfWork"));
+                    .placeOfWork(set.getString("placeOfWork"))
+                    .country(set.getString("country"))
+                    .city(set.getString("city"))
+                    .address(set.getString("address"))
+                    .zip(set.getInt("zip"));
                     //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
 
             contact = builder.build();

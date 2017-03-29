@@ -19,12 +19,13 @@ public class Contact {
     private String website = "";
     private String email = "";
     private String placeOfWork = "";
-    private Address address;
-    private List<Phone> phones;
-    private List<Attachment> attachments;
     private File photo;
+    private String country = "";
+    private String city = "";
+    private String address = "";
+    private int zip;
 
-    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String website, String email, String placeOfWork, Address address, List<Phone> phones, List<Attachment> attachments, File photo) {
+    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String website, String email, String placeOfWork, File photo, String country, String city, String address, int zip) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,10 +37,11 @@ public class Contact {
         this.website = website;
         this.email = email;
         this.placeOfWork = placeOfWork;
-        this.address = address;
-        this.phones = phones;
-        this.attachments = attachments;
         this.photo = photo;
+        this.country = country;
+        this.city = city;
+        this.address = address;
+        this.zip = zip;
     }
 
     public Long getId() {
@@ -90,18 +92,6 @@ public class Contact {
         this.placeOfWork = placeOfWork;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public void setPhones(List<Phone> phones) {
-        this.phones = phones;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-    }
-
     public void setPhoto(File photo) {
         this.photo = photo;
     }
@@ -146,19 +136,39 @@ public class Contact {
         return placeOfWork;
     }
 
-    public Address getAddress() {
+    public File getPhoto() {
+        return photo;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAddress() {
         return address;
     }
 
-    public List<Phone> getPhones() {
-        return phones;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public List<Attachment> getAttachments() {
-        return attachments;
+    public int getZip() {
+        return zip;
     }
 
-    public File getPhoto() {
-        return photo;
+    public void setZip(int zip) {
+        this.zip = zip;
     }
 }

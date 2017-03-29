@@ -1,37 +1,30 @@
 package command;
 
 
-import dao.AddressDao;
-import dao.ContactDao;
-import dao.PhoneDao;
-import dto.ContactDto;
-import entities.Address;
-import entities.Contact;
+import dto.ContactInfoDto;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.DtoUtils;
-import util.StringUtils;
+import service.ContactListService;
+import util.MyStringUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ContactListCommand extends AbstractCommand {
     private static Logger logger = LogManager.getLogger(ContactListCommand.class);
-    private ContactDao contactDao;
+    private ContactListService service;
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
-        contactDao = new ContactDao(null);
+        service = new ContactListService();
     }
 
     @Override
@@ -42,7 +35,7 @@ public class ContactListCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         String method = request.getMethod();
-        Map<String, String> query = StringUtils.splitQuery(request.getQueryString());
+        Map<String, String> query = MyStringUtils.splitQuery(request.getQueryString());
 
         int offset = 0;
         if (query.get("offset") != null) {
@@ -57,7 +50,7 @@ public class ContactListCommand extends AbstractCommand {
                 break;
             case "POST":
                 if (query.containsKey("method")) {
-                    List<Long> ids = StringUtils.stringArrayToListOfLongs(request.getParameterValues("selected"));
+                    List<Long> ids = MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("selected"));
                     if (query.get("method").equals("delete")) {
                         deleteSelectedContacts(ids);
                         redirect("/");
@@ -72,39 +65,24 @@ public class ContactListCommand extends AbstractCommand {
     }
 
     private void showContactList(int offset) {
-        List<Contact> contactList = contactDao.getWithOffset(10, offset);
+        logger.info("Showing contacts");
 
-        AddressDao addressDao = new AddressDao(null);
-        PhoneDao phoneDao = new PhoneDao(null);
-        for (Contact contact : contactList) {
-            Address address = addressDao.getByContactId(contact.getId());
-            contact.setAddress(address);
-        }
-
-        List<ContactDto> contactDtoList = new ArrayList<>();
-
-        for (Contact c : contactList) {
-            contactDtoList.add(DtoUtils.convertToDto(c));
-        }
-
-        request.setAttribute("contactList", contactDtoList);
+        List<ContactInfoDto> contacts = service.getAllWithOffset(offset);
+        request.setAttribute("contactList", contacts);
     }
 
     private void deleteSelectedContacts(List<Long> ids) {
-        for (Long id : ids) {
-            contactDao.delete(id);
+        logger.info("Deleting selected contacts");
 
-            logger.info("Deleting contact #" + id);
-        }
+        service.deleteSelected(ids);
     }
 
     private void emailSelectedContacts(List<Long> ids) throws IOException {
-        List<String> emails = new ArrayList<>();
-        for (Long id : ids) {
-            emails.add(contactDao.getEmailById(id));
-        }
+        logger.info("Redirecting to email page with selected contacts");
 
-        //todo
+        List<String> emails = service.getEmailsOfSelected(ids);
+
+        //todo remove to helper
         String emailsList = String.join("; ", emails);
         logger.info(emailsList);
 

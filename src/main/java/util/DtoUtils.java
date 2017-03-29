@@ -1,22 +1,23 @@
 package util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import dto.AttachmentDto;
-import dto.ContactDto;
+import dto.ContactInfoDto;
 import dto.PhoneDto;
-import entities.Address;
 import entities.Attachment;
 import entities.Contact;
 import entities.Phone;
 
 
 public class DtoUtils {
-    public static ContactDto convertToDto(Contact contact){
-        ContactDto dto = new ContactDto();
+    public static ContactInfoDto convertToInfoDto(Contact contact){
+        ContactInfoDto dto = new ContactInfoDto();
         dto.setId(contact.getId());
         String fullName = createFullName(contact);
         dto.setFullName(fullName);
         dto.setDateOfBirth(contact.getDateOfBirth());
-        String address = createAddress(contact.getAddress());
+        String address = createAddress(contact);
         dto.setAddress(address);
 
         return dto;
@@ -44,20 +45,42 @@ public class DtoUtils {
     }
 
     private static String createFullName(Contact contact){
-        return StringUtils.nullToEmpty(contact.getFirstName()) + " "
-                + StringUtils.nullToEmpty(contact.getMiddleName()) + " "
-                + StringUtils.nullToEmpty(contact.getLastName());
+        StringBuilder result = new StringBuilder();
+        if (StringUtils.isNotEmpty(contact.getFirstName())){
+            result.append(contact.getFirstName());
+            result.append(" ");
+        }
+        if (StringUtils.isNotEmpty(contact.getMiddleName())){
+            result.append(contact.getFirstName());
+            result.append(" ");
+        }
+        if (StringUtils.isNotEmpty(contact.getFirstName())){
+            result.append(contact.getLastName());
+        }
+
+        return result.toString();
     }
 
-    private static String createAddress(Address address){
-        return StringUtils.nullToEmpty(address.getCountry()) + "/"
-                + StringUtils.nullToEmpty(address.getCity()) + "/"
-                + StringUtils.nullToEmpty(address.getAddress());
+    private static String createAddress(Contact contact){
+        StringBuilder result = new StringBuilder();
+        if (StringUtils.isNotEmpty(contact.getCountry())){
+            result.append(contact.getFirstName());
+            result.append("/");
+        }
+        if (StringUtils.isNotEmpty(contact.getCity())){
+            result.append(contact.getFirstName());
+            result.append("/");
+        }
+        if (StringUtils.isNotEmpty(contact.getAddress())){
+            result.append(contact.getLastName());
+        }
+
+        return result.toString();
     }
 
     private static String createNumber(Phone phone) {
-        return "+" + StringUtils.intToString(phone.getCountryCode()) + "-"
-                + StringUtils.intToString(phone.getNumber());
+        return "+" + MyStringUtils.intToString(phone.getCountryCode()) + "-"
+                + MyStringUtils.intToString(phone.getNumber());
     }
 
 }

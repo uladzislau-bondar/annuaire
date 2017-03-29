@@ -2,7 +2,7 @@ package command;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.StringUtils;
+import util.MyStringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +54,7 @@ public class SearchCommand extends AbstractCommand {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String middleName = request.getParameter("middleName");
-        Date dateOfBirth = StringUtils.emptyToDate(request.getParameter("dateOfBirth"));
+        Date dateOfBirth = MyStringUtils.emptyToDate(request.getParameter("dateOfBirth"));
         String sex = request.getParameter("sex");
         String citizenship = request.getParameter("citizenship");
         String maritalStatus = request.getParameter("maritalStatus");

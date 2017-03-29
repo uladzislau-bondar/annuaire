@@ -1,31 +1,28 @@
 package builders;
 
-import entities.Address;
-import entities.Attachment;
 import entities.Contact;
-import entities.Phone;
 import enums.Sex;
 
 import java.io.File;
 import java.sql.Date;
-import java.util.List;
 
 public class ContactBuilder {
     private Long id;
-    private String firstName = "";
-    private String lastName = "";
-    private String middleName = "";
+    private String firstName;
+    private String lastName;
+    private String middleName;
     private Date dateOfBirth;
-    private Sex sex = Sex.UNKNOWN;
-    private String citizenship = "";
-    private String maritalStatus = "";
-    private String website = "";
-    private String email = "";
-    private String placeOfWork = "";
-    private Address address;
-    private List<Phone> phones;
-    private List<Attachment> attachments;
+    private Sex sex;
+    private String citizenship;
+    private String maritalStatus;
+    private String website;
+    private String email;
+    private String placeOfWork;
     private File photo;
+    private String country;
+    private String city;
+    private String address;
+    private int zip;
 
     public ContactBuilder id(Long id) {
         this.id = id;
@@ -58,7 +55,6 @@ public class ContactBuilder {
         } else {
             this.sex = Sex.valueOf(sex);
         }
-
         return this;
     }
 
@@ -72,8 +68,8 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder website(String webSite) {
-        this.website = webSite;
+    public ContactBuilder website(String website) {
+        this.website = website;
         return this;
     }
 
@@ -87,27 +83,32 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder address(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    public ContactBuilder phones(List<Phone> phones) {
-        this.phones = phones;
-        return this;
-    }
-
-    public ContactBuilder attachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-        return this;
-    }
-
     public ContactBuilder photo(File photo) {
         this.photo = photo;
         return this;
     }
 
+    public ContactBuilder country(String country) {
+        this.country = country;
+        return this;
+    }
+
+    public ContactBuilder city(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public ContactBuilder address(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public ContactBuilder zip(int zip) {
+        this.zip = zip;
+        return this;
+    }
+
     public Contact build() {
-        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, address, phones, attachments, photo);
+        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, photo, country, city, address, zip);
     }
 }

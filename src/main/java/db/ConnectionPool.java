@@ -19,6 +19,10 @@ public class ConnectionPool {
             instance.setDriverClassName(properties.getJDBCDriver());
             instance.setUsername(properties.getJDBCUsername());
             instance.setPassword(properties.getJDBCPassword());
+
+            instance.setMaxIdle(30);
+            instance.setMaxWaitMillis(10000);
+            instance.setMaxOpenPreparedStatements(50);
         }
 
         return instance;

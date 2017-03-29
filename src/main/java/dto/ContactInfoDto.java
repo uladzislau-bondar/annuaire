@@ -3,7 +3,7 @@ package dto;
 
 import java.util.Date;
 
-public class ContactDto {
+public class ContactInfoDto {
     private Long id;
     private String fullName;
     private Date dateOfBirth;
