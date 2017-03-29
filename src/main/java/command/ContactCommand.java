@@ -4,7 +4,6 @@ import dao.AddressDao;
 import dao.AttachmentDao;
 import dao.ContactDao;
 import dao.PhoneDao;
-import db.Connector;
 import dto.AttachmentDto;
 import dto.PhoneDto;
 import entities.Address;
@@ -17,6 +16,9 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import properties.UploadPropertyService;
+import service.ShowContactService;
+import service.UpdateContactService;
+import builders.UpdateContactServiceBuilder;
 import util.DtoUtils;
 import util.StringUtils;
 
@@ -26,11 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Paths;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +45,6 @@ public class ContactCommand extends AbstractCommand {
 
     public ContactCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
-        contactDao = new ContactDao();
-        addressDao = new AddressDao();
-        phoneDao = new PhoneDao();
-        attachmentDao = new AttachmentDao();
     }
 
     @Override
@@ -107,7 +102,9 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void showContact(Long id) {
-        fillRequestWithData(id);
+        ShowContactService service = new ShowContactService();
+        Contact contact = service.getContactById(id);
+        fillRequestWithData(contact);
         setTitle("Showing contact");
 
         logger.info("Show form for editing contact #" + id);
@@ -130,17 +127,29 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void updateContact(Long id) {
-
-        //todo transaction
-        Contact contact = buildContactFromRequest();
-        contact.setId(id);
-        contactDao.update(contact);
-
-        processAddressUpdate(id);
-        processPhones(id);
         try {
-            buildPhotoFromRequest(id);
-            processAttachments(id);
+            Contact contact = buildContactFromRequest();
+            contact.setId(id);
+            Address address = buildAddressFromRequest();
+            List<Phone> addedPhones = buildAddedPhonesFromRequest();
+            List<Phone> updatedPhones = buildUpdatedPhonesFromRequest();
+            List<Long> deletedPhonesIds = buildDeletedPhonesIdsFromRequest();
+            List<Attachment> addedAttachments = buildAddedAttachmentsFromRequest();
+            List<Attachment> updatedAttachments = buildUpdatedAttachmentsFromRequest();
+            List<Long> deletedAttachmentsIds = buildDeletedAttachmentsIdsFromRequest();
+
+            UpdateContactServiceBuilder builder = new UpdateContactServiceBuilder()
+                    .contact(contact)
+                    .address(address)
+                    .addedPhones(addedPhones)
+                    .updatedPhones(updatedPhones)
+                    .deletedPhonesIds(deletedPhonesIds)
+                    .addedAttachments(addedAttachments)
+                    .updatedAttachments(updatedAttachments)
+                    .deletedAttachmentsIds(deletedAttachmentsIds);
+
+            UpdateContactService service = builder.build();
+            service.update();
         } catch (Exception e) {
             logger.error(e);
         }
@@ -154,15 +163,14 @@ public class ContactCommand extends AbstractCommand {
         logger.info("Deleting contact #" + id);
     }
 
-    private void fillRequestWithData(Long id) {
-        fillRequestWithContact(id);
-        fillRequestWithAddress(id);
-        fillRequestWithPhones(id);
-        fillRequestWithAttachments(id);
+    private void fillRequestWithData(Contact contact) {
+        fillRequestWithContact(contact);
+        fillRequestWithAddress(contact.getAddress());
+        fillRequestWithPhones(contact.getPhones());
+        fillRequestWithAttachments(contact.getAttachments());
     }
 
-    private void fillRequestWithContact(Long id) {
-        Contact contact = contactDao.getById(id);
+    private void fillRequestWithContact(Contact contact) {
         request.setAttribute("id", contact.getId());
         request.setAttribute("firstName", contact.getFirstName());
         request.setAttribute("lastName", contact.getLastName());
@@ -176,8 +184,7 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("placeOfWork", contact.getPlaceOfWork());
     }
 
-    private void fillRequestWithAddress(Long contactId) {
-        Address address = addressDao.getByContactId(contactId);
+    private void fillRequestWithAddress(Address address) {
         request.setAttribute("country", address.getCountry());
         request.setAttribute("city", address.getCity());
         request.setAttribute("address", address.getAddress());
@@ -185,8 +192,7 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("zip", zip);
     }
 
-    private void fillRequestWithPhones(Long contactId) {
-        List<Phone> phones = phoneDao.getByContactId(contactId);
+    private void fillRequestWithPhones(List<Phone> phones) {
         List<PhoneDto> phoneDtoList = new ArrayList<>();
         for (Phone phone : phones) {
             phoneDtoList.add(DtoUtils.convertToDto(phone));
@@ -195,8 +201,7 @@ public class ContactCommand extends AbstractCommand {
         request.setAttribute("phones", phoneDtoList);
     }
 
-    private void fillRequestWithAttachments(Long contactId) {
-        List<Attachment> attachments = attachmentDao.getByContactId(contactId);
+    private void fillRequestWithAttachments(List<Attachment> attachments) {
         List<AttachmentDto> attachmentDtoList = new ArrayList<>();
         for (Attachment attachment : attachments) {
             attachmentDtoList.add(DtoUtils.convertToDto(attachment));
@@ -363,7 +368,7 @@ public class ContactCommand extends AbstractCommand {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             logger.info(fileName);
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Attachment> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException{
@@ -373,10 +378,7 @@ public class ContactCommand extends AbstractCommand {
             logger.info(fileName);
         }
 
-        return null;
-    }
-
-    private void saveAttachments() throws ServletException, IOException {
+        return new ArrayList<>();
     }
 
     private List<Long> buildDeletedAttachmentsIdsFromRequest() {

@@ -30,7 +30,7 @@ function savePhone() {
         createNewPhone();
     }
 
-    clearModal();
+    clearPhoneModal();
     modal.style.display = "none";
 }
 
@@ -41,7 +41,7 @@ function createNewPhone() {
     appendAddedPhoneRow(phoneDto);
 }
 
-function clearModal() {
+function clearPhoneModal() {
     var inputs = document.getElementById('phoneModal').getElementsByTagName("input");
     inputs[0].value = "";
     inputs[1].value = "";
@@ -186,6 +186,6 @@ function openPhoneModal() {
 
 function closePhoneModal() {
     var modal = document.getElementById('phoneModal');
-    clearModal();
+    clearPhoneModal();
     modal.style.display = "none";
 }

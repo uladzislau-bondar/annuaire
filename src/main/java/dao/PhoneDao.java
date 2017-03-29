@@ -6,6 +6,7 @@ import entities.Phone;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,10 @@ import java.util.List;
 
 public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
     private static final Logger logger = LogManager.getLogger(PhoneDao.class);
+
+    public PhoneDao(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public Long save(Phone phone) {

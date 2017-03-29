@@ -6,6 +6,7 @@ import entities.Address;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,10 @@ import java.util.List;
 
 public class AddressDao extends AbstractTemplateDao<Address, Long> {
     private final static Logger logger = LogManager.getLogger(AddressDao.class);
+
+    public AddressDao(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public Long save(Address address) {

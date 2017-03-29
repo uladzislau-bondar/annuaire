@@ -31,7 +31,7 @@ public class ContactListCommand extends AbstractCommand {
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
-        contactDao = new ContactDao();
+        contactDao = new ContactDao(null);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class ContactListCommand extends AbstractCommand {
     private void showContactList(int offset) {
         List<Contact> contactList = contactDao.getWithOffset(10, offset);
 
-        AddressDao addressDao = new AddressDao();
-        PhoneDao phoneDao = new PhoneDao();
+        AddressDao addressDao = new AddressDao(null);
+        PhoneDao phoneDao = new PhoneDao(null);
         for (Contact contact : contactList) {
             Address address = addressDao.getByContactId(contact.getId());
             contact.setAddress(address);

@@ -1,18 +1,14 @@
 package dao;
 
 
-import db.Connector;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.sql.*;
 import java.util.List;
 
 public abstract class AbstractTemplateDao<E, K> implements TemplateDao<E, K> {
     protected Connection connection;
 
-    public AbstractTemplateDao() {
-        connection = Connector.getConnection();
+    public AbstractTemplateDao(Connection connection) {
+        this.connection = connection;
     }
 
     public abstract K save(E entity);

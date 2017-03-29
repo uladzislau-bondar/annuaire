@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
 
 import java.io.File;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,10 @@ import java.util.List;
 
 public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
     private final static Logger logger = LogManager.getLogger(AttachmentDao.class);
+
+    public AttachmentDao(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public Long save(Attachment attachment) {

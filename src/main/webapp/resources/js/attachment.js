@@ -25,11 +25,11 @@ function saveAttachment() {
         createNewAttachment();
     }
 
-    clearModal();
+    clearAttachmentModal();
     modal.style.display = "none";
 }
 
-function clearModal() {
+function clearAttachmentModal() {
     var inputs = document.getElementById('attachmentModal').getElementsByTagName("input");
     inputs[0].value = "";
     inputs[1].value = "";
@@ -197,7 +197,7 @@ function openAttachmentModal() {
 
 function closeAttachmentModal() {
     var modal = document.getElementById('attachmentModal');
-    clearModal();
+    clearAttachmentModal();
     modal.style.display = "none";
 }
 

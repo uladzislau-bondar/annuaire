@@ -2,6 +2,7 @@ package schedulers;
 
 
 import dao.ContactDao;
+import db.ConnectionPool;
 import properties.EmailPropertyService;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -13,7 +14,10 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BirthdayJob implements Job {
@@ -33,12 +37,20 @@ public class BirthdayJob implements Job {
         return new Date(utilDate.getTime());
     }
 
-    private List<String> getBirthdayBoysEmails(){
-        ContactDao dao = new ContactDao();
+    private List<String> getBirthdayBoysEmails() {
+        List<String> emails = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getConnection();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        ContactDao dao = new ContactDao(connection);
         return dao.getEmailsByDateOfBirth(today());
     }
 
-    private void sendEmail(String birthdayList){
+    private void sendEmail(String birthdayList) {
         EmailPropertyService properties = EmailPropertyService.getInstance();
 
         Email email = new SimpleEmail();

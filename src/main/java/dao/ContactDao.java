@@ -8,18 +8,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     private final static Logger logger = LogManager.getLogger(ContactDao.class);
 
-    public ContactDao() {
-        super();
+    public ContactDao(Connection connection) {
+        super(connection);
     }
 
     @Override
