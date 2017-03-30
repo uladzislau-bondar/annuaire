@@ -15,6 +15,7 @@ public class ContactListService {
         final List<ContactInfoDto> list = new ArrayList<>();
         TransactionHandler.run(connection -> {
             ContactDao dao = new ContactDao(connection);
+            // todo maybe change limit
             int limit = 10;
             List<Contact> contacts = dao.getWithOffset(limit, offset);
 
