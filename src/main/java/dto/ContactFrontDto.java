@@ -14,8 +14,8 @@ public class ContactFrontDto {
     private List<Phone> addedPhones;
     private List<Phone> updatedPhones;
     private List<Long> deletedPhonesIds;
-    private List<Attachment> addedAttachments;
-    private List<Attachment> updatedAttachments;
+    private List<AttachmentDto> addedAttachments;
+    private List<AttachmentDto> updatedAttachments;
     private List<Long> deletedAttachmentsIds;
 
     public Contact getContact() {
@@ -50,19 +50,19 @@ public class ContactFrontDto {
         this.deletedPhonesIds = deletedPhonesIds;
     }
 
-    public List<Attachment> getAddedAttachments() {
+    public List<AttachmentDto> getAddedAttachments() {
         return addedAttachments;
     }
 
-    public void setAddedAttachments(List<Attachment> addedAttachments) {
+    public void setAddedAttachments(List<AttachmentDto> addedAttachments) {
         this.addedAttachments = addedAttachments;
     }
 
-    public List<Attachment> getUpdatedAttachments() {
+    public List<AttachmentDto> getUpdatedAttachments() {
         return updatedAttachments;
     }
 
-    public void setUpdatedAttachments(List<Attachment> updatedAttachments) {
+    public void setUpdatedAttachments(List<AttachmentDto> updatedAttachments) {
         this.updatedAttachments = updatedAttachments;
     }
 

@@ -21,7 +21,7 @@
 <form id="form" action="${postUrl}" method="post" enctype="multipart/form-data" onsubmit="save()">
     <!-- todo first head element of tables -->
 
-    <input id="photoInput" type="file" name="photo" onchange="changePhoto(this);"
+    <input id="photoInput" type="fileName" name="photo" onchange="changePhoto(this);"
            accept="image/jpeg" style="display: none;"/>
     <img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()"><br>
 

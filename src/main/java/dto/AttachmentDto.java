@@ -1,6 +1,7 @@
 package dto;
 
 
+import javax.servlet.http.Part;
 import java.sql.Date;
 
 public class AttachmentDto {
@@ -9,6 +10,15 @@ public class AttachmentDto {
     private Date dateOfUpload;
     private String comment;
     private String fileName;
+    private Part file;
+
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
 
     public String getFileName() {
         return fileName;

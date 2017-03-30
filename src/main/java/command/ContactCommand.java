@@ -263,22 +263,32 @@ public class ContactCommand extends AbstractCommand {
         return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
     }
 
-    private List<Attachment> buildAddedAttachmentsFromRequest() throws ServletException, IOException {
-        List<Part> added = request.getParts().stream().filter(part -> "addedAttachment".equals(part.getName())).collect(Collectors.toList());
-        List<Attachment> attachments = new ArrayList<>();
-        for (Part filePart : added) {
-            //todo process
-        }
-        return new ArrayList<>();
+    private List<AttachmentDto> buildAddedAttachmentsFromRequest() throws ServletException, IOException {
+        String addedPhonesAttachments = request.getParameter("attachmentsToAdd");
+        List<AttachmentDto> attachments = parseAttachmentsFromJSON(addedPhonesAttachments);
+        attachments = tiePartsWithNames(attachments, "addedAttachment");
+
+        return attachments;
     }
 
-    private List<Attachment> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException {
+    private List<AttachmentDto> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException {
         String updatedPhonesAttachments = request.getParameter("attachmentsToUpdate");
-        JSONArray updatedAttachments = new JSONArray(updatedPhonesAttachments);
+        List<AttachmentDto> attachments = parseAttachmentsFromJSON(updatedPhonesAttachments);
+        attachments = tiePartsWithNames(attachments, "updatedAttachment");
+
+        return attachments;
+    }
+
+    private List<Long> buildDeletedAttachmentsIdsFromRequest() {
+        return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("attachmentToDelete"));
+    }
+
+    private List<AttachmentDto> parseAttachmentsFromJSON(String json) {
+        JSONArray addedAttachments = new JSONArray(json);
 
         List<AttachmentDto> attachments = new ArrayList<>();
-        for (int i = 0; i < updatedAttachments.length(); i++) {
-            JSONObject object = updatedAttachments.getJSONObject(i);
+        for (int i = 0; i < addedAttachments.length(); i++) {
+            JSONObject object = addedAttachments.getJSONObject(i);
             AttachmentDto attachment = new AttachmentDto();
             attachment.setId(Long.valueOf(object.getString("id")));
             attachment.setName(object.getString("name"));
@@ -288,28 +298,20 @@ public class ContactCommand extends AbstractCommand {
             attachments.add(attachment);
         }
 
-        List<Part> updated = request.getParts().stream().filter(part -> "updatedAttachment".equals(part.getName())).collect(Collectors.toList());
-        for (Part part : updated) {
-            //todo process
+        return attachments;
+    }
+
+    private List<AttachmentDto> tiePartsWithNames(List<AttachmentDto> attachments, String partName) throws ServletException, IOException {
+        List<Part> parts = request.getParts().stream().filter(part -> partName.equals(part.getName())).collect(Collectors.toList());
+        for (Part part : parts) {
             for (AttachmentDto attachment : attachments) {
-                if (part.getSubmittedFileName().equals(attachment.getFileName())){
-                    // works for now
-                    writeToFile(part);
-                    logger.info("writing file");
+                if (part.getSubmittedFileName().equals(attachment.getFileName())) {
+                    attachment.setFile(part);
                 }
             }
         }
 
-        return new ArrayList<>();
-    }
-
-    private List<Long> buildDeletedAttachmentsIdsFromRequest() {
-        return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("attachmentToDelete"));
-    }
-
-    private void writeToFile(Part part) throws IOException{
-        String path = UploadPropertyService.getInstance().getPath();
-        part.write(path + part.getSubmittedFileName());
+        return attachments;
     }
 
 }

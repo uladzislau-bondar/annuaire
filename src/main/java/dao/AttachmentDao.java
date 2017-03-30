@@ -31,7 +31,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
             statement.setString(2, attachment.getName());
             statement.setDate(3, attachment.getDateOfUpload());
             statement.setString(4, attachment.getComment());
-            String filePath = DaoUtils.fileToPath(attachment.getFile());
+            String filePath = attachment.getFileName();
             statement.setString(5, filePath);
 
             logger.info(statement.toString());
@@ -87,7 +87,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
             statement.setString(2, attachment.getName());
             statement.setDate(3, attachment.getDateOfUpload());
             statement.setString(4, attachment.getComment());
-            String filePath = DaoUtils.fileToPath(attachment.getFile());
+            String filePath = attachment.getFileName();
             statement.setString(5, filePath);
             statement.setLong(6, attachment.getId());
 
@@ -140,8 +140,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
             attachment.setName(set.getString("name"));
             attachment.setDateOfUpload(set.getDate("dateOfUpload"));
             attachment.setComment(set.getString("comment"));
-            File file = DaoUtils.pathToFile(set.getString("filePath"));
-            attachment.setFile(file);
+            attachment.setFileName(set.getString("filePath"));
 
             attachments.add(attachment);
         }
@@ -158,8 +157,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
             attachment.setName(set.getString("name"));
             attachment.setDateOfUpload(set.getDate("dateOfUpload"));
             attachment.setComment(set.getString("comment"));
-            File file = DaoUtils.pathToFile(set.getString("filePath"));
-            attachment.setFile(file);
+            attachment.setFileName(set.getString("filePath"));
         }
 
         return attachment;

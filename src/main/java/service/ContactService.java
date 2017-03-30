@@ -5,16 +5,24 @@ import dao.AttachmentDao;
 import dao.ContactDao;
 import dao.PhoneDao;
 import db.TransactionHandler;
+import dto.AttachmentDto;
 import dto.ContactDatabaseDto;
 import dto.ContactFrontDto;
 import entities.Attachment;
 import entities.Contact;
 import entities.Phone;
+import properties.UploadPropertyService;
+import util.DtoUtils;
 
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
 public class ContactService {
+    private final static String UPLOAD_PATH = UploadPropertyService.getInstance().getPath();
+
     public ContactDatabaseDto get(Long id){
         final ContactDatabaseDto dto = new ContactDatabaseDto();
         TransactionHandler.run(connection -> {
@@ -94,18 +102,54 @@ public class ContactService {
         }
     }
 
-    private void saveAttachments(Connection connection, ContactFrontDto dto, Long contactId) {
+    private void saveAttachments(Connection connection, ContactFrontDto contact, Long contactId) {
         AttachmentDao dao = new AttachmentDao(connection);
-        for (Attachment updatedAttachment : dto.getUpdatedAttachments()) {
-            updatedAttachment.setContactId(contactId);
-            dao.update(updatedAttachment);
+        for (AttachmentDto dto : contact.getUpdatedAttachments()) {
+            Attachment attachment = DtoUtils.convertToAttachment(dto);
+            attachment.setContactId(contactId);
+
+            if (dto.getFile() != null){
+                try{
+                    String fileName = savePartToFile(dto.getName(), dto.getFile(), contactId);
+                    attachment.setFileName(fileName);
+                    dao.update(attachment);
+                }
+                catch (IOException e){
+                    //todo msg
+                }
+            }
         }
-        for (Attachment addedAttachment : dto.getAddedAttachments()) {
-            addedAttachment.setContactId(contactId);
-            dao.save(addedAttachment);
+        for (AttachmentDto dto : contact.getAddedAttachments()) {
+            Attachment attachment = DtoUtils.convertToAttachment(dto);
+            attachment.setContactId(contactId);
+
+            if (dto.getFile() != null){
+                try{
+                    String fileName = savePartToFile(dto.getName(), dto.getFile(), contactId);
+                    attachment.setFileName(fileName);
+                    dao.save(attachment);
+                }
+                catch (IOException e){
+                    //todo msg
+                }
+            }
         }
-        for (Long id : dto.getDeletedAttachmentsIds()) {
+        for (Long id : contact.getDeletedAttachmentsIds()) {
             dao.delete(id);
         }
+    }
+
+    private String savePartToFile(String name, Part part, Long contactId) throws IOException{
+        String path = UPLOAD_PATH + File.separator + "contact" + contactId;
+
+        File fileSaveDir = new File(path);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdirs();
+        }
+
+        String filePath = path + File.separator + name;
+        part.write(filePath);
+
+        return filePath;
     }
 }

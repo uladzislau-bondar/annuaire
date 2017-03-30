@@ -44,6 +44,17 @@ public class DtoUtils {
         return dto;
     }
 
+    public static Attachment convertToAttachment(AttachmentDto dto){
+        Attachment attachment = new Attachment();
+        attachment.setId(dto.getId());
+        attachment.setName(dto.getName());
+        attachment.setDateOfUpload(dto.getDateOfUpload());
+        attachment.setComment(dto.getComment());
+        attachment.setFileName(dto.getFileName());
+
+        return attachment;
+    }
+
     private static String createFullName(Contact contact){
         StringBuilder result = new StringBuilder();
         if (StringUtils.isNotEmpty(contact.getFirstName())){

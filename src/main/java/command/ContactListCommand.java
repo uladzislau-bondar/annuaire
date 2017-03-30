@@ -1,30 +1,29 @@
 package command;
 
 
+import command.helpers.ContactListHelper;
 import dto.ContactInfoDto;
-import org.antlr.stringtemplate.StringTemplate;
-import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.ContactListService;
 import util.MyStringUtils;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ContactListCommand extends AbstractCommand {
     private static Logger logger = LogManager.getLogger(ContactListCommand.class);
     private ContactListService service;
+    private ContactListHelper helper;
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
         service = new ContactListService();
+        helper = new ContactListHelper(request);
     }
 
     @Override
@@ -34,29 +33,21 @@ public class ContactListCommand extends AbstractCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        String method = request.getMethod();
-        Map<String, String> query = MyStringUtils.splitQuery(request.getQueryString());
-
-        int offset = 0;
-        if (query.get("offset") != null) {
-            offset = Integer.valueOf(query.get("offset"));
-        }
+        String method = helper.getMethod();
 
         switch (method) {
             case "GET":
-                showContactList(offset);
-
+                showContactList();
                 forward("index");
                 break;
             case "POST":
+                Map<String, String> query = helper.getQuery();
                 if (query.containsKey("method")) {
-                    List<Long> ids = MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("selected"));
                     if (query.get("method").equals("delete")) {
-                        deleteSelectedContacts(ids);
+                        deleteSelectedContacts();
                         redirect("/");
-
                     } else if (query.get("method").equals("email")) {
-                        emailSelectedContacts(ids);
+                        emailSelectedContacts();
                         forward("email");
                     }
                 }
@@ -64,40 +55,28 @@ public class ContactListCommand extends AbstractCommand {
         }
     }
 
-    private void showContactList(int offset) {
+    private void showContactList() {
         logger.info("Showing contacts");
 
+        int offset = helper.getOffset();
         List<ContactInfoDto> contacts = service.getAllWithOffset(offset);
         request.setAttribute("contactList", contacts);
     }
 
-    private void deleteSelectedContacts(List<Long> ids) {
+    private void deleteSelectedContacts() {
         logger.info("Deleting selected contacts");
 
+        List<Long> ids = helper.getSelectedIds();
         service.deleteSelected(ids);
     }
 
-    private void emailSelectedContacts(List<Long> ids) throws IOException {
+    private void emailSelectedContacts() throws IOException {
         logger.info("Redirecting to email page with selected contacts");
 
+        List<Long> ids = helper.getSelectedIds();
         List<String> emails = service.getEmailsOfSelected(ids);
 
-        //todo remove to helper
-        String emailsList = String.join("; ", emails);
-        logger.info(emailsList);
-
-        ServletContext context = request.getServletContext();
-        String templatePath = context.getRealPath("/WEB-INF/templates");
-        StringTemplateGroup group = new StringTemplateGroup("email", templatePath);
-        StringTemplate birthday = group.getInstanceOf("birthday");
-        StringTemplate christmas = group.getInstanceOf("christmas");
-
-        Map<String, String> templates = new HashMap<>();
-        templates.put("birthday", birthday.getTemplate());
-        templates.put("christmas", christmas.getTemplate());
-
-        request.setAttribute("templates", templates);
-        request.setAttribute("emails", emailsList);
+        helper.processRedirectionToEmailPage(emails);
     }
 
 }

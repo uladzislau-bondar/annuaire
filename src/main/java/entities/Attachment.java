@@ -10,7 +10,7 @@ public class Attachment {
     private String name;
     private Date dateOfUpload;
     private String comment;
-    private File file;
+    private String fileName;
 
     public Long getId() {
         return id;
@@ -52,11 +52,11 @@ public class Attachment {
         this.comment = comment;
     }
 
-    public File getFile() {
-        return file;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
