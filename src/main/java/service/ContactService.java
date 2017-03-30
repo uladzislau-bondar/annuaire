@@ -20,8 +20,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
+
+// todo deal with conflict between photo name and contact id
 public class ContactService {
     private final static String UPLOAD_PATH = UploadPropertyService.getInstance().getPath();
+    private final static String PROFILE_PIC_NAME = "profilePic";
 
     public ContactDatabaseDto get(Long id){
         final ContactDatabaseDto dto = new ContactDatabaseDto();
@@ -57,13 +60,15 @@ public class ContactService {
         });
     }
 
-    private Long saveContact(Connection connection, Contact contact){
+    private Long saveContact(Connection connection, ContactFrontDto dto){
         ContactDao dao = new ContactDao(connection);
+        Contact contact = setPhotoToContact(dto);
         return dao.save(contact);
     }
 
-    private void updateContact(Connection connection, Contact contact){
+    private void updateContact(Connection connection, ContactFrontDto dto){
         ContactDao dao = new ContactDao(connection);
+        Contact contact = setPhotoToContact(dto);
         dao.update(contact);
     }
 
@@ -75,6 +80,14 @@ public class ContactService {
     private Contact getContact(Connection connection, Long id){
         ContactDao dao = new ContactDao(connection);
         return dao.getById(id);
+    }
+
+    private Contact setPhotoToContact(ContactFrontDto dto){
+        Contact contact = dto.getContact();
+        String photoPath = savePhoto(dto);
+        contact.setPhotoPath(photoPath);
+
+        return contact;
     }
 
     private List<Phone> getPhones(Connection connection, Long contactId){
@@ -136,6 +149,15 @@ public class ContactService {
         }
         for (Long id : contact.getDeletedAttachmentsIds()) {
             dao.delete(id);
+        }
+    }
+
+    private String savePhoto(ContactFrontDto dto) throws IOException{
+        Part photo = dto.getPhoto();
+
+        // todo check type
+        if (photo != null){
+            savePartToFile(PROFILE_PIC_NAME, dto.getPhoto(), 1L);
         }
     }
 

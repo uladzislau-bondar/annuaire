@@ -36,8 +36,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(8, contact.getWebsite());
             statement.setString(9, contact.getEmail());
             statement.setString(10, contact.getPlaceOfWork());
-            String photoPath = DaoUtils.fileToPath(contact.getPhoto());
-            statement.setString(11, photoPath);
+            statement.setString(11, contact.getPhotoPath());
             statement.setString(12, contact.getCountry());
             statement.setString(13, contact.getCity());
             statement.setString(14, contact.getAddress());
@@ -102,8 +101,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(8, contact.getWebsite());
             statement.setString(9, contact.getEmail());
             statement.setString(10, contact.getPlaceOfWork());
-            String photoPath = DaoUtils.fileToPath(contact.getPhoto());
-            statement.setString(11, photoPath);
+            statement.setString(11, contact.getPhotoPath());
             statement.setString(12, contact.getCountry());
             statement.setString(13, contact.getCity());
             statement.setString(14, contact.getAddress());
@@ -225,8 +223,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .country(set.getString("country"))
                     .city(set.getString("city"))
                     .address(set.getString("address"))
-                    .zip(set.getInt("zip"));
-            //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
+                    .zip(set.getInt("zip"))
+                    .photoPath(set.getString("photoPath"));
 
             Contact contact = builder.build();
             contacts.add(contact);
@@ -254,8 +252,8 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .country(set.getString("country"))
                     .city(set.getString("city"))
                     .address(set.getString("address"))
-                    .zip(set.getInt("zip"));
-            //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
+                    .zip(set.getInt("zip"))
+                    .photoPath(set.getString("photoPath"));
 
             contact = builder.build();
         }

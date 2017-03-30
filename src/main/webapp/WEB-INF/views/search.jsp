@@ -11,7 +11,7 @@
     Фамилия:
     <input type="text" name="lastName"/> <br>
     Отчество:
-    <input type="text" name="middleName"/>"/> <br>
+    <input type="text" name="middleName"/> <br>
     <!-- todo further or earlier dateOfBirth -->
     Дата рождения:
     <input type="text" name="dateOfBirth"/> <br>

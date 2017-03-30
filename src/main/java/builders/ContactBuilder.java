@@ -18,7 +18,7 @@ public class ContactBuilder {
     private String website;
     private String email;
     private String placeOfWork;
-    private File photo;
+    private String photoPath;
     private String country;
     private String city;
     private String address;
@@ -83,8 +83,8 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder photo(File photo) {
-        this.photo = photo;
+    public ContactBuilder photoPath(String photoPath) {
+        this.photoPath = photoPath;
         return this;
     }
 
@@ -109,6 +109,6 @@ public class ContactBuilder {
     }
 
     public Contact build() {
-        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, photo, country, city, address, zip);
+        return new Contact(id, firstName, lastName, middleName, dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, photoPath, country, city, address, zip);
     }
 }

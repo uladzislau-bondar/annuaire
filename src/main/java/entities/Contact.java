@@ -19,13 +19,13 @@ public class Contact {
     private String website = "";
     private String email = "";
     private String placeOfWork = "";
-    private File photo;
+    private String photoPath;
     private String country = "";
     private String city = "";
     private String address = "";
     private int zip;
 
-    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String website, String email, String placeOfWork, File photo, String country, String city, String address, int zip) {
+    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String website, String email, String placeOfWork, String photoPath, String country, String city, String address, int zip) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,7 +37,7 @@ public class Contact {
         this.website = website;
         this.email = email;
         this.placeOfWork = placeOfWork;
-        this.photo = photo;
+        this.photoPath = photoPath;
         this.country = country;
         this.city = city;
         this.address = address;
@@ -92,8 +92,8 @@ public class Contact {
         this.placeOfWork = placeOfWork;
     }
 
-    public void setPhoto(File photo) {
-        this.photo = photo;
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     public String getFirstName() {
@@ -136,8 +136,8 @@ public class Contact {
         return placeOfWork;
     }
 
-    public File getPhoto() {
-        return photo;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
     public String getCountry() {

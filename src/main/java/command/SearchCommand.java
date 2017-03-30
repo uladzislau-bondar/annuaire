@@ -63,19 +63,20 @@ public class SearchCommand extends AbstractCommand {
     private void search() {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-//        String middleName = request.getParameter("middleName");
-//        Date dateOfBirth = MyStringUtils.emptyToDate(request.getParameter("dateOfBirth"));
-//        String sex = request.getParameter("sex");
-//        String citizenship = request.getParameter("citizenship");
-//        String maritalStatus = request.getParameter("maritalStatus");
-//        String country = request.getParameter("country");
-//        String city = request.getParameter("city");
-//        String address = request.getParameter("address");
-//        int zip = Integer.valueOf(request.getParameter("zip"));
+        String middleName = request.getParameter("middleName");
+        Date dateOfBirth = MyStringUtils.emptyToDate(request.getParameter("dateOfBirth"));
+        String sex = request.getParameter("sex");
+        String citizenship = request.getParameter("citizenship");
+        String maritalStatus = request.getParameter("maritalStatus");
+        String country = request.getParameter("country");
+        String city = request.getParameter("city");
+        String address = request.getParameter("address");
+        int zip = Integer.valueOf(request.getParameter("zip"));
 
         Map<String, String> params = new HashMap<>();
         params.put("firstName", firstName);
         params.put("lastName", lastName);
+
 
         try{
             ContactDao dao = new ContactDao(ConnectionPool.getConnection());

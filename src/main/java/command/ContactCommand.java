@@ -173,7 +173,7 @@ public class ContactCommand extends AbstractCommand {
     private ContactFrontDto buildContactFromRequest() throws ServletException, IOException {
         ContactFrontDto dto = new ContactFrontDto();
         dto.setContact(buildContactInfoFromRequest());
-        dto.setPhoto(request.getPart("photo"));
+        dto.setPhoto(buildPhotoFromRequest());
 
         dto.setUpdatedPhones(buildUpdatedPhonesFromRequest());
         dto.setAddedPhones(buildAddedPhonesFromRequest());
@@ -281,6 +281,10 @@ public class ContactCommand extends AbstractCommand {
 
     private List<Long> buildDeletedAttachmentsIdsFromRequest() {
         return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("attachmentToDelete"));
+    }
+
+    private Part buildPhotoFromRequest() throws IOException, ServletException {
+        return request.getPart("photo");
     }
 
     private List<AttachmentDto> parseAttachmentsFromJSON(String json) {
