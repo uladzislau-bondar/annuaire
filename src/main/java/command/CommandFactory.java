@@ -26,6 +26,9 @@ public class CommandFactory {
             case "/email":
                 command = new EmailCommand(request, response);
                 break;
+            case "/search":
+                command = new SearchCommand(request, response);
+                break;
         }
 
         return command;

@@ -4,6 +4,7 @@ package dao;
 import db.constants.ContactConstants;
 import entities.Contact;
 import builders.ContactBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.DaoUtils;
@@ -11,6 +12,7 @@ import util.DaoUtils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ContactDao extends AbstractTemplateDao<Contact, Long> {
     private final static Logger logger = LogManager.getLogger(ContactDao.class);
@@ -128,9 +130,20 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         }
     }
 
-    public List<Contact> getBy(String params) {
-        //todo getBy specific params
-        return null;
+    public List<Contact> getBy(Map<String, String> params) {
+        List<Contact> contacts = new ArrayList<>();
+
+        String query = buildSearchQuery(params);
+        logger.info(query);
+
+        try (PreparedStatement statement = getPreparedStatement(query)) {
+            ResultSet set = statement.executeQuery();
+            contacts = fillListFromResultSet(set);
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return contacts;
     }
 
     public List<Contact> getWithOffset(int limit, int offset) {
@@ -160,7 +173,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             logger.info(statement.toString());
 
             ResultSet set = statement.executeQuery();
-            if (set.next()){
+            if (set.next()) {
                 email = set.getString("email");
             }
 
@@ -179,7 +192,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             logger.info(statement.toString());
 
             ResultSet set = statement.executeQuery();
-            while (set.next()){
+            while (set.next()) {
                 String email = set.getString("email");
                 emails.add(email);
 
@@ -213,7 +226,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .city(set.getString("city"))
                     .address(set.getString("address"))
                     .zip(set.getInt("zip"));
-                    //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
+            //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
 
             Contact contact = builder.build();
             contacts.add(contact);
@@ -222,7 +235,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return contacts;
     }
 
-    private Contact fillContactFromResultSet(ResultSet set) throws SQLException{
+    private Contact fillContactFromResultSet(ResultSet set) throws SQLException {
         Contact contact = null;
 
         if (set.next()) {
@@ -242,11 +255,38 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .city(set.getString("city"))
                     .address(set.getString("address"))
                     .zip(set.getInt("zip"));
-                    //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
+            //.photo(DaoUtils.pathToFile(set.getString("photoPath")));
 
             contact = builder.build();
         }
 
         return contact;
+    }
+
+    private String buildSearchQuery(Map<String, String> params) {
+        StringBuilder query = new StringBuilder();
+        query.append(ContactConstants.GET_BY);
+
+        if (StringUtils.isNotEmpty(params.get("firstName"))) {
+            query.append(appendParamValue("firstName", params.get("firstName")));
+            query.append(" AND ");
+        }
+        if (StringUtils.isNotEmpty(params.get("lastName"))) {
+            query.append(appendParamValue("lastName", params.get("lastName")));
+        }
+        // todo continue
+
+        return query.toString();
+    }
+
+    private String appendParamValue(String param, String value) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(param);
+        builder.append(" ");
+        builder.append("LIKE '%");
+        builder.append(value);
+        builder.append("%'");
+
+        return builder.toString();
     }
 }

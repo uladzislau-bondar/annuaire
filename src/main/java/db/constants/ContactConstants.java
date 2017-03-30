@@ -8,6 +8,7 @@ public interface ContactConstants {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
     String GET_ALL = "SELECT * FROM contacts";
     String GET_BY_ID = "SELECT * FROM contacts WHERE id = ?";
+    String GET_BY = "SELECT * FROM contacts WHERE ";
     String GET_EMAIL_BY_ID = "SELECT email FROM contacts WHERE id = ?";
     String GET_EMAILS_BY_DATE_OF_BIRTH = "SELECT email FROM contacts WHERE dateOfBirth = ?";
     String GET_WITH_OFFSET = "SELECT * FROM contacts LIMIT ? OFFSET ?";
