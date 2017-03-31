@@ -134,14 +134,13 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
         List<Attachment> attachments = new ArrayList<>();
 
         while (set.next()) {
-//            Attachment attachment = new Attachment();
-//            attachment.setId(set.getLong("id"));
-//            attachment.setContactId(set.getLong("contactId"));
-//            attachment.setName(set.getString("name"));
-//            attachment.setDateOfUpload(set.getDate("dateOfUpload"));
-//            attachment.setComment(set.getString("comment"));
-//            attachment.setFileName(set.getString("filePath"));
-            Attachment attachment = fillAttachmentFromResultSet(set);
+            Attachment attachment = new Attachment();
+            attachment.setId(set.getLong("id"));
+            attachment.setContactId(set.getLong("contactId"));
+            attachment.setName(set.getString("name"));
+            attachment.setDateOfUpload(set.getDate("dateOfUpload"));
+            attachment.setComment(set.getString("comment"));
+            attachment.setFileName(set.getString("fileName"));
             attachments.add(attachment);
         }
 
@@ -157,7 +156,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
             attachment.setName(set.getString("name"));
             attachment.setDateOfUpload(set.getDate("dateOfUpload"));
             attachment.setComment(set.getString("comment"));
-            attachment.setFileName(set.getString("filePath"));
+            attachment.setFileName(set.getString("fileName"));
         }
 
         return attachment;

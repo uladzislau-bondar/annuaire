@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AttachmentCommand extends AbstractCommand{
-    private final static Logger logger = LogManager.getLogger(PhoneCommand.class);
-
     public AttachmentCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }

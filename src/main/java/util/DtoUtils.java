@@ -1,8 +1,9 @@
 package util;
 
+import dto.AttachmentDatabaseDto;
 import org.apache.commons.lang3.StringUtils;
 
-import dto.AttachmentDto;
+import dto.AttachmentFrontDto;
 import dto.ContactInfoDto;
 import dto.PhoneDto;
 import entities.Attachment;
@@ -34,17 +35,18 @@ public class DtoUtils {
         return dto;
     }
 
-    public static AttachmentDto convertToDto(Attachment attachment){
-        AttachmentDto dto = new AttachmentDto();
+    public static AttachmentDatabaseDto convertToDto(Attachment attachment){
+        AttachmentDatabaseDto dto = new AttachmentDatabaseDto();
         dto.setId(attachment.getId());
         dto.setName(attachment.getName());
         dto.setDateOfUpload(attachment.getDateOfUpload());
         dto.setComment(attachment.getComment());
+        dto.setFileName(attachment.getFileName());
 
         return dto;
     }
 
-    public static Attachment convertToAttachment(AttachmentDto dto){
+    public static Attachment convertToAttachment(AttachmentFrontDto dto){
         Attachment attachment = new Attachment();
         attachment.setId(dto.getId());
         attachment.setName(dto.getName());

@@ -1,5 +1,5 @@
 function selectPhoto() {
-    document.getElementById('photoInput').click()
+    document.getElementById('photoInput').click();
 }
 
 function changePhoto(input) {
@@ -7,7 +7,7 @@ function changePhoto(input) {
         var reader = new FileReader();
 
         reader.onloadend = function () {
-            var photo = document.getElementById("photo");
+            var photo = document.getElementById('photoImg');
             photo.src = reader.result;
         };
 

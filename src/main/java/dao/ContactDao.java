@@ -204,6 +204,19 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return emails;
     }
 
+    public void updatePhotoPathById(String photoPath, Long id) {
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.UPDATE_PHOTOPATH)) {
+            statement.setString(1, photoPath);
+            statement.setLong(2, id);
+
+            logger.info(statement.toString());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+    }
+
     private List<Contact> fillListFromResultSet(ResultSet set) throws SQLException {
         List<Contact> contacts = new ArrayList<>();
 

@@ -1,7 +1,6 @@
 package dto;
 
 
-import entities.Attachment;
 import entities.Contact;
 import entities.Phone;
 
@@ -14,8 +13,8 @@ public class ContactFrontDto {
     private List<Phone> addedPhones;
     private List<Phone> updatedPhones;
     private List<Long> deletedPhonesIds;
-    private List<AttachmentDto> addedAttachments;
-    private List<AttachmentDto> updatedAttachments;
+    private List<AttachmentFrontDto> addedAttachments;
+    private List<AttachmentFrontDto> updatedAttachments;
     private List<Long> deletedAttachmentsIds;
 
     public Contact getContact() {
@@ -50,19 +49,19 @@ public class ContactFrontDto {
         this.deletedPhonesIds = deletedPhonesIds;
     }
 
-    public List<AttachmentDto> getAddedAttachments() {
+    public List<AttachmentFrontDto> getAddedAttachments() {
         return addedAttachments;
     }
 
-    public void setAddedAttachments(List<AttachmentDto> addedAttachments) {
+    public void setAddedAttachments(List<AttachmentFrontDto> addedAttachments) {
         this.addedAttachments = addedAttachments;
     }
 
-    public List<AttachmentDto> getUpdatedAttachments() {
+    public List<AttachmentFrontDto> getUpdatedAttachments() {
         return updatedAttachments;
     }
 
-    public void setUpdatedAttachments(List<AttachmentDto> updatedAttachments) {
+    public void setUpdatedAttachments(List<AttachmentFrontDto> updatedAttachments) {
         this.updatedAttachments = updatedAttachments;
     }
 

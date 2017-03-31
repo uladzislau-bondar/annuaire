@@ -15,5 +15,6 @@ public interface ContactConstants {
     String UPDATE = "UPDATE contacts SET firstName = ?, lastName = ?, middleName = ?," +
             "dateOfBirth = ?, sex = ?, citizenship = ?, maritalStatus = ?, website = ?, email = ?, placeOfWork = ?," +
             "photoPath = ?, country = ?, city = ?, address = ?, zip = ? WHERE id = ?";
+    String UPDATE_PHOTOPATH = "UPDATE contacts SET photoPath = ? WHERE id = ?";
     String DELETE = "DELETE FROM contacts WHERE id = ?";
 }

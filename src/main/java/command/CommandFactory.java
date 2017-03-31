@@ -17,9 +17,6 @@ public class CommandFactory {
             case "/contact":
                 command = new ContactCommand(request, response);
                 break;
-            case "/phone":
-                command = new PhoneCommand(request, response);
-                break;
             case "/attachment":
                 command = new AttachmentCommand(request, response);
                 break;

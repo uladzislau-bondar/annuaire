@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<html>
+<!DOCTYPE html>
 <head>
     <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/contact.js"></script>
@@ -21,9 +21,9 @@
 <form id="form" action="${postUrl}" method="post" enctype="multipart/form-data" onsubmit="save()">
     <!-- todo first head element of tables -->
 
-    <input id="photoInput" type="fileName" name="photo" onchange="changePhoto(this);"
+    <input type="file" id="photoInput" name="photo" onchange="changePhoto(this)"
            accept="image/jpeg" style="display: none;"/>
-    <img id="photo" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()"><br>
+    <img id="photoImg" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
 
     Имя:
     <input type="text" name="firstName"

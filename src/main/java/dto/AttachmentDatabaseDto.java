@@ -1,32 +1,14 @@
 package dto;
 
 
-import javax.servlet.http.Part;
 import java.sql.Date;
 
-public class AttachmentDto {
+public class AttachmentDatabaseDto {
     private Long id;
     private String name;
     private Date dateOfUpload;
     private String comment;
     private String fileName;
-    private Part file;
-
-    public Part getFile() {
-        return file;
-    }
-
-    public void setFile(Part file) {
-        this.file = file;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 
     public Long getId() {
         return id;
@@ -58,5 +40,13 @@ public class AttachmentDto {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

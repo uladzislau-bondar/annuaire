@@ -1,9 +1,6 @@
 package command;
 
-import dto.AttachmentDto;
-import dto.ContactDatabaseDto;
-import dto.ContactFrontDto;
-import dto.PhoneDto;
+import dto.*;
 import entities.Attachment;
 import entities.Contact;
 import builders.ContactBuilder;
@@ -12,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import properties.UploadPropertyService;
 import service.ContactService;
 import util.DtoUtils;
 import util.MyStringUtils;
@@ -162,8 +158,9 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void fillRequestWithAttachments(List<Attachment> attachments) {
-        List<AttachmentDto> attachmentDtoList = new ArrayList<>();
+        List<AttachmentDatabaseDto> attachmentDtoList = new ArrayList<>();
         for (Attachment attachment : attachments) {
+            logger.info(attachment.getName());
             attachmentDtoList.add(DtoUtils.convertToDto(attachment));
         }
 
@@ -263,17 +260,17 @@ public class ContactCommand extends AbstractCommand {
         return MyStringUtils.stringArrayToListOfLongs(request.getParameterValues("phoneToDelete"));
     }
 
-    private List<AttachmentDto> buildAddedAttachmentsFromRequest() throws ServletException, IOException {
+    private List<AttachmentFrontDto> buildAddedAttachmentsFromRequest() throws ServletException, IOException {
         String addedPhonesAttachments = request.getParameter("attachmentsToAdd");
-        List<AttachmentDto> attachments = parseAttachmentsFromJSON(addedPhonesAttachments);
+        List<AttachmentFrontDto> attachments = parseAttachmentsFromJSON(addedPhonesAttachments);
         attachments = tiePartsWithNames(attachments, "addedAttachment");
 
         return attachments;
     }
 
-    private List<AttachmentDto> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException {
+    private List<AttachmentFrontDto> buildUpdatedAttachmentsFromRequest() throws ServletException, IOException {
         String updatedPhonesAttachments = request.getParameter("attachmentsToUpdate");
-        List<AttachmentDto> attachments = parseAttachmentsFromJSON(updatedPhonesAttachments);
+        List<AttachmentFrontDto> attachments = parseAttachmentsFromJSON(updatedPhonesAttachments);
         attachments = tiePartsWithNames(attachments, "updatedAttachment");
 
         return attachments;
@@ -287,13 +284,13 @@ public class ContactCommand extends AbstractCommand {
         return request.getPart("photo");
     }
 
-    private List<AttachmentDto> parseAttachmentsFromJSON(String json) {
+    private List<AttachmentFrontDto> parseAttachmentsFromJSON(String json) {
         JSONArray addedAttachments = new JSONArray(json);
 
-        List<AttachmentDto> attachments = new ArrayList<>();
+        List<AttachmentFrontDto> attachments = new ArrayList<>();
         for (int i = 0; i < addedAttachments.length(); i++) {
             JSONObject object = addedAttachments.getJSONObject(i);
-            AttachmentDto attachment = new AttachmentDto();
+            AttachmentFrontDto attachment = new AttachmentFrontDto();
             attachment.setId(Long.valueOf(object.getString("id")));
             attachment.setName(object.getString("name"));
             // todo date
@@ -305,10 +302,10 @@ public class ContactCommand extends AbstractCommand {
         return attachments;
     }
 
-    private List<AttachmentDto> tiePartsWithNames(List<AttachmentDto> attachments, String partName) throws ServletException, IOException {
+    private List<AttachmentFrontDto> tiePartsWithNames(List<AttachmentFrontDto> attachments, String partName) throws ServletException, IOException {
         List<Part> parts = request.getParts().stream().filter(part -> partName.equals(part.getName())).collect(Collectors.toList());
         for (Part part : parts) {
-            for (AttachmentDto attachment : attachments) {
+            for (AttachmentFrontDto attachment : attachments) {
                 if (part.getSubmittedFileName().equals(attachment.getFileName())) {
                     attachment.setFile(part);
                 }

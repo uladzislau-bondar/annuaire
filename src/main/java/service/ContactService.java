@@ -5,7 +5,7 @@ import dao.AttachmentDao;
 import dao.ContactDao;
 import dao.PhoneDao;
 import db.TransactionHandler;
-import dto.AttachmentDto;
+import dto.AttachmentFrontDto;
 import dto.ContactDatabaseDto;
 import dto.ContactFrontDto;
 import entities.Attachment;
@@ -21,7 +21,6 @@ import java.sql.Connection;
 import java.util.List;
 
 
-// todo deal with conflict between photo name and contact id
 public class ContactService {
     private final static String UPLOAD_PATH = UploadPropertyService.getInstance().getPath();
     private final static String PROFILE_PIC_NAME = "profilePic";
@@ -40,6 +39,7 @@ public class ContactService {
     public void save(ContactFrontDto dto){
         TransactionHandler.run(connection -> {
             Long id = saveContact(connection, dto.getContact());
+            savePhoto(connection, dto.getPhoto(), id);
             savePhones(connection, dto, id);
             saveAttachments(connection, dto, id);
         });
@@ -49,6 +49,7 @@ public class ContactService {
         TransactionHandler.run(connection -> {
             dto.getContact().setId(id);
             updateContact(connection, dto.getContact());
+            savePhoto(connection, dto.getPhoto(), id);
             savePhones(connection, dto, id);
             saveAttachments(connection, dto, id);
         });
@@ -60,15 +61,13 @@ public class ContactService {
         });
     }
 
-    private Long saveContact(Connection connection, ContactFrontDto dto){
+    private Long saveContact(Connection connection, Contact contact){
         ContactDao dao = new ContactDao(connection);
-        Contact contact = setPhotoToContact(dto);
         return dao.save(contact);
     }
 
-    private void updateContact(Connection connection, ContactFrontDto dto){
+    private void updateContact(Connection connection, Contact contact){
         ContactDao dao = new ContactDao(connection);
-        Contact contact = setPhotoToContact(dto);
         dao.update(contact);
     }
 
@@ -82,12 +81,17 @@ public class ContactService {
         return dao.getById(id);
     }
 
-    private Contact setPhotoToContact(ContactFrontDto dto){
-        Contact contact = dto.getContact();
-        String photoPath = savePhoto(dto);
-        contact.setPhotoPath(photoPath);
+    private void savePhoto(Connection connection, Part photo, Long contactId){
+        if (photo != null) {
+            try{
+                String photoPath = savePhotoToFile(photo, contactId);
 
-        return contact;
+                ContactDao dao = new ContactDao(connection);
+                dao.updatePhotoPathById(photoPath, contactId);
+            } catch (IOException e){
+                // todo msg
+            }
+        }
     }
 
     private List<Phone> getPhones(Connection connection, Long contactId){
@@ -117,7 +121,7 @@ public class ContactService {
 
     private void saveAttachments(Connection connection, ContactFrontDto contact, Long contactId) {
         AttachmentDao dao = new AttachmentDao(connection);
-        for (AttachmentDto dto : contact.getUpdatedAttachments()) {
+        for (AttachmentFrontDto dto : contact.getUpdatedAttachments()) {
             Attachment attachment = DtoUtils.convertToAttachment(dto);
             attachment.setContactId(contactId);
 
@@ -132,7 +136,7 @@ public class ContactService {
                 }
             }
         }
-        for (AttachmentDto dto : contact.getAddedAttachments()) {
+        for (AttachmentFrontDto dto : contact.getAddedAttachments()) {
             Attachment attachment = DtoUtils.convertToAttachment(dto);
             attachment.setContactId(contactId);
 
@@ -152,13 +156,9 @@ public class ContactService {
         }
     }
 
-    private String savePhoto(ContactFrontDto dto) throws IOException{
-        Part photo = dto.getPhoto();
-
-        // todo check type
-        if (photo != null){
-            savePartToFile(PROFILE_PIC_NAME, dto.getPhoto(), 1L);
-        }
+    private String savePhotoToFile(Part photo, Long contactId) throws IOException{
+        String fileName = savePartToFile(PROFILE_PIC_NAME, photo, contactId);
+        return fileName;
     }
 
     private String savePartToFile(String name, Part part, Long contactId) throws IOException{
