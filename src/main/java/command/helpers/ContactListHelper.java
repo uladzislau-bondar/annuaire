@@ -16,11 +16,6 @@ public class ContactListHelper extends AbstractHelper{
         super(request);
     }
 
-    public int getOffset(){
-        String offsetParam = getQuery().get("offset");
-        return offsetParam != null ? Integer.valueOf(offsetParam) : 0;
-    }
-
     public List<Long> getSelectedIds(){
         return Utils.toLongList(request.getParameterValues("selected"));
     }

@@ -41,7 +41,7 @@ public class SearchCommand extends AbstractCommand {
                 break;
             case "POST":
                 search();
-                forward("index");
+                forwardWithMethod("index", "search");
                 break;
         }
     }
@@ -56,6 +56,7 @@ public class SearchCommand extends AbstractCommand {
         logger.info("Processing searching");
 
         Map<String, String> searchParams = helper.getSearchParams();
+        int offset = helper.getOffset();
         List<ContactInfoDto> result = service.getSearchResult(searchParams);
 
         request.setAttribute("contactList", result);

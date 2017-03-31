@@ -24,6 +24,11 @@ public abstract class AbstractCommand implements Command {
                 .forward(request, response);
     }
 
+    public void forwardWithMethod(String jspName, String methodName) throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/views/" + jspName + ".jsp" + "?method=" + methodName)
+                .forward(request, response);
+    }
+
     public void redirect(String path) throws IOException{
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + path));
     }

@@ -33,4 +33,9 @@ public class AbstractHelper {
     public String getMethodParam(){
         return getQuery().get("method");
     }
+
+    public int getOffset(){
+        String offsetParam = getQuery().get("offset");
+        return offsetParam != null ? Integer.valueOf(offsetParam) : 0;
+    }
 }

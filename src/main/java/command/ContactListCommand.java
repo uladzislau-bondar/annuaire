@@ -6,22 +6,24 @@ import dto.ContactInfoDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.ContactListService;
+import service.SearchService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class ContactListCommand extends AbstractCommand {
     private static Logger logger = LogManager.getLogger(ContactListCommand.class);
-    private ContactListService service;
+    private ContactListService contactListService;
+    private SearchService searchService;
     private ContactListHelper helper;
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
-        service = new ContactListService();
+        contactListService = new ContactListService();
+        searchService = new SearchService();
         helper = new ContactListHelper(request);
     }
 
@@ -33,14 +35,16 @@ public class ContactListCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         String method = helper.getMethod();
+        String methodParam = helper.getMethodParam();
 
         switch (method) {
             case "GET":
-                showContactList();
-                forward("index");
+                if (methodParam == null || methodParam.equals("show")){
+                    showContactList();
+                    forwardWithMethod("index", "show");
+                }
                 break;
             case "POST":
-                String methodParam = helper.getMethodParam();
                 if (methodParam != null) {
                     if (methodParam.equals("delete")) {
                         deleteSelectedContacts();
@@ -61,22 +65,24 @@ public class ContactListCommand extends AbstractCommand {
         logger.info("Showing contacts");
 
         int offset = helper.getOffset();
-        List<ContactInfoDto> contacts = service.getAllWithOffset(offset);
+        List<ContactInfoDto> contacts = contactListService.getAllWithOffset(offset);
         request.setAttribute("contactList", contacts);
+
+        setTitle("List of contacts");
     }
 
     private void deleteSelectedContacts() {
         logger.info("Deleting selected contacts");
 
         List<Long> ids = helper.getSelectedIds();
-        service.deleteSelected(ids);
+        contactListService.deleteSelected(ids);
     }
 
     private void emailSelectedContacts() throws IOException {
         logger.info("Redirecting to email page with selected contacts");
 
         List<Long> ids = helper.getSelectedIds();
-        List<String> emails = service.getEmailsOfSelected(ids);
+        List<String> emails = contactListService.getEmailsOfSelected(ids);
 
         helper.processRedirectionToEmailPage(emails);
     }
