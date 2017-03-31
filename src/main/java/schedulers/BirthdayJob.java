@@ -3,6 +3,7 @@ package schedulers;
 
 import dao.ContactDao;
 import db.ConnectionPool;
+import db.TransactionHandler;
 import properties.EmailPropertyService;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -13,23 +14,34 @@ import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import service.EmailService;
+import util.Utils;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+//todo get from properties
 public class BirthdayJob implements Job {
     private final static Logger logger = LogManager.getLogger(BirthdayJob.class);
+    private final static String SUBJECT = "Today's birthday boys";
+    private final static EmailPropertyService properties = EmailPropertyService.getInstance();
+    private final EmailService service = new EmailService();
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         List<String> birthdayBoysEmails = getBirthdayBoysEmails();
-        String birthdayList = String.join("; ", birthdayBoysEmails);
-        sendEmail(birthdayList);
+        if (birthdayBoysEmails != null && !birthdayBoysEmails.isEmpty()){
+            String birthdayList = Utils.joinListWithSemicolon(birthdayBoysEmails);
+            Map<String, String> emailParams = buildEmailParams(birthdayList);
+            service.sendEmail(emailParams);
 
-        logger.info("Sending notification to admin, that " + birthdayList + "have birthday today");
+            logger.info("Sending notification to admin, that " + birthdayList + "have birthday today");
+        }
     }
 
     private Date today() {
@@ -38,36 +50,22 @@ public class BirthdayJob implements Job {
     }
 
     private List<String> getBirthdayBoysEmails() {
-        List<String> emails = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = ConnectionPool.getConnection();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
+        final List<String> emails = new ArrayList<>();
+        TransactionHandler.run(connection -> {
+            ContactDao dao = new ContactDao(connection);
+            emails.addAll(dao.getEmailsByDateOfBirth(today()));
+        });
 
-        ContactDao dao = new ContactDao(connection);
-        return dao.getEmailsByDateOfBirth(today());
+        return emails;
     }
 
-    private void sendEmail(String birthdayList) {
-        EmailPropertyService properties = EmailPropertyService.getInstance();
+    private Map<String, String> buildEmailParams(String emailList){
+        Map<String, String> params = new HashMap<>();
+        params.put("subject", SUBJECT);
+        String message = emailList + " have birthday today";
+        params.put("message", message);
+        params.put("emails", properties.getAdminEmail());
 
-        Email email = new SimpleEmail();
-        email.setHostName(properties.getHostname());
-        email.setSmtpPort(properties.getPort());
-        email.setAuthenticator(new DefaultAuthenticator(properties.getUsername(), properties.getPassword()));
-        email.setSSLOnConnect(true);
-
-        try {
-            email.setFrom(properties.getSender());
-            email.setSubject("Today's birthday boys");
-            String message = birthdayList + " have birthday today!";
-            email.setMsg(message);
-            email.addTo(properties.getAdminEmail());
-            email.send();
-        } catch (EmailException e) {
-            logger.error(e);
-        }
+        return params;
     }
 }

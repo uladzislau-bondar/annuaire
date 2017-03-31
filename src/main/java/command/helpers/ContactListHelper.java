@@ -3,6 +3,7 @@ package command.helpers;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import util.Utils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,7 @@ public class ContactListHelper extends AbstractHelper{
     }
 
     public List<Long> getSelectedIds(){
-        String[] selected = request.getParameterValues("selected");
-        return Arrays.stream(selected).map(Long::valueOf).collect(Collectors.toList());
+        return Utils.toLongList(request.getParameterValues("selected"));
     }
 
     public void processRedirectionToEmailPage(List<String> emails){

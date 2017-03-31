@@ -22,7 +22,7 @@ public class ContactBuilder {
     private String country;
     private String city;
     private String address;
-    private int zip;
+    private String zip;
 
     public ContactBuilder id(Long id) {
         this.id = id;
@@ -103,7 +103,7 @@ public class ContactBuilder {
         return this;
     }
 
-    public ContactBuilder zip(int zip) {
+    public ContactBuilder zip(String zip) {
         this.zip = zip;
         return this;
     }

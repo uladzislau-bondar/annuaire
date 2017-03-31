@@ -42,6 +42,8 @@ public class EmailCommand extends AbstractCommand{
         if (method.equals("POST")){
             sendEmail();
             redirect("/");
+        } else{
+            forward("error");
         }
     }
 

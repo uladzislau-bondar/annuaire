@@ -23,9 +23,9 @@ public class Contact {
     private String country = "";
     private String city = "";
     private String address = "";
-    private int zip;
+    private String zip = "";
 
-    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String website, String email, String placeOfWork, String photoPath, String country, String city, String address, int zip) {
+    public Contact(Long id, String firstName, String lastName, String middleName, Date dateOfBirth, Sex sex, String citizenship, String maritalStatus, String website, String email, String placeOfWork, String photoPath, String country, String city, String address, String zip) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -164,11 +164,11 @@ public class Contact {
         this.address = address;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 }

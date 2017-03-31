@@ -7,7 +7,6 @@ import builders.ContactBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.DaoUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(12, contact.getCountry());
             statement.setString(13, contact.getCity());
             statement.setString(14, contact.getAddress());
-            statement.setInt(15, contact.getZip());
+            statement.setString(15, contact.getZip());
 
             logger.info(statement.toString());
 
@@ -105,7 +104,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             statement.setString(12, contact.getCountry());
             statement.setString(13, contact.getCity());
             statement.setString(14, contact.getAddress());
-            statement.setInt(15, contact.getZip());
+            statement.setString(15, contact.getZip());
             statement.setLong(16, contact.getId());
 
             logger.info(statement.toString());
@@ -236,7 +235,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .country(set.getString("country"))
                     .city(set.getString("city"))
                     .address(set.getString("address"))
-                    .zip(set.getInt("zip"))
+                    .zip(set.getString("zip"))
                     .photoPath(set.getString("photoPath"));
 
             Contact contact = builder.build();
@@ -265,7 +264,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
                     .country(set.getString("country"))
                     .city(set.getString("city"))
                     .address(set.getString("address"))
-                    .zip(set.getInt("zip"))
+                    .zip(set.getString("zip"))
                     .photoPath(set.getString("photoPath"));
 
             contact = builder.build();

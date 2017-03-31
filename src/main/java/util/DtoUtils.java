@@ -1,11 +1,11 @@
 package util;
 
-import dto.AttachmentDatabaseDto;
+import dto.AttachmentInfoDto;
 import org.apache.commons.lang3.StringUtils;
 
 import dto.AttachmentFrontDto;
 import dto.ContactInfoDto;
-import dto.PhoneDto;
+import dto.PhoneInfoDto;
 import entities.Attachment;
 import entities.Contact;
 import entities.Phone;
@@ -24,8 +24,8 @@ public class DtoUtils {
         return dto;
     }
 
-    public static PhoneDto convertToDto(Phone phone){
-        PhoneDto dto = new PhoneDto();
+    public static PhoneInfoDto convertToDto(Phone phone){
+        PhoneInfoDto dto = new PhoneInfoDto();
         dto.setId(phone.getId());
         String number = createNumber(phone);
         dto.setNumber(number);
@@ -35,8 +35,8 @@ public class DtoUtils {
         return dto;
     }
 
-    public static AttachmentDatabaseDto convertToDto(Attachment attachment){
-        AttachmentDatabaseDto dto = new AttachmentDatabaseDto();
+    public static AttachmentInfoDto convertToDto(Attachment attachment){
+        AttachmentInfoDto dto = new AttachmentInfoDto();
         dto.setId(attachment.getId());
         dto.setName(attachment.getName());
         dto.setDateOfUpload(attachment.getDateOfUpload());
@@ -92,8 +92,8 @@ public class DtoUtils {
     }
 
     private static String createNumber(Phone phone) {
-        return "+" + MyStringUtils.intToString(phone.getCountryCode()) + "-"
-                + MyStringUtils.intToString(phone.getNumber());
+        return "+" + Utils.intToString(phone.getCountryCode()) + "-"
+                + Utils.intToString(phone.getNumber());
     }
 
 }

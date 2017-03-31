@@ -19,7 +19,7 @@ public class ApplicationListener implements ServletContextListener {
         logger.info("Starting application");
 
         try{
-            BirthdayScheduler scheduler = new BirthdayScheduler();
+            new BirthdayScheduler();
         }
         catch(SchedulerException e)
         {

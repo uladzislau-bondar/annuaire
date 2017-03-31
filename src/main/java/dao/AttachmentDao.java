@@ -5,9 +5,7 @@ import db.constants.AttachmentConstants;
 import entities.Attachment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.DaoUtils;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -161,4 +159,5 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
 
         return attachment;
     }
+
 }

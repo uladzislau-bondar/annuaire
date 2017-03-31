@@ -1,24 +1,15 @@
 package command;
 
 import command.helpers.SearchHelper;
-import dao.ContactDao;
-import db.ConnectionPool;
 import dto.ContactInfoDto;
-import entities.Contact;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.SearchService;
-import util.DtoUtils;
-import util.MyStringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

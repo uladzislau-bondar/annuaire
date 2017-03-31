@@ -6,7 +6,6 @@ import dto.ContactInfoDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.ContactListService;
-import util.MyStringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,16 +40,19 @@ public class ContactListCommand extends AbstractCommand {
                 forward("index");
                 break;
             case "POST":
-                Map<String, String> query = helper.getQuery();
-                if (query.containsKey("method")) {
-                    if (query.get("method").equals("delete")) {
+                String methodParam = helper.getMethodParam();
+                if (methodParam != null) {
+                    if (methodParam.equals("delete")) {
                         deleteSelectedContacts();
                         redirect("/");
-                    } else if (query.get("method").equals("email")) {
+                    } else if (methodParam.equals("email")) {
                         emailSelectedContacts();
                         forward("email");
                     }
                 }
+                break;
+            default:
+                forward("error");
                 break;
         }
     }

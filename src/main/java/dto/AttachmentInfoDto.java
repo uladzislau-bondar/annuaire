@@ -3,7 +3,7 @@ package dto;
 
 import java.sql.Date;
 
-public class AttachmentDatabaseDto {
+public class AttachmentInfoDto {
     private Long id;
     private String name;
     private Date dateOfUpload;

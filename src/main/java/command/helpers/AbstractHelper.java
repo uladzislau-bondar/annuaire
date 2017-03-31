@@ -1,7 +1,7 @@
 package command.helpers;
 
 
-import util.MyStringUtils;
+import util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -22,11 +22,15 @@ public class AbstractHelper {
     public Map<String, String> getQuery(){
         Map<String, String> query = new HashMap<>();
         try{
-            query = MyStringUtils.splitQuery(request.getQueryString());
+            query = Utils.splitQuery(request.getQueryString());
         } catch (UnsupportedEncodingException e){
             // todo msg
         }
 
         return query;
+    }
+
+    public String getMethodParam(){
+        return getQuery().get("method");
     }
 }

@@ -3,7 +3,7 @@ package dto;
 
 import enums.PhoneType;
 
-public class PhoneDto {
+public class PhoneInfoDto {
     private Long id;
     private String number;
     private String type;

@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 
 
+// todo move upload props to property file
 @WebServlet("/app/*")
 @MultipartConfig(fileSizeThreshold=1024*1024*10,
         maxFileSize=1024*1024*50,

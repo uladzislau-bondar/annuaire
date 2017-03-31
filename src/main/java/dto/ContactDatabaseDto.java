@@ -1,16 +1,14 @@
 package dto;
 
 
-import entities.Attachment;
 import entities.Contact;
-import entities.Phone;
 
 import java.util.List;
 
 public class ContactDatabaseDto {
     private Contact contact;
-    private List<Phone> phones;
-    private List<Attachment> attachments;
+    private List<PhoneInfoDto> phones;
+    private List<AttachmentInfoDto> attachments;
 
     public Contact getContact() {
         return contact;
@@ -20,19 +18,19 @@ public class ContactDatabaseDto {
         this.contact = contact;
     }
 
-    public List<Phone> getPhones() {
+    public List<PhoneInfoDto> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<Phone> phones) {
+    public void setPhones(List<PhoneInfoDto> phones) {
         this.phones = phones;
     }
 
-    public List<Attachment> getAttachments() {
+    public List<AttachmentInfoDto> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(List<Attachment> attachments) {
+    public void setAttachments(List<AttachmentInfoDto> attachments) {
         this.attachments = attachments;
     }
 }
