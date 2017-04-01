@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
 <head>
-    <title>Title</title>
+    <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/email.js" ></script>
 </head>
 <body>
@@ -20,14 +20,17 @@
     </select> <br>
 
     <c:forEach items="${templates}" var="template">
-        <input type="hidden" name="${template.key}" value="${template.value}"/>
+        <input type="hidden" id="${template.key}" name="${template.key}" value="${template.value}"/>
     </c:forEach>
 
+    Текст сообщения:
     <textarea id="message" name="message">
     </textarea> <br>
 
     <input type="submit" value="Отправить" />
-    <input type="button" value="Отменить" />
+    <a href="<c:url value="/" /> ">
+        <input type="button" value="Отменить" />
+    </a><br>
 </form>
 </body>
 </html>

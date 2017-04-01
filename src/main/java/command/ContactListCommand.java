@@ -85,6 +85,7 @@ public class ContactListCommand extends AbstractCommand {
         List<String> emails = contactListService.getEmailsOfSelected(ids);
 
         helper.processRedirectionToEmailPage(emails);
+        setTitle("Email page");
     }
 
 }

@@ -3,8 +3,8 @@ function changeTemplate(index) {
     if (index == 0){
         textarea.value = "";
     } else if (index == 1){
-        textarea.value = document.getElementsByName("birthday")[0].value;
+        textarea.value = document.getElementById("birthday").value;
     } else if (index == 2){
-        textarea.value = document.getElementsByName("christmas")[0].value;
+        textarea.value = document.getElementById("christmas").value;
     }
 }
