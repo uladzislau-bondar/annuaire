@@ -57,7 +57,7 @@ public class SearchCommand extends AbstractCommand {
 
         Map<String, String> searchParams = helper.getSearchParams();
         int offset = helper.getOffset();
-        List<ContactInfoDto> result = service.getSearchResult(searchParams);
+        List<ContactInfoDto> result = service.getSearchResult(searchParams, offset);
 
         request.setAttribute("contactList", result);
     }

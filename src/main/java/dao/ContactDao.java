@@ -127,10 +127,10 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         }
     }
 
-    public List<Contact> getBy(Map<String, String> params) {
+    public List<Contact> getByWithOffset(Map<String, String> params, int limit, int offset) {
         List<Contact> contacts = new ArrayList<>();
 
-        String query = buildSearchQuery(params);
+        String query = buildSearchQuery(params, limit, offset);
         logger.info(query);
 
         try (PreparedStatement statement = getPreparedStatement(query)) {
@@ -273,7 +273,7 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return contact;
     }
 
-    private String buildSearchQuery(Map<String, String> params) {
+    private String buildSearchQuery(Map<String, String> params, int limit, int offset) {
         StringBuilder query = new StringBuilder();
         query.append(ContactConstants.GET_BY);
 
@@ -285,6 +285,11 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             query.append(appendParamValue("lastName", params.get("lastName")));
         }
         // todo continue
+
+        query.append(" LIMIT ");
+        query.append(limit);
+        query.append(" OFFSET ");
+        query.append(offset);
 
         return query.toString();
     }

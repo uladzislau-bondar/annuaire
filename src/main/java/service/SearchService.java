@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchService {
-    public List<ContactInfoDto> getSearchResult(Map<String, String> params) {
+    public List<ContactInfoDto> getSearchResult(Map<String, String> params, int offset) {
         final List<ContactInfoDto> list = new ArrayList<>();
         TransactionHandler.run(connection -> {
             ContactDao dao = new ContactDao(connection);
-            List<Contact> contacts = dao.getBy(params);
+            // todo maybe change limit
+            int limit = 10;
+            List<Contact> contacts = dao.getByWithOffset(params, limit, offset);
 
             for (Contact contact : contacts) {
                 list.add(DtoUtils.convertToInfoDto(contact));
