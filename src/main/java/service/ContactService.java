@@ -81,7 +81,7 @@ public class ContactService {
     }
 
     private void savePhoto(Connection connection, Part photo, Long contactId) {
-        if (photo != null) {
+        if (photo != null && photo.getSize() > 0) {
             try {
                 String photoPath = savePhotoToFile(photo, contactId);
 

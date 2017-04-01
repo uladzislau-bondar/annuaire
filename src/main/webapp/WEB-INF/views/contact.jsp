@@ -22,7 +22,7 @@
     <!-- todo first head element of tables -->
 
     <input type="file" id="photoInput" name="photo" onchange="changePhoto(this)"
-           accept="image/jpeg" style="display: none;"/>
+           accept="image/*" style="display: none;"/>
     <img id="photoImg" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
 
     Имя:
