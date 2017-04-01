@@ -279,17 +279,39 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
 
         if (StringUtils.isNotEmpty(params.get("firstName"))) {
             query.append(appendParamValue("firstName", params.get("firstName")));
-            query.append(" AND ");
         }
         if (StringUtils.isNotEmpty(params.get("lastName"))) {
             query.append(appendParamValue("lastName", params.get("lastName")));
         }
-        // todo continue
+        if (StringUtils.isNotEmpty(params.get("middleName"))) {
+            query.append(appendParamValue("middleName", params.get("middleName")));
+        }
+        // todo process date
+        if (StringUtils.isNotEmpty(params.get("sex"))) {
+            query.append(appendParamValue("sex", params.get("sex")));
+        }
+        if (StringUtils.isNotEmpty(params.get("citizenship"))) {
+            query.append(appendParamValue("citizenship", params.get("citizenship")));
+        }
+        if (StringUtils.isNotEmpty(params.get("maritalStatus"))) {
+            query.append(appendParamValue("maritalStatus", params.get("maritalStatus")));
+        }
+        if (StringUtils.isNotEmpty(params.get("country"))) {
+            query.append(appendParamValue("country", params.get("country")));
+        }
+        if (StringUtils.isNotEmpty(params.get("city"))) {
+            query.append(appendParamValue("city", params.get("city")));
+        }
+        if (StringUtils.isNotEmpty(params.get("address"))) {
+            query.append(appendParamValue("address", params.get("address")));
+        }
+        if (StringUtils.isNotEmpty(params.get("zip"))) {
+            query.append(appendParamValue("zip", params.get("zip")));
+        }
 
-        query.append(" LIMIT ");
-        query.append(limit);
-        query.append(" OFFSET ");
-        query.append(offset);
+
+        query = removeLastAndFromQuery(query);
+        query.append(appendQueryEnd(limit, offset));
 
         return query.toString();
     }
@@ -301,7 +323,24 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         builder.append("LIKE '%");
         builder.append(value);
         builder.append("%'");
+        builder.append(" AND");
 
         return builder.toString();
+    }
+
+    private String appendQueryEnd(int limit, int offset) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" LIMIT ");
+        builder.append(limit);
+        builder.append(" OFFSET ");
+        builder.append(offset);
+
+        return builder.toString();
+    }
+
+    private StringBuilder removeLastAndFromQuery(StringBuilder query){
+        if (query.endsWith("AND")){
+            // todo remove and
+        }
     }
 }
