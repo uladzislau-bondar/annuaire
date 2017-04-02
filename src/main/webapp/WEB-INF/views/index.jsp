@@ -49,6 +49,7 @@
                     <tr>
                         <c:url value="/contact" var="editUrl">
                             <c:param name="id" value="${contact.id}"/>
+                            <c:param name="method" value="show"/>
                         </c:url>
                         <c:url value="/contact" var="deleteUrl">
                             <c:param name="id" value="${contact.id}"/>

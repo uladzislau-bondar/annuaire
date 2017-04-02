@@ -26,6 +26,9 @@ public class CommandFactory {
             case "/search":
                 command = new SearchCommand(request, response);
                 break;
+            case "/photo":
+                command = new PhotoCommand(request, response);
+                break;
             default:
                 // todo process error
         }

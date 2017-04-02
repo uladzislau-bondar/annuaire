@@ -181,6 +181,25 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return email;
     }
 
+    public String getPhotoPathById(Long id) {
+        String email = null;
+        try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_PHOTOPATH_BY_ID)) {
+            statement.setLong(1, id);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                email = set.getString("photoPath");
+            }
+
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return email;
+    }
+
     public List<String> getEmailsByDateOfBirth(Date date) {
         List<String> emails = new ArrayList<>();
         try (PreparedStatement statement = getPreparedStatement(ContactConstants.GET_EMAILS_BY_DATE_OF_BIRTH)) {

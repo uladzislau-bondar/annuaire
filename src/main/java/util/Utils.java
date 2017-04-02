@@ -44,7 +44,12 @@ public class Utils {
     }
 
     public static List<Long> toLongList(String[] array) {
-        return Arrays.stream(array).map(Long::valueOf).collect(Collectors.toList());
+        List<Long> list = new ArrayList<>();
+        if (array != null){
+            list = Arrays.stream(array).map(Long::valueOf).collect(Collectors.toList());
+        }
+
+        return list;
     }
 
 

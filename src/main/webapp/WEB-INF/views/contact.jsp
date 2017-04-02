@@ -23,7 +23,19 @@
 
     <input type="file" id="photoInput" name="photo" onchange="changePhoto(this)"
            accept="image/*" style="display: none;"/>
-    <img id="photoImg" src="../../resources/images/default-img.png" width="200" height="200" onclick="selectPhoto()">
+    <img id="photoImg"
+    <c:choose>
+    <c:when test="${photoPath == null}">
+         src="../../resources/images/default-img.png"
+    </c:when>
+    <c:otherwise>
+    <c:url value="/photo" var="photoUrl">
+            <c:param name="id" value="${param.id}"/>
+    </c:url>
+         src="${photoUrl}"
+    </c:otherwise>
+    </c:choose>
+         width="200" height="200" onclick="selectPhoto()">
 
     Имя:
     <input type="text" name="firstName"
@@ -145,7 +157,7 @@
                 <td><c:out value="${attachment.name}"/></td>
                 <td><c:out value="${attachment.dateOfUpload}"/></td>
                 <td><c:out value="${attachment.comment}"/></td>
-                <td><input type="hidden" name="fileName"></td>
+                <td><input type="hidden" name="fileName" value="${attachment.fileName}"></td>
                 <td><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
                 <td><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
             </tr>

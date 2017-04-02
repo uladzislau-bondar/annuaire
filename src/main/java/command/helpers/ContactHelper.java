@@ -62,6 +62,7 @@ public class ContactHelper extends AbstractHelper{
         request.setAttribute("city", contact.getCity());
         request.setAttribute("address", contact.getAddress());
         request.setAttribute("zip", contact.getZip());
+        request.setAttribute("photoPath", contact.getPhotoPath());
     }
 
     private void fillRequestWithPhones(List<PhoneInfoDto> phones) {
