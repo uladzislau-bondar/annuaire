@@ -1,43 +1,49 @@
+function openAttachmentModal() {
+    var modal = document.getElementById('attachmentModal');
+    insertAfter(fileInput(), document.getElementById("attachmentComment"));
+    modal.style.display = "block";
+}
+
+function closeAttachmentModal() {
+    var modal = document.getElementById('attachmentModal');
+    clearAttachmentModal();
+    modal.style.display = "none";
+}
+
 function editAttachment(element) {
     var id = element.parentNode.parentNode.id.substring(10);
     var attachment = parseAttachmentFromWindow(id);
 
-    var modal = document.getElementById('attachmentModal');
-    var inputs = modal.getElementsByTagName("input");
-
-    inputs[0].value = attachment.hidden;
-    inputs[1].value = attachment.id;
-    inputs[2].value = attachment.name;
-    inputs[3].value = attachment.dateOfUpload;
-    inputs[4].value = attachment.comment;
+    document.getElementById("attachmentHidden").value = attachment.hidden;
+    document.getElementById("attachmentId").value = attachment.id;
+    document.getElementById("attachmentName").value = attachment.name;
+    document.getElementById("attachmentDateOfUpload").value = attachment.dateOfUpload;
+    document.getElementById("attachmentComment").value = attachment.comment;
     document.getElementById("attachmentFileName").value = attachment.fileName;
     showFileInput(id);
 
+    var modal = document.getElementById('attachmentModal');
     modal.style.display = "block";
 }
 
 function saveAttachment() {
-    var modal = document.getElementById('attachmentModal');
-    if (modal.getElementsByTagName("input")[1].value != '') {
-        var id = modal.getElementsByTagName("input")[1].value;
-
+    var id = document.getElementById('attachmentModal').getElementsByTagName("input")[1].value;
+    if (id != '') {
         updateAttachment(id);
     } else {
         createNewAttachment();
     }
 
-    clearAttachmentModal();
-    modal.style.display = "none";
+    closeAttachmentModal();
 }
 
 
 function clearAttachmentModal() {
-    var inputs = document.getElementById('attachmentModal').getElementsByTagName("input");
-    inputs[0].value = "";
-    inputs[1].value = "";
-    inputs[2].value = "";
-    inputs[3].value = "";
-    inputs[4].value = "";
+    document.getElementById("attachmentHidden").value = "";
+    document.getElementById("attachmentId").value = "";
+    document.getElementById("attachmentName").value = "";
+    document.getElementById("attachmentDateOfUpload").value = "";
+    document.getElementById("attachmentComment").value = "";
     document.getElementById("attachmentFileName").value = "";
 
     deleteUndefinedAttachments();
@@ -83,16 +89,13 @@ function updateAttachment(id) {
     }
     attachment.fileName = getFilePath(file);
 
-
-    document.getElementById("attachment" + id).children[0].getElementsByTagName("input")[0].value =
-        attachment.hidden;
-    document.getElementById("attachment" + id).children[1].getElementsByTagName("input")[0].value =
-        attachment.id;
-    document.getElementById("attachment" + id).children[2].innerHTML = attachment.name;
-    document.getElementById("attachment" + id).children[3].innerHTML = attachment.dateOfUpload;
-    document.getElementById("attachment" + id).children[4].innerHTML = attachment.comment;
-    document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0].value =
-        attachment.fileName;
+    var attachmentRows = document.getElementById("attachment" + id).children;
+    attachmentRows[0].getElementsByTagName("input")[0].value = attachment.hidden;
+    attachmentRows[1].getElementsByTagName("input")[0].value = attachment.id;
+    attachmentRows[2].innerHTML = attachment.name;
+    attachmentRows[3].innerHTML = attachment.dateOfUpload;
+    attachmentRows[4].innerHTML = attachment.comment;
+    attachmentRows[5].getElementsByTagName("input")[0].value = attachment.fileName;
 
     updateFile(attachment.id);
 }
@@ -164,26 +167,26 @@ function deleteExistedAttachment(id) {
 }
 
 function parseAttachmentFromModal() {
-    var inputs = document.getElementById('attachmentModal').getElementsByTagName("input");
     var attachment = {};
-    attachment.hidden = inputs[0].value;
-    attachment.id = inputs[1].value;
-    attachment.name = inputs[2].value;
-    attachment.dateOfUpload = inputs[3].value;
-    attachment.comment = inputs[4].value;
-    attachment.fileName = inputs[5].value;
+    attachment.hidden = document.getElementById("attachmentHidden").value;
+    attachment.id = document.getElementById("attachmentId").value;
+    attachment.name = document.getElementById("attachmentName").value;
+    attachment.dateOfUpload = document.getElementById("attachmentDateOfUpload").value;
+    attachment.comment = document.getElementById("attachmentComment").value;
+    attachment.fileName = document.getElementById("attachmentFileName").value;
 
     return attachment;
 }
 
 function parseAttachmentFromWindow(id) {
     var attachment = {};
-    attachment.hidden = document.getElementById("attachment" + id).children[0].getElementsByTagName("input")[0].value;
+    var attachmentRows = document.getElementById("attachment" + id).children;
+    attachment.hidden = attachmentRows[0].getElementsByTagName("input")[0].value;
     attachment.id = id;
-    attachment.name = document.getElementById("attachment" + id).children[2].children[0].innerHTML;
-    attachment.dateOfUpload = document.getElementById("attachment" + id).children[3].innerHTML;
-    attachment.comment = document.getElementById("attachment" + id).children[4].innerHTML;
-    attachment.fileName = document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0].value;
+    attachment.name = attachmentRows[2].children[0].innerHTML;
+    attachment.dateOfUpload = attachmentRows[3].innerHTML;
+    attachment.comment = attachmentRows[4].innerHTML;
+    attachment.fileName = attachmentRows[5].getElementsByTagName("input")[0].value;
 
     return attachment;
 }
@@ -205,18 +208,6 @@ function appendAddedAttachmentRow(attachment) {
 
 function generateId() {
     return (new Date()).getTime();
-}
-
-function openAttachmentModal() {
-    var modal = document.getElementById('attachmentModal');
-    insertAfter(fileInput(), document.getElementById("attachmentComment"));
-    modal.style.display = "block";
-}
-
-function closeAttachmentModal() {
-    var modal = document.getElementById('attachmentModal');
-    clearAttachmentModal();
-    modal.style.display = "none";
 }
 
 function fileInput() {
