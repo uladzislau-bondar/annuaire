@@ -166,20 +166,20 @@
     <div id="phoneModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closePhoneModal()">&times;</span>
-            <input type="hidden" name="hidden"/>
-            <input type="hidden" name="id"/>
+            <input id="phoneHidden" type="hidden" name="hidden"/>
+            <input id="phoneId" type="hidden" name="id"/>
             Код страны:
-            <input type="text" name="countryCode" pattern="\d+"/> <br>
+            <input id="phoneCountryCode" type="text" name="countryCode" pattern="\d+"/> <br>
             Номер телефона:
-            <input type="text" name="number" pattern="\d+"/> <br>
-            <!-- todo deal with radio -->
+            <input id="phoneNumber" type="text" name="number" pattern="\d+"/> <br>
+            <!-- todo deal with radio && id-->
             Тип телефона:
             <input type="radio" name="type"
                    value="HOME">Домашний</input>
             <input type="radio" name="type"
                    value="MOBILE">Мобильный</input><br>
             Комментарий:
-            <input type="text" name="comment" maxlength="64"/> <br>
+            <input id="phoneComment" type="text" name="comment" maxlength="64"/> <br>
 
             <input type="button" value="Сохранить" onclick="savePhone()"/>
             <input type="button" value="Отменить" onclick="closePhoneModal()"/>
@@ -189,14 +189,14 @@
     <div id="attachmentModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeAttachmentModal()">&times;</span>
-            <input type="hidden" name="hidden"/>
-            <input type="hidden" name="id"/>
+            <input id="attachmentHidden" type="hidden" name="hidden"/>
+            <input id="attachmentId" type="hidden" name="id"/>
             Название:
-            <input type="text" name="name" pattern="\d+"/> <br>
-            <input type="hidden" name="dateOfUpload"/>
+            <input id="attachmentName" type="text" name="name" pattern="\d+"/> <br>
+            <input id="attachmentDateOfUpload" type="hidden" name="dateOfUpload"/>
             Комментарий:
-            <input type="text" id="attachmentComment" name="comment" maxlength="64"/> <br>
-            <input type="hidden" id="attachmentFileName" name="fileName">
+            <input id="attachmentComment" type="text" name="comment" maxlength="64"/> <br>
+            <input id="attachmentFileName" type="hidden" name="fileName">
             <input type="button" value="Сохранить" onclick="saveAttachment()"/>
             <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>
         </div>
