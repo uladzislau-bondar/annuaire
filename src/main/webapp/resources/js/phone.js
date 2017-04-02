@@ -1,55 +1,72 @@
+var phoneModal = {
+    hidden: document.getElementById("phoneHidden"),
+    id: document.getElementById("phoneId"),
+    countryCode: document.getElementById("phoneCountryCode"),
+    number: document.getElementById("phoneNumber"),
+    homeRadio: document.getElementById("phoneHomeRadio"),
+    mobileRadio: document.getElementById("mobileRadio"),
+    comment: document.getElementById("phoneComment")
+};
+
+function openPhoneModal() {
+    var modal = document.getElementById('phoneModal');
+    modal.style.display = "block";
+}
+
+function closePhoneModal() {
+    var modal = document.getElementById('phoneModal');
+    clearPhoneModal();
+    modal.style.display = "none";
+}
+
 function editPhone(element) {
     var id = element.parentNode.parentNode.id.substring(5);
 
     var dto = parsePhoneFromWindow(id);
     var phone = dtoToPhone(dto);
 
-    var modal = document.getElementById('phoneModal');
-    var inputs = modal.getElementsByTagName("input");
-    inputs[0].value = phone.hidden;
-    inputs[1].value = phone.id;
-    inputs[2].value = phone.countryCode;
-    inputs[3].value = phone.number;
-    if (phone.type == inputs[4].value){
-        inputs[4].setAttribute("checked", "checked");
-    } else if (phone.type == inputs[5].value){
-        inputs[5].setAttribute("checked", "checked");
+    phoneModal.hidden.value = phone.hidden;
+    phoneModal.id.value = phone.id;
+    phoneModal.countryCode.value = phone.countryCode;
+    phoneModal.number.value = phone.number;
+    if (phone.type == phoneModal.homeRadio.value){
+        phoneModal.homeRadio.setAttribute("checked", "checked");
+    } else if (phone.type == phoneModal.mobileRadio.value){
+        phoneModal.mobileRadio.setAttribute("checked", "checked");
     }
-    inputs[6].value = phone.comment;
+    phoneModal.comment.value = phone.comment;
 
-    modal.style.display = "block";
+    openPhoneModal();
 }
 
 function savePhone() {
-    var modal = document.getElementById('phoneModal');
-    if (modal.getElementsByTagName("input")[1].value != '') {
-        var id = modal.getElementsByTagName("input")[1].value;
-
+    var id = phoneModal.id.value;
+    if (id != '') {
         updatePhone(id);
     } else {
         createNewPhone();
     }
 
-    clearPhoneModal();
-    modal.style.display = "none";
+    closePhoneModal();
 }
 
 function createNewPhone() {
     var phone = parsePhoneFromModal();
     var phoneDto = phoneToDto(phone);
+
     phoneDto.id = generateId();
+
     appendAddedPhoneRow(phoneDto);
 }
 
 function clearPhoneModal() {
-    var inputs = document.getElementById('phoneModal').getElementsByTagName("input");
-    inputs[0].value = "";
-    inputs[1].value = "";
-    inputs[2].value = "";
-    inputs[3].value = "";
-    inputs[4].removeAttribute("checked");
-    inputs[5].removeAttribute("checked");
-    inputs[6].value = "";
+    phoneModal.hidden.value = "";
+    phoneModal.id.value = "";
+    phoneModal.countryCode.value = "";
+    phoneModal.number.value = "";
+    phoneModal.homeRadio.removeAttribute("checked");
+    phoneModal.mobileRadio.removeAttribute("checked");
+    phoneModal.comment.value = "";
 }
 
 function updatePhone(id) {
@@ -58,6 +75,7 @@ function updatePhone(id) {
     if (dto.hidden == 'existed') {
         dto.hidden = 'updated';
     }
+
     document.getElementById("phone" + id).children[0].getElementsByTagName("input")[0].value =
         dto.hidden;
     document.getElementById("phone" + id).children[1].getElementsByTagName("input")[0].value =
@@ -109,20 +127,19 @@ function deleteExistedPhone(id) {
 }
 
 function parsePhoneFromModal() {
-    var inputs = document.getElementById('phoneModal').getElementsByTagName("input");
     var phone = {};
-    phone.hidden = inputs[0].value;
-    phone.id = inputs[1].value;
-    phone.countryCode = inputs[2].value;
-    phone.number = inputs[3].value;
-    if (inputs[4].checked) {
-        phone.type = inputs[4].value;
-    } else if (inputs[5].checked) {
-        phone.type = inputs[5].value;
+    phone.hidden = phoneModal.hidden.value;
+    phone.id = phoneModal.id.value;
+    phone.countryCode = phoneModal.countryCode.value;
+    phone.number = phoneModal.number.value;
+    if (phoneModal.homeRadio.checked) {
+        phone.type = phoneModal.homeRadio.value;
+    } else if (phoneModal.mobileRadio.checked) {
+        phone.type = phoneModal.mobileRadio.value;
     } else{
         phone.type = "";
     }
-    phone.comment = inputs[6].value;
+    phone.comment = phoneModal.comment.value;
 
     return phone;
 }
@@ -177,15 +194,4 @@ function dtoToPhone(dto) {
 
 function generateId() {
     return (new Date()).getTime();
-}
-
-function openPhoneModal() {
-    var modal = document.getElementById('phoneModal');
-    modal.style.display = "block";
-}
-
-function closePhoneModal() {
-    var modal = document.getElementById('phoneModal');
-    clearPhoneModal();
-    modal.style.display = "none";
 }

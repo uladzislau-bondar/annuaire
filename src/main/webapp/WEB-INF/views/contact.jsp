@@ -174,9 +174,9 @@
             <input id="phoneNumber" type="text" name="number" pattern="\d+"/> <br>
             <!-- todo deal with radio && id-->
             Тип телефона:
-            <input type="radio" name="type"
+            <input id="phoneHomeRadio" type="radio" name="type"
                    value="HOME">Домашний</input>
-            <input type="radio" name="type"
+            <input id="phoneMobileRadio" type="radio" name="type"
                    value="MOBILE">Мобильный</input><br>
             Комментарий:
             <input id="phoneComment" type="text" name="comment" maxlength="64"/> <br>
