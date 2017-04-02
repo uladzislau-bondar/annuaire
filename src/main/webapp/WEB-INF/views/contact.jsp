@@ -38,23 +38,22 @@
          width="200" height="200" onclick="selectPhoto()">
 
     Имя:
-    <input type="text" name="firstName"
+    <input type="text" id="firstName" name="firstName"
            value="<c:out value="${firstName}" />"
            maxlength="32" required/> <br>
     Фамилия:
-    <input type="text" name="lastName"
+    <input type="text" id="lastName" name="lastName"
            value="<c:out value="${lastName}" />"
            maxlength="32" required/> <br>
     Отчество:
-    <input type="text" name="middleName"
+    <input type="text" id="middleName" name="middleName"
            value="<c:out value="${middleName}"/>"
            maxlength="32"/> <br>
-    <!-- todo email validation -->
     Дата рождения:
-    <input type="text" name="dateOfBirth"
+    <input type="text" id="dateOfBirth" name="dateOfBirth"
            value="<c:out value="${dateOfBirth}" />"
            pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd"/> <br>
-    <!-- todo fix bug with radio buttons -->
+    <!-- todo fix bug with radio buttons && add ids-->
     Пол:
     <c:choose>
         <c:when test="${sex =='MALE'}">
@@ -66,47 +65,39 @@
             <input type="radio" name="sex" value="FEMALE" checked="checked"/>Женщина <br>
         </c:otherwise>
     </c:choose>
-    <%--<input type="radio" name="sex"--%>
-    <%--value="MALE"--%>
-    <%--<c:if test="${sex == 'MALE'}"> checked="checked"--%>
-    <%--</c:if> >Мужчина</input>--%>
-    <%--<input type="radio" name="sex"--%>
-    <%--value="FEMALE"--%>
-    <%--<c:if test="${sex == 'FEMALE'}"> checked="checked"--%>
-    <%--</c:if> >Женщина</input> <br>--%>
     Гражданство:
-    <input type="text" name="citizenship"
+    <input type="text" id="citizenship" name="citizenship"
            value="<c:out value="${citizenship}" />"
            maxlength="32"/> <br>
     Семейное положение:
-    <input type="text" name="maritalStatus"
+    <input type="text" id="maritalStatus" name="maritalStatus"
            value="<c:out value="${maritalStatus}" />"
            maxlength="32"/> <br>
     Website:
-    <input type="url" name="website"
+    <input type="url" id="website" name="website"
            value="<c:out value="${website}" />"
            pattern="https?://.+"/> <br>
     Email:
-    <input type="email" name="email"
+    <input type="email" id="email" name="email"
            value="<c:out value="${email}" />"/> <br>
     Место работы:
-    <input type="text" name="placeOfWork"
+    <input type="text" id="placeOfWork" name="placeOfWork"
            value="<c:out value="${placeOfWork}" />"
            maxlength="32"/> <br>
     Страна:
-    <input type="text" name="country"
+    <input type="text" id="country" name="country"
            value="<c:out value="${country}" />"
            maxlength="32"/> <br>
     Город:
-    <input type="text" name="city"
+    <input type="text" id="city" name="city"
            value="<c:out value="${city}" />"
            maxlength="32"/> <br>
     Адрес:
-    <input type="text" name="address"
+    <input type="text" id="address" name="address"
            value="<c:out value="${address}" />"
            maxlength="64"/> <br>
     Индекс:
-    <input type="text" name="zip"
+    <input type="text" id="zip" name="zip"
            value="<c:out value="${zip}" />"
            pattern="\d+"/> <br>
 
