@@ -1,13 +1,3 @@
-var phoneModal = {
-    hidden: document.getElementById("phoneHidden"),
-    id: document.getElementById("phoneId"),
-    countryCode: document.getElementById("phoneCountryCode"),
-    number: document.getElementById("phoneNumber"),
-    homeRadio: document.getElementById("phoneHomeRadio"),
-    mobileRadio: document.getElementById("mobileRadio"),
-    comment: document.getElementById("phoneComment")
-};
-
 function openPhoneModal() {
     var modal = document.getElementById('phoneModal');
     modal.style.display = "block";
@@ -25,22 +15,22 @@ function editPhone(element) {
     var dto = parsePhoneFromWindow(id);
     var phone = dtoToPhone(dto);
 
-    phoneModal.hidden.value = phone.hidden;
-    phoneModal.id.value = phone.id;
-    phoneModal.countryCode.value = phone.countryCode;
-    phoneModal.number.value = phone.number;
-    if (phone.type == phoneModal.homeRadio.value){
-        phoneModal.homeRadio.setAttribute("checked", "checked");
-    } else if (phone.type == phoneModal.mobileRadio.value){
-        phoneModal.mobileRadio.setAttribute("checked", "checked");
+    document.getElementById("phoneHidden").value = phone.hidden;
+    document.getElementById("phoneId").value = phone.id;
+    document.getElementById("phoneCountryCode").value = phone.countryCode;
+    document.getElementById("phoneNumber").value = phone.number;
+    if (phone.type == document.getElementById("phoneHomeRadio").value){
+        document.getElementById("phoneHomeRadio").setAttribute("checked", "checked");
+    } else if (phone.type == document.getElementById("phoneMobileRadio").value){
+        document.getElementById("phoneMobileRadio").setAttribute("checked", "checked");
     }
-    phoneModal.comment.value = phone.comment;
+    document.getElementById("phoneComment").value = phone.comment;
 
     openPhoneModal();
 }
 
 function savePhone() {
-    var id = phoneModal.id.value;
+    var id = document.getElementById("phoneId").value;
     if (id != '') {
         updatePhone(id);
     } else {
@@ -60,13 +50,13 @@ function createNewPhone() {
 }
 
 function clearPhoneModal() {
-    phoneModal.hidden.value = "";
-    phoneModal.id.value = "";
-    phoneModal.countryCode.value = "";
-    phoneModal.number.value = "";
-    phoneModal.homeRadio.removeAttribute("checked");
-    phoneModal.mobileRadio.removeAttribute("checked");
-    phoneModal.comment.value = "";
+    document.getElementById("phoneHidden").value = "";
+    document.getElementById("phoneId").value = "";
+    document.getElementById("phoneCountryCode").value = "";
+    document.getElementById("phoneNumber").value = "";
+    document.getElementById("phoneHomeRadio").removeAttribute("checked");
+    document.getElementById("phoneMobileRadio").removeAttribute("checked");
+    document.getElementById("phoneComment").value = "";
 }
 
 function updatePhone(id) {
@@ -76,13 +66,12 @@ function updatePhone(id) {
         dto.hidden = 'updated';
     }
 
-    document.getElementById("phone" + id).children[0].getElementsByTagName("input")[0].value =
-        dto.hidden;
-    document.getElementById("phone" + id).children[1].getElementsByTagName("input")[0].value =
-        dto.id;
-    document.getElementById("phone" + id).children[2].innerHTML = dto.number;
-    document.getElementById("phone" + id).children[3].innerHTML = dto.type;
-    document.getElementById("phone" + id).children[4].innerHTML = dto.comment;
+    var phoneRows = document.getElementById("phone" + id).children;
+    phoneRows[0].getElementsByTagName("input")[0].value = dto.hidden;
+    phoneRows[1].getElementsByTagName("input")[0].value = dto.id;
+    phoneRows[2].innerHTML = dto.number;
+    phoneRows[3].innerHTML = dto.type;
+    phoneRows[4].innerHTML = dto.comment;
 }
 
 function deletePhone(element) {
@@ -128,29 +117,30 @@ function deleteExistedPhone(id) {
 
 function parsePhoneFromModal() {
     var phone = {};
-    phone.hidden = phoneModal.hidden.value;
-    phone.id = phoneModal.id.value;
-    phone.countryCode = phoneModal.countryCode.value;
-    phone.number = phoneModal.number.value;
-    if (phoneModal.homeRadio.checked) {
-        phone.type = phoneModal.homeRadio.value;
-    } else if (phoneModal.mobileRadio.checked) {
-        phone.type = phoneModal.mobileRadio.value;
+    phone.hidden = document.getElementById("phoneHidden").value;
+    phone.id = document.getElementById("phoneId").value;
+    phone.countryCode = document.getElementById("phoneCountryCode").value;
+    phone.number = document.getElementById("phoneNumber").value;
+    if (document.getElementById("phoneHomeRadio").checked) {
+        phone.type = document.getElementById("phoneHomeRadio").value;
+    } else if (document.getElementById("phoneMobileRadio").checked) {
+        phone.type = document.getElementById("phoneMobileRadio").value;
     } else{
         phone.type = "";
     }
-    phone.comment = phoneModal.comment.value;
+    phone.comment = document.getElementById("phoneComment").value;
 
     return phone;
 }
 
 function parsePhoneFromWindow(id) {
     var dto = {};
-    dto.hidden = document.getElementById("phone" + id).children[0].getElementsByTagName("input")[0].value;
+    var phoneRows = document.getElementById("phone" + id).children;
+    dto.hidden = phoneRows[0].getElementsByTagName("input")[0].value;
     dto.id = id;
-    dto.number = document.getElementById("phone" + id).children[2].innerHTML;
-    dto.type = document.getElementById("phone" + id).children[3].innerHTML;
-    dto.comment = document.getElementById("phone" + id).children[4].innerHTML;
+    dto.number = phoneRows[2].innerHTML;
+    dto.type = phoneRows[3].innerHTML;
+    dto.comment = phoneRows[4].innerHTML;
 
     return dto;
 }
