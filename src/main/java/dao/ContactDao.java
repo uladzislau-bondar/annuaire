@@ -310,8 +310,10 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         }
 
 
-        query = removeLastAndFromQuery(query);
+        query = removeLastAndFromQuery(query.toString());
         query.append(appendQueryEnd(limit, offset));
+
+        logger.info(query.toString());
 
         return query.toString();
     }
@@ -323,14 +325,14 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         builder.append("LIKE '%");
         builder.append(value);
         builder.append("%'");
-        builder.append(" AND");
+        builder.append(" AND ");
 
         return builder.toString();
     }
 
     private String appendQueryEnd(int limit, int offset) {
         StringBuilder builder = new StringBuilder();
-        builder.append(" LIMIT ");
+        builder.append("LIMIT ");
         builder.append(limit);
         builder.append(" OFFSET ");
         builder.append(offset);
@@ -338,9 +340,11 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return builder.toString();
     }
 
-    private StringBuilder removeLastAndFromQuery(StringBuilder query){
-        if (query.endsWith("AND")){
-            // todo remove and
+    private StringBuilder removeLastAndFromQuery(String query){
+        if (query.endsWith("AND ")){
+            query = query.substring(0, query.length() - 4);
         }
+
+        return new StringBuilder(query);
     }
 }

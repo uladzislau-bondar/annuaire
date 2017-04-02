@@ -51,7 +51,6 @@ public class SearchCommand extends AbstractCommand {
         setTitle("Search form");
     }
 
-    // todo process pagination on search page
     private void search() {
         logger.info("Processing searching");
 
@@ -60,5 +59,6 @@ public class SearchCommand extends AbstractCommand {
         List<ContactInfoDto> result = service.getSearchResult(searchParams, offset);
 
         request.setAttribute("contactList", result);
+        request.setAttribute("searchParams", searchParams);
     }
 }

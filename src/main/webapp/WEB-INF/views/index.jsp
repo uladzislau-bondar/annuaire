@@ -104,6 +104,9 @@
                     <!-- todo process post-->
                         <%--<a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>--%>
                         <%--<c:out value="${page+1}"/></a>--%>
+                    <c:forEach items="${searchParams}" var="searchParam" >
+                        <input type="hidden" name="${searchParam.key}" value="${searchParam.value}" />
+                    </c:forEach>
                     <c:out value="${page+1}"/>
                     <input type="submit">
                 </form>

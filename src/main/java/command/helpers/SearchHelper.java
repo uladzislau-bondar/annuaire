@@ -12,6 +12,7 @@ public class SearchHelper extends AbstractHelper{
 
     public Map<String, String> getSearchParams(){
         Map<String, String> params = new HashMap<>();
+
         params.put("firstName", request.getParameter("firstName"));
         params.put("lastName", request.getParameter("lastName"));
         params.put("middleName", request.getParameter("middleName"));
