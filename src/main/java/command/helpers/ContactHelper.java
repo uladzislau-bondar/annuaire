@@ -11,6 +11,7 @@ import util.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ import java.util.stream.Collectors;
 public class ContactHelper extends AbstractHelper{
     private static final Long FAKE_ID = 1L;
 
-    public ContactHelper(HttpServletRequest request) {
-        super(request);
+    public ContactHelper(HttpServletRequest request, HttpServletResponse response) {
+        super(request, response);
     }
 
     public ContactFrontDto getContact() throws ServletException, IOException{

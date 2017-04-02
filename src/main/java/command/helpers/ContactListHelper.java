@@ -7,13 +7,14 @@ import util.Utils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 public class ContactListHelper extends AbstractHelper{
-    public ContactListHelper(HttpServletRequest request) {
-        super(request);
+    public ContactListHelper(HttpServletRequest request, HttpServletResponse response) {
+        super(request, response);
     }
 
     public List<Long> getSelectedIds(){

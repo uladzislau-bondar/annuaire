@@ -24,7 +24,7 @@ public class ContactListCommand extends AbstractCommand {
         super(request, response);
         contactListService = new ContactListService();
         searchService = new SearchService();
-        helper = new ContactListHelper(request);
+        helper = new ContactListHelper(request, response);
     }
 
     @Override

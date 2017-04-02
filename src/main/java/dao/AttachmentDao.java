@@ -128,6 +128,25 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
         return attachments;
     }
 
+    public String getFilePathById(Long id) {
+        String email = null;
+        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_FILEPATH_BY_ID)) {
+            statement.setLong(1, id);
+
+            logger.info(statement.toString());
+
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                email = set.getString("filePath");
+            }
+
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+
+        return email;
+    }
+
     private List<Attachment> fillListFromResultSet(ResultSet set) throws SQLException {
         List<Attachment> attachments = new ArrayList<>();
 
@@ -138,7 +157,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
             attachment.setName(set.getString("name"));
             attachment.setDateOfUpload(set.getDate("dateOfUpload"));
             attachment.setComment(set.getString("comment"));
-            attachment.setFileName(set.getString("fileName"));
+            attachment.setFileName(set.getString("filePath"));
             attachments.add(attachment);
         }
 
@@ -154,7 +173,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
             attachment.setName(set.getString("name"));
             attachment.setDateOfUpload(set.getDate("dateOfUpload"));
             attachment.setComment(set.getString("comment"));
-            attachment.setFileName(set.getString("fileName"));
+            attachment.setFileName(set.getString("filePath"));
         }
 
         return attachment;

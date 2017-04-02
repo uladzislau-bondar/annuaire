@@ -8,14 +8,15 @@ import org.apache.commons.mail.SimpleEmail;
 import properties.EmailPropertyService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EmailHelper extends AbstractHelper{
-    public EmailHelper(HttpServletRequest request) {
-        super(request);
+    public EmailHelper(HttpServletRequest request, HttpServletResponse response) {
+        super(request, response);
     }
 
     public Map<String, String> getMessageParams(){

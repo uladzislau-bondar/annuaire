@@ -28,7 +28,7 @@ public class ContactCommand extends AbstractCommand {
     public ContactCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
         service = new ContactService();
-        helper = new ContactHelper(request);
+        helper = new ContactHelper(request, response);
     }
 
     @Override

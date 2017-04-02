@@ -152,9 +152,14 @@
         <tbody>
         <c:forEach items="${attachments}" var="attachment">
             <tr id="attachment${attachment.id}">
+                <c:url value="/attachment" var="attachmentUrl">
+                    <c:param name="id" value="${attachment.id}"/>
+                </c:url>
                 <td><input type="hidden" value="existed"></td>
                 <td><input type="checkbox" name="selected" value="${attachment.id}"></td>
-                <td><c:out value="${attachment.name}"/></td>
+                <td>
+                    <a href="${attachmentUrl}"><c:out value="${attachment.name}"/></a>
+                </td>
                 <td><c:out value="${attachment.dateOfUpload}"/></td>
                 <td><c:out value="${attachment.comment}"/></td>
                 <td><input type="hidden" name="fileName" value="${attachment.fileName}"></td>

@@ -21,7 +21,7 @@ public class SearchCommand extends AbstractCommand {
 
     public SearchCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
-        helper = new SearchHelper(request);
+        helper = new SearchHelper(request, response);
         service = new SearchService();
     }
 

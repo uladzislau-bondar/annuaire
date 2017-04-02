@@ -204,17 +204,9 @@ public class ContactService {
             fileSaveDir.mkdirs();
         }
 
-        String extension = parsePartExtenstion(part);
-        System.out.println(extension);
-
-        String filePath = path + File.separator + name + extension;
+        String filePath = path + File.separator + name;
         part.write(filePath);
 
         return filePath;
-    }
-
-    private String parsePartExtenstion(Part part) {
-        String type = part.getContentType();
-        return "." + type.substring(type.lastIndexOf("/") + 1);
     }
 }

@@ -80,7 +80,7 @@
             </column>
             <column name="comment" type="VARCHAR(128)">
             </column>
-            <column name="fileName" type="VARCHAR(255)">
+            <column name="filePath" type="VARCHAR(255)">
             </column>
         </createTable>
 
@@ -127,7 +127,7 @@
             <column name="name" value="some attachment name"/>
             <column name="dateOfUpload" value="${now}"/>
             <column name="comment" value="some comment"/>
-            <column name="fileName" value="some path"/>
+            <column name="filePath" value="some path"/>
         </insert>
     </changeSet>
 

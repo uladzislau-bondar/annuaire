@@ -26,7 +26,7 @@ public class EmailCommand extends AbstractCommand{
 
     public EmailCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
-        helper = new EmailHelper(request);
+        helper = new EmailHelper(request, response);
         service = new EmailService();
     }
 

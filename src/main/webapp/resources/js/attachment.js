@@ -180,7 +180,7 @@ function parseAttachmentFromWindow(id) {
     var attachment = {};
     attachment.hidden = document.getElementById("attachment" + id).children[0].getElementsByTagName("input")[0].value;
     attachment.id = id;
-    attachment.name = document.getElementById("attachment" + id).children[2].innerHTML;
+    attachment.name = document.getElementById("attachment" + id).children[2].children[0].innerHTML;
     attachment.dateOfUpload = document.getElementById("attachment" + id).children[3].innerHTML;
     attachment.comment = document.getElementById("attachment" + id).children[4].innerHTML;
     attachment.fileName = document.getElementById("attachment" + id).children[5].getElementsByTagName("input")[0].value;

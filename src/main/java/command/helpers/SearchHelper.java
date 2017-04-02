@@ -2,12 +2,13 @@ package command.helpers;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SearchHelper extends AbstractHelper{
-    public SearchHelper(HttpServletRequest request) {
-        super(request);
+    public SearchHelper(HttpServletRequest request, HttpServletResponse response) {
+        super(request, response);
     }
 
     public Map<String, String> getSearchParams(){
