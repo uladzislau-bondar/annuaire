@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -169,7 +170,7 @@ public class ContactHelper extends AbstractHelper{
             AttachmentFrontDto attachment = new AttachmentFrontDto();
             attachment.setId(Long.valueOf(object.getString("id")));
             attachment.setName(object.getString("name"));
-            // todo date
+            attachment.setDateOfUpload(Date.valueOf(object.getString("dateOfUpload")));
             attachment.setComment(object.getString("comment"));
             attachment.setFileName(object.getString("fileName"));
             attachments.add(attachment);

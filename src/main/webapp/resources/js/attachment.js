@@ -27,7 +27,7 @@ function editAttachment(element) {
 }
 
 function saveAttachment() {
-    var id = document.getElementById('attachmentModal').getElementsByTagName("input")[1].value;
+    var id = document.getElementById('attachmentId').value;
     if (id != '') {
         updateAttachment(id);
     } else {
@@ -92,7 +92,7 @@ function updateAttachment(id) {
     var attachmentRows = document.getElementById("attachment" + id).children;
     attachmentRows[0].getElementsByTagName("input")[0].value = attachment.hidden;
     attachmentRows[1].getElementsByTagName("input")[0].value = attachment.id;
-    attachmentRows[2].innerHTML = attachment.name;
+    attachmentRows[2].getElementsByTagName("a")[0].innerHTML = attachment.name;
     attachmentRows[3].innerHTML = attachment.dateOfUpload;
     attachmentRows[4].innerHTML = attachment.comment;
     attachmentRows[5].getElementsByTagName("input")[0].value = attachment.fileName;
