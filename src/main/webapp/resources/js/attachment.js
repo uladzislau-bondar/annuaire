@@ -53,7 +53,7 @@ function createNewAttachment() {
     var attachment = parseAttachmentFromModal();
     attachment.id = generateId();
     attachment.fileName = getFilePath(document.getElementsByName("file")[0]);
-    //todo add date
+    attachment.dateOfUpload = today();
     saveFile(attachment.id);
     appendAddedAttachmentRow(attachment);
 }
@@ -231,4 +231,23 @@ function insertAfter(newNode, referenceNode) {
 
 function getFilePath(input){
     return input.value.replace(/^.*[\\\/]/, '');
+}
+
+function today() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+        dd='0'+dd
+    }
+
+    if(mm<10) {
+        mm='0'+mm
+    }
+
+    today = yyyy+'-'+mm+'-'+dd;
+
+    return today;
 }

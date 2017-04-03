@@ -42,7 +42,6 @@ public class AttachmentCommand extends AbstractCommand{
         if (StringUtils.isNotEmpty(idParam)){
             Long id = Long.valueOf(idParam);
             File photo = service.getByContactId(id);
-            System.out.println(photo.getAbsolutePath());
             helper.renderAttachment(photo);
         }
     }
