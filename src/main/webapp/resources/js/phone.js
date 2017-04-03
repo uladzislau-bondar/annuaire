@@ -166,21 +166,20 @@ function phoneToDto(phone) {
     var dto = {};
     dto.hidden = phone.hidden;
     dto.id = phone.id;
-    dto.number = "+" + phone.countryCode + "-" + phone.operatorCode + "-" + phone.number;
+    dto.number = buildNumber(phone);
     dto.type = phone.type;
     dto.comment = phone.comment;
 
     return dto;
 }
 
-// todo parse numbers
 function dtoToPhone(dto) {
     var phone = {};
     phone.hidden = dto.hidden;
     phone.id = dto.id;
-    phone.countryCode = dto.number.match(/\+(.*)\-/)[1];
-    phone.operatorCode = dto.number.match(/\-(.*)\-/)[1];
-    phone.number = dto.number.substr(dto.number.indexOf("-") + 1);
+    phone.countryCode = parseCountryCode(dto);
+    phone.operatorCode = parseOperatorCode(dto);
+    phone.number = parseNumber(dto);
     phone.type = dto.type;
     phone.comment = dto.comment;
 
@@ -189,4 +188,41 @@ function dtoToPhone(dto) {
 
 function generateId() {
     return (new Date()).getTime();
+}
+
+function parseCountryCode(phone) {
+    var values = phone.number.match(/\+(.*?)\-/);
+    return values == null ? "" : values[1];
+}
+
+function parseOperatorCode(phone) {
+    var values = phone.number.match(/\-(.*?)\-/);
+    return values == null ? "" : values[1];
+}
+
+function parseNumber(phone) {
+    var value = phone.number.substr(phone.number.lastIndexOf("-") + 1);
+    return value == null ? "" : value;
+}
+
+function buildNumber(phone) {
+    var result = "";
+    var countryCode = trim(phone.countryCode);
+    if (countryCode != ""){
+        result += "+" + countryCode + "-";
+    }
+    var operatorCode = trim(phone.operatorCode);
+    if (operatorCode != ""){
+        result += operatorCode + "-";
+    }
+    var number = trim((phone.number));
+    if (number != ""){
+        result += number;
+    }
+
+    return result;
+}
+
+function trim(str) {
+    return str = str.replace(/\s/g, '');
 }

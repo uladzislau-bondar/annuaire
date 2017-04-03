@@ -53,7 +53,6 @@
     <input type="text" id="dateOfBirth" name="dateOfBirth"
            value="<c:out value="${dateOfBirth}" />"
            pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd"/> <br>
-    <!-- todo fix bug with radio buttons && add ids-->
     Пол:
     <c:choose>
         <c:when test="${sex =='MALE'}">
