@@ -148,8 +148,8 @@ public class ContactHelper extends AbstractHelper{
             JSONObject object = phonesInJson.getJSONObject(i);
             Phone phone = new Phone();
             phone.setId(Long.valueOf(object.getString("id")));
-            phone.setCountryCode(Integer.valueOf(object.getString("countryCode")));
-            phone.setNumber(Integer.valueOf(object.getString("number")));
+            phone.setCountryCode(object.getString("countryCode"));
+            phone.setNumber(object.getString("number"));
             phone.setType(object.getString("type"));
             phone.setComment(object.getString("comment"));
 

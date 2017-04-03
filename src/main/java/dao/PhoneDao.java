@@ -26,8 +26,9 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
 
         try (PreparedStatement statement = getPreparedStatementAndReturnGeneratedKeys(PhoneConstants.SAVE)) {
             statement.setLong(1, phone.getContactId());
-            statement.setInt(2, phone.getCountryCode());
-            statement.setInt(3, phone.getNumber());
+            statement.setString(2, phone.getCountryCode());
+            statement.setString(3, phone.getOperatorCode());
+            statement.setString(4, phone.getNumber());
             statement.setString(4, phone.getType().value());
             statement.setString(5, phone.getComment());
 
@@ -81,11 +82,12 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
     public void update(Phone phone) {
         try (PreparedStatement statement = getPreparedStatement(PhoneConstants.UPDATE)) {
             statement.setLong(1, phone.getContactId());
-            statement.setInt(2, phone.getCountryCode());
-            statement.setInt(3, phone.getNumber());
-            statement.setString(4, phone.getType().value());
-            statement.setString(5, phone.getComment());
-            statement.setLong(6, phone.getId());
+            statement.setString(2, phone.getCountryCode());
+            statement.setString(3, phone.getOperatorCode());
+            statement.setString(4, phone.getNumber());
+            statement.setString(5, phone.getType().value());
+            statement.setString(6, phone.getComment());
+            statement.setLong(7, phone.getId());
 
             logger.info(statement.toString());
 
@@ -133,8 +135,9 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
             Phone phone = new Phone();
             phone.setId(set.getLong("id"));
             phone.setContactId(set.getLong("contactId"));
-            phone.setCountryCode(set.getInt("countryCode"));
-            phone.setNumber(set.getInt("number"));
+            phone.setCountryCode(set.getString("countryCode"));
+            phone.setOperatorCode(set.getString("operatorCode"));
+            phone.setNumber(set.getString("number"));
             phone.setType(set.getString("type"));
             phone.setComment(set.getString("comment"));
 
@@ -150,8 +153,9 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
         if (set.next()) {
             phone.setId(set.getLong("id"));
             phone.setContactId(set.getLong("contactId"));
-            phone.setCountryCode(set.getInt("countryCode"));
-            phone.setNumber(set.getInt("number"));
+            phone.setCountryCode(set.getString("countryCode"));
+            phone.setOperatorCode(set.getString("operatorCode"));
+            phone.setNumber(set.getString("number"));
             phone.setType(set.getString("type"));
             phone.setComment(set.getString("comment"));
         }

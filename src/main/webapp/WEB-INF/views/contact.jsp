@@ -129,6 +129,14 @@
     <input type="button" onclick="openPhoneModal()" value="Создать телефон"/> <br>
     <input type="button" onclick="deleteSelectedPhones()" value="Удалить выбранные"/> <br>
 
+    <c:choose>
+        <c:when test="${empty phones}">
+            <!-- todo no phones -->
+        </c:when>
+        <c:otherwise>
+
+        </c:otherwise>
+    </c:choose>
     <table id="attachmentsTable">
         <thead>
         <tr>
@@ -170,9 +178,10 @@
             <input id="phoneId" type="hidden" name="id"/>
             Код страны:
             <input id="phoneCountryCode" type="text" name="countryCode" pattern="\d+"/> <br>
+            Код оператора:
+            <input id="phoneOperatorCode" type="text" name="operatorCode" pattern="\d+"/> <br>
             Номер телефона:
             <input id="phoneNumber" type="text" name="number" pattern="\d+"/> <br>
-            <!-- todo deal with radio && id-->
             Тип телефона:
             <input id="phoneHomeRadio" type="radio" name="type"
                    value="HOME">Домашний</input>

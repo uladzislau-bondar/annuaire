@@ -6,11 +6,19 @@ import enums.PhoneType;
 public class Phone {
     private Long id;
     private Long contactId;
-    private int countryCode;
-    //todo add operatorCode
-    private int number;
+    private String countryCode = "";
+    private String operatorCode = "";
+    private String number = "";
     private PhoneType type = PhoneType.UNKNOWN;
     private String comment = "";
+
+    public String getOperatorCode() {
+        return operatorCode;
+    }
+
+    public void setOperatorCode(String operatorCode) {
+        this.operatorCode = operatorCode;
+    }
 
     public Long getId() {
         return id;
@@ -28,19 +36,19 @@ public class Phone {
         this.contactId = contactId;
     }
 
-    public int getCountryCode() {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(int countryCode) {
+    public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

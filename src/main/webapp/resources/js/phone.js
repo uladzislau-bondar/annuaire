@@ -18,6 +18,7 @@ function editPhone(element) {
     document.getElementById("phoneHidden").value = phone.hidden;
     document.getElementById("phoneId").value = phone.id;
     document.getElementById("phoneCountryCode").value = phone.countryCode;
+    document.getElementById("phoneOperatorCode").value = phone.operatorCode;
     document.getElementById("phoneNumber").value = phone.number;
     if (phone.type == document.getElementById("phoneHomeRadio").value){
         document.getElementById("phoneHomeRadio").setAttribute("checked", "checked");
@@ -53,6 +54,7 @@ function clearPhoneModal() {
     document.getElementById("phoneHidden").value = "";
     document.getElementById("phoneId").value = "";
     document.getElementById("phoneCountryCode").value = "";
+    document.getElementById("phoneOperatorCode").value = "";
     document.getElementById("phoneNumber").value = "";
     document.getElementById("phoneHomeRadio").removeAttribute("checked");
     document.getElementById("phoneMobileRadio").removeAttribute("checked");
@@ -120,6 +122,7 @@ function parsePhoneFromModal() {
     phone.hidden = document.getElementById("phoneHidden").value;
     phone.id = document.getElementById("phoneId").value;
     phone.countryCode = document.getElementById("phoneCountryCode").value;
+    phone.operatorCode = document.getElementById("phoneOperatorCode").value;
     phone.number = document.getElementById("phoneNumber").value;
     if (document.getElementById("phoneHomeRadio").checked) {
         phone.type = document.getElementById("phoneHomeRadio").value;
@@ -163,18 +166,20 @@ function phoneToDto(phone) {
     var dto = {};
     dto.hidden = phone.hidden;
     dto.id = phone.id;
-    dto.number = "+" + phone.countryCode + "-" + phone.number;
+    dto.number = "+" + phone.countryCode + "-" + phone.operatorCode + "-" + phone.number;
     dto.type = phone.type;
     dto.comment = phone.comment;
 
     return dto;
 }
 
+// todo parse numbers
 function dtoToPhone(dto) {
     var phone = {};
     phone.hidden = dto.hidden;
     phone.id = dto.id;
     phone.countryCode = dto.number.match(/\+(.*)\-/)[1];
+    phone.operatorCode = dto.number.match(/\-(.*)\-/)[1];
     phone.number = dto.number.substr(dto.number.indexOf("-") + 1);
     phone.type = dto.type;
     phone.comment = dto.comment;

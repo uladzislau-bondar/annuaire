@@ -92,8 +92,21 @@ public class DtoUtils {
     }
 
     private static String createNumber(Phone phone) {
-        return "+" + Utils.intToString(phone.getCountryCode()) + "-"
-                + Utils.intToString(phone.getNumber());
+        StringBuilder result = new StringBuilder();
+        if (StringUtils.isNotEmpty(phone.getCountryCode())){
+            result.append("+");
+            result.append(phone.getCountryCode());
+            result.append("-");
+        }
+        if (StringUtils.isNotEmpty(phone.getOperatorCode())){
+            result.append(phone.getOperatorCode());
+            result.append("-");
+        }
+        if (StringUtils.isNotEmpty(phone.getNumber())){
+            result.append(phone.getNumber());
+        }
+
+        return result.toString();
     }
 
 }

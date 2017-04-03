@@ -31,14 +31,6 @@ public class Utils {
         }
     }
 
-    public static String intToString(int value) {
-        if (value == 0) {
-            return "";
-        } else {
-            return String.valueOf(value);
-        }
-    }
-
     public static String joinListWithSemicolon(List<String> strings) {
         return String.join("; ", strings);
     }

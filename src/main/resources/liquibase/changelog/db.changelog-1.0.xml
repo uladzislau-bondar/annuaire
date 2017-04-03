@@ -56,9 +56,11 @@
                 <constraints nullable="false" foreignKeyName="fk_contact_phone_id"
                              references="contacts(id)" deleteCascade="true"/>
             </column>
-            <column name="countryCode" type="INT">
+            <column name="countryCode" type="VARCHAR(8)">
             </column>
-            <column name="number" type="INT">
+            <column name="operatorCode" type="VARCHAR(8)">
+            </column>
+            <column name="number" type="VARCHAR(32)">
             </column>
             <column name="type" type="VARCHAR(32)">
             </column>
@@ -107,7 +109,8 @@
             <column name="id" value="1"/>
             <column name="contactId" value="1"/>
             <column name="countryCode" value="375"/>
-            <column name="number" value="29"/>
+            <column name="operatorCode" value="29"/>
+            <column name="number" value="181"/>
             <column name="type" value="MOBILE"/>
             <column name="comment" value="some comment"/>
         </insert>
