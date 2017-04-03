@@ -18,14 +18,11 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 
 
-// todo move upload props to property file
 @WebServlet("/app/*")
 @MultipartConfig(fileSizeThreshold=1024*1024*10,
         maxFileSize=1024*1024*50,
         maxRequestSize=1024*1024*100)
 public class FrontControllerServlet extends HttpServlet{
-    private final static Logger log = LogManager.getLogger(FrontControllerServlet.class);
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);

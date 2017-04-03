@@ -3,8 +3,8 @@ package db.constants;
 
 public interface ContactConstants {
     String SAVE = "INSERT INTO contacts (firstName, lastName, middleName," +
-            "dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, photoPath," +
-            "country, city, address, zip)" +
+            "dateOfBirth, sex, citizenship, maritalStatus, website, email, placeOfWork, photoPath, " +
+            "country, city, address, zip) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)";
     String GET_ALL = "SELECT * FROM contacts";
     String GET_BY_ID = "SELECT * FROM contacts WHERE id = ?";

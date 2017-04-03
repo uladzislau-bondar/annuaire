@@ -3,6 +3,8 @@ package command;
 
 import command.helpers.PhotoHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.PhotoService;
 
 import javax.servlet.ServletException;
@@ -38,6 +40,7 @@ public class PhotoCommand extends AbstractCommand{
         String idParam = helper.getQuery().get("id");
         if (StringUtils.isNotEmpty(idParam)){
             Long id = Long.valueOf(idParam);
+
             File photo = service.getByContactId(id);
             helper.renderPhoto(photo);
         }

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class AttachmentCommand extends AbstractCommand{
+    private final static Logger logger = LogManager.getLogger(AttachmentCommand.class);
     private AttachmentHelper helper;
     private AttachmentService service;
 
@@ -41,6 +42,8 @@ public class AttachmentCommand extends AbstractCommand{
         String idParam = helper.getQuery().get("id");
         if (StringUtils.isNotEmpty(idParam)){
             Long id = Long.valueOf(idParam);
+            logger.info("Rendering attachment {}", id);
+
             File photo = service.getByContactId(id);
             helper.renderAttachment(photo);
         }

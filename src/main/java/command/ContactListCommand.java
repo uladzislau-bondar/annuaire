@@ -17,13 +17,11 @@ import java.util.List;
 public class ContactListCommand extends AbstractCommand {
     private static Logger logger = LogManager.getLogger(ContactListCommand.class);
     private ContactListService contactListService;
-    private SearchService searchService;
     private ContactListHelper helper;
 
     public ContactListCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
         contactListService = new ContactListService();
-        searchService = new SearchService();
         helper = new ContactListHelper(request, response);
     }
 

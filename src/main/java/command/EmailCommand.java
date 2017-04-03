@@ -48,7 +48,7 @@ public class EmailCommand extends AbstractCommand{
     }
 
     private void sendEmail(){
-        logger.info("Emails sent");
+        logger.info("Emails are sending");
 
         Map<String, String> messageParams = helper.getMessageParams();
         service.sendEmail(messageParams);
