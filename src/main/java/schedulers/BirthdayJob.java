@@ -25,10 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//todo get from properties
 public class BirthdayJob implements Job {
     private final static Logger logger = LogManager.getLogger(BirthdayJob.class);
-    private final static String SUBJECT = "Today's birthday boys";
     private final static EmailPropertyService properties = EmailPropertyService.getInstance();
     private final EmailService service = new EmailService();
 
@@ -61,7 +59,7 @@ public class BirthdayJob implements Job {
 
     private Map<String, String> buildEmailParams(String emailList){
         Map<String, String> params = new HashMap<>();
-        params.put("subject", SUBJECT);
+        params.put("subject", properties.getNotificationSubject());
         String message = emailList + " have birthday today";
         params.put("message", message);
         params.put("emails", properties.getAdminEmail());

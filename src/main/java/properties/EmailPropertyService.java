@@ -40,6 +40,8 @@ public class EmailPropertyService {
 
     public String getAdminEmail(){return service.getProperty("admin.email");}
 
+    public String getNotificationSubject(){return service.getProperty("notification.subject");}
+
     public String getSender(){return service.getProperty("from");}
 }
 
