@@ -149,6 +149,7 @@ public class ContactHelper extends AbstractHelper{
             Phone phone = new Phone();
             phone.setId(Long.valueOf(object.getString("id")));
             phone.setCountryCode(object.getString("countryCode"));
+            phone.setOperatorCode(object.getString("operatorCode"));
             phone.setNumber(object.getString("number"));
             phone.setType(object.getString("type"));
             phone.setComment(object.getString("comment"));

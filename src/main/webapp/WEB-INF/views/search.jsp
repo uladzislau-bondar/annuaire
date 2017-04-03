@@ -16,7 +16,6 @@
     Дата рождения:
     <input type="text" name="dateOfBirth"/> <br>
     Пол:
-    <!-- todo c:if doesn't work -->
     <input type="radio" name="sex"
            value="MALE">Мужчина</input>
     <input type="radio" name="sex"

@@ -91,6 +91,7 @@
             <column name="firstName" value="colin"/>
             <column name="lastName" value="zeal"/>
             <column name="dateOfBirth" valueDate="2017-03-27"/>
+            <column name="sex" value="FEMALE"/>
             <column name="placeOfWork" value="bsuir"/>
             <column name="country" value="BLR"/>
             <column name="city" value="Minsk"/>
