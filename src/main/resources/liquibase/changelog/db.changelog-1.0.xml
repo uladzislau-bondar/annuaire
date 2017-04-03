@@ -86,6 +86,10 @@
             </column>
         </createTable>
 
+        <sql>ALTER TABLE contacts CONVERT TO CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci'</sql>
+        <sql>ALTER TABLE phones CONVERT TO CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci'</sql>
+        <sql>ALTER TABLE attachments CONVERT TO CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci'</sql>
+
         <insert tableName="contacts">
             <column name="id" value="1"/>
             <column name="firstName" value="colin"/>
