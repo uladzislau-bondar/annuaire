@@ -305,7 +305,9 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         if (StringUtils.isNotEmpty(params.get("middleName"))) {
             query.append(appendParamValue("middleName", params.get("middleName")));
         }
-        // todo process date
+        if (StringUtils.isNotEmpty(params.get("dateOfBirth")) && StringUtils.isNotEmpty(params.get("dateRange"))) {
+            query.append(appendDateOfBirth(params.get("dateOfBirth"), params.get("dateRange")));
+        }
         if (StringUtils.isNotEmpty(params.get("sex"))) {
             query.append(appendParamValue("sex", params.get("sex")));
         }
@@ -344,6 +346,22 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         builder.append("LIKE '%");
         builder.append(value);
         builder.append("%'");
+        builder.append(" AND ");
+
+        return builder.toString();
+    }
+
+    private String appendDateOfBirth(String date, String range) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("dateOfBirth");
+        if (range.equals("before")){
+            builder.append(" < ");
+        } else if (range.equals("after")){
+            builder.append(" > ");
+        }
+        builder.append("'");
+        builder.append(date);
+        builder.append("'");
         builder.append(" AND ");
 
         return builder.toString();

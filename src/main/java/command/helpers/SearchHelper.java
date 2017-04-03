@@ -17,6 +17,7 @@ public class SearchHelper extends AbstractHelper{
         params.put("firstName", request.getParameter("firstName"));
         params.put("lastName", request.getParameter("lastName"));
         params.put("middleName", request.getParameter("middleName"));
+        params.put("dateRange", request.getParameter("dateRadio"));
         params.put("dateOfBirth", request.getParameter("dateOfBirth"));
         params.put("sex", request.getParameter("sex"));
         params.put("citizenship", request.getParameter("citizenship"));

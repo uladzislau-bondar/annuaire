@@ -12,8 +12,11 @@
     <input type="text" name="lastName"/> <br>
     Отчество:
     <input type="text" name="middleName"/> <br>
-    <!-- todo further or earlier dateOfBirth -->
     Дата рождения:
+    <input type="radio" name="dateRadio"
+           value="before">Раньше</input>
+    <input type="radio" name="dateRadio"
+           value="after">Позднее</input> <br>
     <input type="text" name="dateOfBirth"/> <br>
     Пол:
     <input type="radio" name="sex"

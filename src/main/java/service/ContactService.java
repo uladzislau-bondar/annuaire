@@ -196,6 +196,8 @@ public class ContactService {
         return fileName;
     }
 
+
+    // todo maybe save attachments by name
     private String savePartToFile(String name, Part part, Long contactId) throws IOException {
         String path = UPLOAD_PATH + File.separator + "contact" + contactId;
 
