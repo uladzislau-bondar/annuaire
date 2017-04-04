@@ -31,14 +31,17 @@ function editPhone(element) {
 }
 
 function savePhone() {
-    var id = document.getElementById("phoneId").value;
-    if (id != '') {
-        updatePhone(id);
-    } else {
-        createNewPhone();
-    }
+    // var valid = validatePhoneModal();
+    // if (valid){
+        var id = document.getElementById("phoneId").value;
+        if (id != '') {
+            updatePhone(id);
+        } else {
+            createNewPhone();
+        }
 
-    closePhoneModal();
+        closePhoneModal();
+    // }
 }
 
 function createNewPhone() {
@@ -224,5 +227,29 @@ function buildNumber(phone) {
 }
 
 function trim(str) {
-    return str = str.replace(/\s/g, '');
+    return str.replace(/\s/g, '');
 }
+
+// function validatePhoneModal() {
+//     var countryCode = document.getElementById("phoneCountryCode");
+//     if (!validInteger(countryCode.value)){
+//         alert("invalid");
+//         return false;
+//     }
+//     var operatorCode = document.getElementById("phoneOperatorCode");
+//     if (!validInteger(operatorCode.value)){
+//         alert("invalid");
+//         return false;
+//     }
+//     var number = document.getElementById("phoneNumber");
+//     if (!validInteger(number.value)){
+//         alert("invalid");
+//         return false;
+//     }
+//
+//     return true;
+// }
+//
+// function validInteger(number){
+//     return /^[0-9]\d*$/.test(number);
+// }
