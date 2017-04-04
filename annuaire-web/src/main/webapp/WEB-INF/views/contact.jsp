@@ -44,8 +44,8 @@
                  onclick="selectPhoto()"> <br>
             <fieldset>
                 <legend><span class="number">1</span>Базовая информация</legend>
-                <label for="firstName">Имя:</label>
 
+                <label for="firstName">Имя:</label>
                 <input type="text" id="firstName" name="firstName"
                        value="<c:out value="${firstName}" />"
                        maxlength="32" pattern="${textPattern}"
