@@ -9,6 +9,7 @@
     <script type="text/javascript" src="../../resources/js/attachment.js"></script>
     <script type="text/javascript" src="../../resources/js/photo.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/contact.css">
 </head>
 <body>
@@ -134,6 +135,8 @@
                        value="<c:out value="${zip}" />"
                        maxlength="10" pattern="${zipPattern}"/> <br>
             </fieldset>
+
+            <button type="submit">Сохранить</button>
         </div>
     </div>
 
@@ -248,8 +251,6 @@
             <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>
         </div>
     </div>
-
-    <input type="submit"/>
 </form>
 
 </body>
