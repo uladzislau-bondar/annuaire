@@ -30,7 +30,7 @@ public class CommandFactory {
                 command = new PhotoCommand(request, response);
                 break;
             default:
-                // todo process error
+                command = new ErrorCommand(request, response);
         }
 
         return command;
