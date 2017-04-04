@@ -9,7 +9,9 @@
     <groupId>com.itechart.labs</groupId>
     <artifactId>annuaire</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+
+    <packaging>pom</packaging>
+    <name>annuaire</name>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -18,165 +20,131 @@
 
         <jstl.version>1.2.1</jstl.version>
         <log4j.version>2.8</log4j.version>
-
     </properties>
 
-    <dependencies>
-        <!-- Servlet 3.1.0 -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+    <modules>
+        <module>annuaire-common</module>
+        <module>annuaire-web</module>
+    </modules>
 
-        <!-- JSP 2.3.1 && JSTL 1.2.1 -->
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-            <version>${jstl.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.servlet.jsp.jstl</artifactId>
-            <version>${jstl.version}</version>
-            <exclusions>
-                <!-- jstl-api was adding selvlet-api 2.5 and jsp-api-->
-                <exclusion>
-                    <artifactId>jstl-api</artifactId>
-                    <groupId>javax.servlet.jsp.jstl</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Servlet 3.1.0 -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+            </dependency>
 
-        <!--Logging-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
+            <!-- JSP 2.3.1 && JSTL 1.2.1 -->
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>javax.servlet.jsp-api</artifactId>
+                <version>2.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp.jstl</groupId>
+                <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+                <version>${jstl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>javax.servlet.jsp.jstl</artifactId>
+                <version>${jstl.version}</version>
+                <exclusions>
+                    <!-- jstl-api was adding selvlet-api 2.5 and jsp-api-->
+                    <exclusion>
+                        <artifactId>jstl-api</artifactId>
+                        <groupId>javax.servlet.jsp.jstl</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
+            <!--Logging-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
 
-        <!-- MySQL -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.5</version>
-        </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-web</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>3.3.0</version>
-        </dependency>
+            <!-- MySQL -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>6.0.5</version>
+            </dependency>
 
-        <!-- JSON -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160810</version>
-        </dependency>
-
-        <!-- StringTemplate -->
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>ST4</artifactId>
-            <version>4.0.7</version>
-        </dependency>
-
-        <!-- Apache Commons-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-email</artifactId>
-            <version>1.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-
-
-        <!-- Quartz -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz-jobs</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-                    <warName>${project.artifactId}-${project.version}</warName>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <url>http://localhost:8080/manager/text</url>
-                    <server>TomcatServer</server>
-                    <path>/annuaire</path>
-                </configuration>
-            </plugin>
-            <plugin>
+            <dependency>
                 <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.4.2</version>
-                <configuration>
-                    <propertyFile>liquibase/liquibase.properties</propertyFile>
-                    <changeLogFile>liquibase/changelog/db.changelog-master.xml</changeLogFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>clearCheckSums</goal>
-                            <goal>update</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+                <artifactId>liquibase-core</artifactId>
+                <version>3.3.0</version>
+            </dependency>
+
+            <!-- JSON -->
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>20160810</version>
+            </dependency>
+
+            <!-- StringTemplate -->
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>ST4</artifactId>
+                <version>4.0.7</version>
+            </dependency>
+
+            <!-- Apache Commons-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>1.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>2.1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+
+
+            <!-- Quartz -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>2.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz-jobs</artifactId>
+                <version>2.2.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>
