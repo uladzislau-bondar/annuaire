@@ -44,7 +44,7 @@
             </column>
             <column name="address" type="VARCHAR(64)">
             </column>
-            <column name="zip" type="INT">
+            <column name="zip" type="VARCHAR(10)">
             </column>
         </createTable>
 
