@@ -13,6 +13,11 @@
 </head>
 <body>
 
+<c:set var="textPattern" value="^[a-zA-ZА-Яа-яЁё]+$" />
+<c:set var="textPatternWithSpaces" value="^[a-zA-ZА-Яа-яЁё\s]+$" />
+<c:set var="urlPattern" value="https?://.+" />
+<c:set var="zipPattern" value="[0-9]{6}" />
+
 <c:url value="/contact" var="postUrl">
     <c:if test="${param.id ne null}">
         <c:param name="id" value="${param.id}"/>
@@ -40,15 +45,17 @@
     Имя:
     <input type="text" id="firstName" name="firstName"
            value="<c:out value="${firstName}" />"
-           maxlength="32" required/> <br>
+           maxlength="32" pattern="${textPattern}"
+           required/> <br>
     Фамилия:
     <input type="text" id="lastName" name="lastName"
            value="<c:out value="${lastName}" />"
-           maxlength="32" required/> <br>
+           maxlength="32" pattern="${textPattern}"
+           required/> <br>
     Отчество:
     <input type="text" id="middleName" name="middleName"
            value="<c:out value="${middleName}"/>"
-           maxlength="32"/> <br>
+           maxlength="32" pattern="${textPattern}"/> <br>
     Дата рождения:
     <input type="text" id="dateOfBirth" name="dateOfBirth"
            value="<c:out value="${dateOfBirth}" />"
@@ -67,30 +74,30 @@
     Гражданство:
     <input type="text" id="citizenship" name="citizenship"
            value="<c:out value="${citizenship}" />"
-           maxlength="32"/> <br>
+           maxlength="32" pattern="${textPattern}"/> <br>
     Семейное положение:
     <input type="text" id="maritalStatus" name="maritalStatus"
            value="<c:out value="${maritalStatus}" />"
-           maxlength="32"/> <br>
+           maxlength="32" pattern="${textPatternWithSpaces}"/> <br>
     Website:
     <input type="url" id="website" name="website"
            value="<c:out value="${website}" />"
-           pattern="https?://.+"/> <br>
+           pattern="${urlPattern}"/> <br>
     Email:
     <input type="email" id="email" name="email"
            value="<c:out value="${email}" />"/> <br>
     Место работы:
     <input type="text" id="placeOfWork" name="placeOfWork"
            value="<c:out value="${placeOfWork}" />"
-           maxlength="32"/> <br>
+           maxlength="32" /> <br>
     Страна:
     <input type="text" id="country" name="country"
            value="<c:out value="${country}" />"
-           maxlength="32"/> <br>
+           maxlength="32" pattern="${textPatternWithSpaces}"/> <br>
     Город:
     <input type="text" id="city" name="city"
            value="<c:out value="${city}" />"
-           maxlength="32"/> <br>
+           maxlength="32" pattern="${textPatternWithSpaces}"/> <br>
     Адрес:
     <input type="text" id="address" name="address"
            value="<c:out value="${address}" />"
@@ -98,7 +105,7 @@
     Индекс:
     <input type="text" id="zip" name="zip"
            value="<c:out value="${zip}" />"
-           pattern="\d+"/> <br>
+           maxlength="10" pattern="${zipPattern}"/> <br>
 
     <table id="phonesTable">
         <thead>
