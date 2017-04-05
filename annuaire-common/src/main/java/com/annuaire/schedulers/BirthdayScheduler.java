@@ -1,4 +1,4 @@
-package schedulers;
+package com.annuaire.schedulers;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;

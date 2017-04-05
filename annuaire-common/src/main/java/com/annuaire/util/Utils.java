@@ -1,6 +1,8 @@
 package com.annuaire.util;
 
 
+import com.annuaire.dto.ContactInitialsDto;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Date;
@@ -31,6 +33,23 @@ public class Utils {
 
     public static String joinListWithSemicolon(List<String> strings) {
         return String.join("; ", strings);
+    }
+
+    public static String buildBirthdayBoysListMessage(List<ContactInitialsDto> contacts){
+        StringBuilder result = new StringBuilder();
+        for (ContactInitialsDto contact : contacts) {
+            result.append(contact.getFirstName());
+            result.append(" ");
+            result.append(contact.getLastName());
+            if (contact.getEmail() != null){
+                result.append("(");
+                result.append(contact.getEmail());
+                result.append(")");
+            }
+            result.append("; ");
+        }
+
+        return result.toString();
     }
 
     public static List<Long> toLongList(String[] array) {

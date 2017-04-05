@@ -22,11 +22,15 @@
             <AppenderRef ref="Console" />
             <AppenderRef ref="File" />
         </logger>
+        <logger name="listeners" level="ALL">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="File" />
+        </logger>
         <logger name="db" level="ALL">
             <AppenderRef ref="Console" />
             <AppenderRef ref="File" />
         </logger>
-        <logger name="schedulers" level="ALL">
+        <logger name="com.annuaire.schedulers" level="ALL">
             <AppenderRef ref="Console" />
             <AppenderRef ref="File" />
         </logger>

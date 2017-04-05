@@ -4,7 +4,7 @@ package listeners;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.SchedulerException;
-import schedulers.BirthdayScheduler;
+import com.annuaire.schedulers.BirthdayScheduler;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

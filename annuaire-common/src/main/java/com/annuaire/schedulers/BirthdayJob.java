@@ -1,8 +1,9 @@
-package schedulers;
+package com.annuaire.schedulers;
 
 
 import com.annuaire.dao.ContactDao;
 import com.annuaire.db.TransactionHandler;
+import com.annuaire.dto.ContactInitialsDto;
 import com.annuaire.exceptions.ServiceException;
 import com.annuaire.exceptions.TransactionException;
 import com.annuaire.properties.EmailPropertyService;
@@ -14,7 +15,6 @@ import org.quartz.JobExecutionException;
 import com.annuaire.service.EmailService;
 import com.annuaire.util.Utils;
 
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -22,21 +22,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// todo send name instead of email
 public class BirthdayJob implements Job {
     private final static Logger logger = LogManager.getLogger(BirthdayJob.class);
     private final EmailService service = new EmailService();
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException{
-        List<String> birthdayBoysEmails = getBirthdayBoysEmails();
-        if (birthdayBoysEmails != null && !birthdayBoysEmails.isEmpty()){
-            String birthdayList = Utils.joinListWithSemicolon(birthdayBoysEmails);
+        List<ContactInitialsDto> birthdayBoys = getBirthdayBoysList();
+        if (birthdayBoys != null && !birthdayBoys.isEmpty()){
             try{
-                Map<String, String> emailParams = buildEmailParams(birthdayList);
+                Map<String, String> emailParams = buildEmailParams(birthdayBoys);
                 service.sendEmail(emailParams);
 
-                logger.info("Sending notification to admin, that " + birthdayList + "have birthday today");
+                logger.info("Sending notification to admin, that someone have birthday today");
             } catch (ServiceException | IOException e){
                 throw new JobExecutionException(e);
             }
@@ -49,27 +47,27 @@ public class BirthdayJob implements Job {
         return new Date(utilDate.getTime());
     }
 
-    private List<String> getBirthdayBoysEmails() throws JobExecutionException{
-        final List<String> emails = new ArrayList<>();
+    private List<ContactInitialsDto> getBirthdayBoysList() throws JobExecutionException{
+        final List<ContactInitialsDto> contacts = new ArrayList<>();
 
         try{
             TransactionHandler.run(connection -> {
                 ContactDao dao = new ContactDao(connection);
-                emails.addAll(dao.getEmailsByDateOfBirth(today()));
+                contacts.addAll(dao.getInitialsByDateOfBirth(today()));
             });
         } catch (TransactionException e){
             throw new JobExecutionException(e);
         }
 
-        return Utils.deleteNulls(emails);
+        return contacts;
     }
 
-    private Map<String, String> buildEmailParams(String emailList) throws IOException{
+    private Map<String, String> buildEmailParams(List<ContactInitialsDto> birthdayBoys) throws IOException{
         EmailPropertyService properties = EmailPropertyService.getInstance();
 
         Map<String, String> params = new HashMap<>();
         params.put("subject", properties.getNotificationSubject());
-        String message = emailList + " have birthday today";
+        String message = Utils.buildBirthdayBoysListMessage(birthdayBoys) + " have birthday today";
         params.put("message", message);
         params.put("emails", properties.getAdminEmail());
 

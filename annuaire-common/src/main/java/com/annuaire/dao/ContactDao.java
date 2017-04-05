@@ -2,6 +2,7 @@ package com.annuaire.dao;
 
 
 import com.annuaire.db.constants.ContactConstants;
+import com.annuaire.dto.ContactInitialsDto;
 import com.annuaire.entities.Contact;
 import com.annuaire.builders.ContactBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -150,15 +151,15 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return parsePhotoPathFromResultSet(set);
     }
 
-    public List<String> getEmailsByDateOfBirth(Date date) throws SQLException {
-        PreparedStatement statement = getPreparedStatement(ContactConstants.GET_EMAILS_BY_DATE_OF_BIRTH);
+    public List<ContactInitialsDto> getInitialsByDateOfBirth(Date date) throws SQLException {
+        PreparedStatement statement = getPreparedStatement(ContactConstants.GET_INITIALS_NAME_BY_DATE_OF_BIRTH);
         statement.setDate(1, date);
 
         logger.info(statement.toString());
 
         ResultSet set = statement.executeQuery();
 
-        return parseEmailListFromResultSet(set);
+        return parseInitialsListFromResultSet(set);
     }
 
     public void updatePhotoPathById(String photoPath, Long id) throws SQLException{
@@ -237,14 +238,16 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return email;
     }
 
-    private List<String> parseEmailListFromResultSet(ResultSet set) throws SQLException {
-        List<String> emails = new ArrayList<>();
+    private List<ContactInitialsDto> parseInitialsListFromResultSet(ResultSet set) throws SQLException {
+        List<ContactInitialsDto> contacts = new ArrayList<>();
         while (set.next()) {
-            String email = set.getString("email");
-            emails.add(email);
+            ContactInitialsDto contact = new ContactInitialsDto();
+            contact.setFirstName(set.getString("firstName"));
+            contact.setLastName(set.getString("lastName"));
+            contact.setEmail(set.getString("email"));
         }
 
-        return emails;
+        return contacts;
     }
 
     private String parsePhotoPathFromResultSet(ResultSet set) throws SQLException {
