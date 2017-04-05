@@ -8,6 +8,7 @@ import com.annuaire.exceptions.TransactionException;
 import javax.servlet.ServletException;
 import java.io.File;
 
+// todo save id instead of name
 public class AttachmentService {
     public File getByContactId(Long id) throws ServiceException{
         return new File(getFilePath(id));

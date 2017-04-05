@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// todo send name instead of email
 public class BirthdayJob implements Job {
     private final static Logger logger = LogManager.getLogger(BirthdayJob.class);
     private final static EmailPropertyService properties = EmailPropertyService.getInstance();

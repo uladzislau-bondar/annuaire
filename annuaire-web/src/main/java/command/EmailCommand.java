@@ -1,5 +1,6 @@
 package command;
 
+import com.annuaire.exceptions.ServiceException;
 import command.helpers.EmailHelper;
 
 import org.apache.logging.log4j.LogManager;
@@ -36,14 +37,18 @@ public class EmailCommand extends AbstractCommand{
             sendEmail();
             redirect("/");
         } else{
-            forward("error");
+            throw new ServletException("Can't process" + method);
         }
     }
 
-    private void sendEmail(){
+    private void sendEmail() throws ServletException{
         logger.info("Emails are sending");
 
-        Map<String, String> messageParams = helper.getMessageParams();
-        service.sendEmail(messageParams);
+        try{
+            Map<String, String> messageParams = helper.getMessageParams();
+            service.sendEmail(messageParams);
+        } catch (ServiceException e){
+            throw new ServletException(e);
+        }
     }
 }

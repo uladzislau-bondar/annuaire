@@ -1,12 +1,12 @@
 package command;
 
 
+import com.annuaire.exceptions.ServiceException;
 import command.helpers.ContactListHelper;
 import com.annuaire.dto.ContactInfoDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.annuaire.service.ContactListService;
-import com.annuaire.service.SearchService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,57 +33,88 @@ public class ContactListCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         String method = helper.getMethod();
-        String methodParam = helper.getMethodParam();
 
         switch (method) {
             case "GET":
-                if (methodParam == null || methodParam.equals("show")){
-                    showContactList();
-                    forwardWithMethod("index", "show");
-                }
+                processGet();
                 break;
             case "POST":
-                if (methodParam != null) {
-                    if (methodParam.equals("delete")) {
-                        deleteSelectedContacts();
-                        redirect("/");
-                    } else if (methodParam.equals("email")) {
-                        emailSelectedContacts();
-                        forward("email");
-                    }
-                }
+                processPost();
                 break;
             default:
-                forward("error");
-                break;
+                throw new ServletException("Can't process" + method);
         }
     }
 
-    private void showContactList() {
+    private void processGet() throws ServletException, IOException {
+        String methodParam = helper.getMethodParam();
+
+        if (methodParam == null || methodParam.equals("show")) {
+            showContactList();
+            forwardWithMethod("index", "show");
+        } else {
+            throw new ServletException("No such method declared.");
+        }
+    }
+
+    private void processPost() throws ServletException, IOException {
+        String methodParam = helper.getMethodParam();
+
+        if (methodParam.equals("delete")) {
+            deleteSelectedContacts();
+            redirect("/");
+        } else if (methodParam.equals("email")) {
+            emailSelectedContacts();
+            forward("email");
+        } else {
+            throw new ServletException("Invalid POST params.");
+        }
+    }
+
+    private void showContactList() throws ServletException {
         logger.info("Showing contacts");
 
-        int offset = helper.getOffset();
-        List<ContactInfoDto> contacts = contactListService.getAllWithOffset(offset);
-        request.setAttribute("contactList", contacts);
+        try {
+            int offset = helper.getOffset();
+            List<ContactInfoDto> contacts = contactListService.getAllWithOffset(offset);
+            request.setAttribute("contactList", contacts);
 
-        setTitle("List of contacts");
+            setTitle("List of contacts");
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
     }
 
-    private void deleteSelectedContacts() {
+    private void deleteSelectedContacts() throws ServletException {
         logger.info("Deleting selected contacts");
 
-        List<Long> ids = helper.getSelectedIds();
-        contactListService.deleteSelected(ids);
+        try {
+            List<Long> ids = helper.getSelectedIds();
+            if (!ids.isEmpty()){
+                contactListService.deleteSelected(ids);
+            }
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
+
     }
 
-    private void emailSelectedContacts() throws IOException {
+    private void emailSelectedContacts() throws ServletException, IOException {
         logger.info("Redirecting to email page with selected contacts");
 
-        List<Long> ids = helper.getSelectedIds();
-        List<String> emails = contactListService.getEmailsOfSelected(ids);
+        try {
+            List<Long> ids = helper.getSelectedIds();
+            if (!ids.isEmpty()){
+                List<String> emails = contactListService.getEmailsOfSelected(ids);
+                helper.redirectWithEmails(emails);
+            } else{
+                redirect("/email");
+            }
 
-        helper.processRedirectionToEmailPage(emails);
-        setTitle("Email page");
+            setTitle("Email page");
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
     }
 
 }

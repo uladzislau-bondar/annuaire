@@ -1,5 +1,6 @@
 package command;
 
+import com.annuaire.exceptions.ServiceException;
 import com.annuaire.service.AttachmentService;
 import command.helpers.AttachmentHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -11,8 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
-public class AttachmentCommand extends AbstractCommand{
+public class AttachmentCommand extends AbstractCommand {
     private final static Logger logger = LogManager.getLogger(AttachmentCommand.class);
     private AttachmentHelper helper;
     private AttachmentService service;
@@ -32,19 +34,32 @@ public class AttachmentCommand extends AbstractCommand{
     public void process() throws ServletException, IOException {
         String method = helper.getMethod();
 
-        if (method.equals("GET")){
-            processAttachmentRendering();
+        if (method.equals("GET")) {
+            processGet();
+        } else {
+            throw new ServletException("Can't process" + method);
         }
     }
 
-    private void processAttachmentRendering() throws ServletException, IOException{
-        String idParam = helper.getQuery().get("id");
-        if (StringUtils.isNotEmpty(idParam)){
-            Long id = Long.valueOf(idParam);
-            logger.info("Rendering attachment {}", id);
+    private void processGet() throws ServletException, IOException {
+        Map<String, String> params = helper.getQuery();
 
+        if (params.containsKey("id")) {
+            Long id = Long.valueOf(params.get("id"));
+            processAttachmentRendering(id);
+        } else{
+            throw new ServletException("No attachment id specified.");
+        }
+    }
+
+    private void processAttachmentRendering(Long id) throws ServletException, IOException {
+        logger.info("Rendering attachment {}", id);
+
+        try {
             File photo = service.getByContactId(id);
             helper.renderAttachment(photo);
+        } catch (ServiceException e) {
+            throw new ServletException(e);
         }
     }
 }

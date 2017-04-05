@@ -9,9 +9,12 @@ import com.annuaire.entities.Contact;
 import com.annuaire.exceptions.ServiceException;
 import com.annuaire.exceptions.TransactionException;
 import com.annuaire.util.DtoUtils;
+import com.annuaire.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ContactListService {
     public List<ContactInfoDto> getAllWithOffset(int offset) throws ServiceException{
@@ -62,7 +65,7 @@ public class ContactListService {
             throw new ServiceException(e);
         }
 
-        return emails;
+        return Utils.deleteNulls(emails);
     }
 
 }

@@ -42,5 +42,7 @@ public class Utils {
         return list;
     }
 
-
+    public static List<String> deleteNulls(List<String> list){
+        return list.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    }
 }

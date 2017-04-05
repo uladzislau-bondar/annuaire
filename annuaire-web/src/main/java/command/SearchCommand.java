@@ -1,5 +1,6 @@
 package command;
 
+import com.annuaire.exceptions.ServiceException;
 import command.helpers.SearchHelper;
 import com.annuaire.dto.ContactInfoDto;
 import org.apache.logging.log4j.LogManager;
@@ -43,6 +44,8 @@ public class SearchCommand extends AbstractCommand {
                 search();
                 forwardWithMethod("index", "search");
                 break;
+            default:
+                throw new ServletException("Can't process" + method);
         }
     }
 
@@ -51,14 +54,18 @@ public class SearchCommand extends AbstractCommand {
         setTitle("Search form");
     }
 
-    private void search() {
+    private void search() throws ServletException{
         logger.info("Processing searching");
 
-        Map<String, String> searchParams = helper.getSearchParams();
-        int offset = helper.getOffset();
-        List<ContactInfoDto> result = service.getSearchResult(searchParams, offset);
+        try{
+            Map<String, String> searchParams = helper.getSearchParams();
+            int offset = helper.getOffset();
+            List<ContactInfoDto> result = service.getSearchResult(searchParams, offset);
 
-        request.setAttribute("contactList", result);
-        request.setAttribute("searchParams", searchParams);
+            request.setAttribute("contactList", result);
+            request.setAttribute("searchParams", searchParams);
+        } catch (ServiceException e){
+            throw new ServletException(e);
+        }
     }
 }

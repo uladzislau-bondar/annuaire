@@ -18,7 +18,7 @@ public class ContactListHelper extends AbstractHelper{
         return Utils.toLongList(request.getParameterValues("selected"));
     }
 
-    public void processRedirectionToEmailPage(List<String> emails){
+    public void redirectWithEmails(List<String> emails){
         String emailsList = String.join("; ", emails);
         StringTemplateGroup templatesGroup = retrieveStringTemplateGroup();
         Map<String, String> templates = createMapOfTemplates(templatesGroup);

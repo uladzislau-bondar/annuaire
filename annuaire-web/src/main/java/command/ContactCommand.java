@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Map;
 
 
+// todo if nothing found
 public class ContactCommand extends AbstractCommand {
     private final static Logger logger = LogManager.getLogger(ContactCommand.class);
     private ContactService service;
@@ -67,13 +68,15 @@ public class ContactCommand extends AbstractCommand {
     }
 
     private void processPost() throws ServletException, IOException{
-        Map<String, String> query = helper.getQuery();
+        Map<String, String> params = helper.getQuery();
 
-        if (query.isEmpty()) {
+        if (params.isEmpty()) {
             saveContact();
-        } else if (query.containsKey("id")) {
-            Long contactId = Long.valueOf(query.get("id"));
+        } else if (params.containsKey("id")) {
+            Long contactId = Long.valueOf(params.get("id"));
             updateContact(contactId);
+        } else{
+            throw new ServletException("Invalid POST params.");
         }
 
         redirect("/");
