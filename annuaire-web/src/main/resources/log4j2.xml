@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
+    <Properties>
+        <Property name="LOG_DIR">/home/colinforzeal/coding/ITechArt/logs</Property>
+        <Property name="PATTERN">%-5level %d %c: %m%n</Property>
+    </Properties>
     <Appenders>
         <Console name="Console">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+            <PatternLayout pattern="${PATTERN}"/>
         </Console>
-        <!-- todo add logging to file -->
+        <File name="File" fileName="${LOG_DIR}/annuaire.log" immediateFlush="false" append="false">
+            <PatternLayout pattern="${PATTERN}"/>
+        </File>
     </Appenders>
 
     <Loggers>
         <Root level="ALL">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="File" />
         </Root>
         <logger name="command" level="ALL">
             <AppenderRef ref="Console" />
+            <AppenderRef ref="File" />
         </logger>
         <logger name="db" level="ALL">
             <AppenderRef ref="Console" />
+            <AppenderRef ref="File" />
         </logger>
         <logger name="schedulers" level="ALL">
             <AppenderRef ref="Console" />
+            <AppenderRef ref="File" />
         </logger>
     </Loggers>
 </Configuration>
