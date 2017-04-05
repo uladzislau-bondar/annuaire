@@ -7,6 +7,7 @@
     <script type="text/javascript" src="../../resources/js/validate.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/button.css">
 </head>
 <body>
 
