@@ -24,7 +24,6 @@ import java.util.List;
 
 
 public class ContactService {
-    private final static String UPLOAD_PATH = UploadPropertyService.getInstance().getPath();
     private final static String PROFILE_PIC_NAME = "profilePic";
 
     public ContactDatabaseDto get(Long id) throws ServiceException {
@@ -43,7 +42,7 @@ public class ContactService {
         return dto;
     }
 
-    public void save(ContactFrontDto dto) throws ServiceException {
+    public void save(ContactFrontDto dto) throws ServiceException, IOException {
         try {
             TransactionHandler.run(connection -> {
                 Long id = saveContact(connection, dto.getContact());
@@ -56,7 +55,7 @@ public class ContactService {
         }
     }
 
-    public void update(ContactFrontDto dto, Long id) throws ServiceException {
+    public void update(ContactFrontDto dto, Long id) throws ServiceException, IOException {
         try {
             TransactionHandler.run(connection -> {
                 dto.getContact().setId(id);
@@ -101,16 +100,12 @@ public class ContactService {
         return dao.getById(id);
     }
 
-    private void savePhoto(Connection connection, Part photo, Long contactId) throws SQLException{
+    private void savePhoto(Connection connection, Part photo, Long contactId) throws SQLException, IOException{
         if (photo != null && photo.getSize() > 0) {
-            try {
-                String photoPath = savePhotoToFile(photo, contactId);
+            String photoPath = savePhotoToFile(photo, contactId);
 
-                ContactDao dao = new ContactDao(connection);
-                dao.updatePhotoPathById(photoPath, contactId);
-            } catch (IOException e) {
-                // todo msg
-            }
+            ContactDao dao = new ContactDao(connection);
+            dao.updatePhotoPathById(photoPath, contactId);
         }
     }
 
@@ -165,43 +160,35 @@ public class ContactService {
         }
     }
 
-    private void saveAttachments(Connection connection, ContactFrontDto contact, Long contactId) throws SQLException{
+    private void saveAttachments(Connection connection, ContactFrontDto contact, Long contactId) throws SQLException, IOException{
         AttachmentDao dao = new AttachmentDao(connection);
         saveAddedAttachments(dao, contact.getAddedAttachments(), contactId);
         updateAttachments(dao, contact.getUpdatedAttachments(), contactId);
         deleteAttachments(dao, contact.getDeletedAttachmentsIds());
     }
 
-    private void saveAddedAttachments(AttachmentDao dao, List<AttachmentFrontDto> attachments, Long contactId) throws SQLException{
+    private void saveAddedAttachments(AttachmentDao dao, List<AttachmentFrontDto> attachments, Long contactId) throws SQLException, IOException{
         for (AttachmentFrontDto dto : attachments) {
             Attachment attachment = DtoUtils.convertToAttachment(dto);
             attachment.setContactId(contactId);
 
             if (dto.getFile() != null) {
-                try {
-                    String fileName = savePartToFile(dto.getName(), dto.getFile(), contactId);
-                    attachment.setFileName(fileName);
-                    dao.save(attachment);
-                } catch (IOException e) {
-                    //todo msg
-                }
+                String fileName = savePartToFile(dto.getName(), dto.getFile(), contactId);
+                attachment.setFileName(fileName);
+                dao.save(attachment);
             }
         }
     }
 
-    private void updateAttachments(AttachmentDao dao, List<AttachmentFrontDto> attachments, Long contactId) throws SQLException{
+    private void updateAttachments(AttachmentDao dao, List<AttachmentFrontDto> attachments, Long contactId) throws SQLException, IOException{
         for (AttachmentFrontDto dto : attachments) {
             Attachment attachment = DtoUtils.convertToAttachment(dto);
             attachment.setContactId(contactId);
 
             if (dto.getFile() != null) {
-                try {
-                    String fileName = savePartToFile(dto.getName(), dto.getFile(), contactId);
-                    attachment.setFileName(fileName);
-                    dao.update(attachment);
-                } catch (IOException e) {
-                    //todo msg
-                }
+                String fileName = savePartToFile(dto.getName(), dto.getFile(), contactId);
+                attachment.setFileName(fileName);
+                dao.update(attachment);
             }
         }
     }
@@ -218,9 +205,10 @@ public class ContactService {
     }
 
 
-    // todo maybe save attachments by name
+    // todo maybe save attachments by id
     private String savePartToFile(String name, Part part, Long contactId) throws IOException {
-        String path = UPLOAD_PATH + File.separator + "contact" + contactId;
+        String uploadPath = UploadPropertyService.getInstance().getPath();
+        String path = uploadPath + File.separator + "contact" + contactId;
 
         File fileSaveDir = new File(path);
         if (!fileSaveDir.exists()) {

@@ -4,6 +4,7 @@ package command.helpers;
 import org.apache.commons.io.IOUtils;
 import com.annuaire.util.Utils;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -23,38 +24,29 @@ public class AbstractHelper {
         return request.getMethod();
     }
 
-    public Map<String, String> getQuery(){
-        Map<String, String> query = new HashMap<>();
+    public Map<String, String> getQuery() throws ServletException{
         try{
-            query = Utils.splitQuery(request.getQueryString());
+            return Utils.splitQuery(request.getQueryString());
         } catch (UnsupportedEncodingException e){
-            // todo msg
+            throw new ServletException(e);
         }
-
-        return query;
     }
 
-    public String getMethodParam(){
+    public String getMethodParam() throws ServletException{
         return getQuery().get("method");
     }
 
-    public int getOffset(){
+    public int getOffset() throws ServletException{
         String offsetParam = getQuery().get("offset");
         return offsetParam != null ? Integer.valueOf(offsetParam) : 0;
     }
 
-    public void renderFile(File file){
-        System.out.println(file.getAbsolutePath());
+    public void renderFile(File file) throws IOException{
         if (file != null) {
-            try {
-                FileInputStream in = new FileInputStream(file);
-                OutputStream out = response.getOutputStream();
+            FileInputStream in = new FileInputStream(file);
+            OutputStream out = response.getOutputStream();
 
-                IOUtils.copy(in, out);
-            } catch (IOException e) {
-                // todo msg
-            }
-
+            IOUtils.copy(in, out);
         }
     }
 }

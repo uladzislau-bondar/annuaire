@@ -1,17 +1,19 @@
 package com.annuaire.properties;
 
 
+import java.io.IOException;
+
 public class DBPropertyService {
     private static PropertyService service;
     private static DBPropertyService instance;
 
 
-    private DBPropertyService() {
+    private DBPropertyService() throws IOException{
         service = new PropertyService("db");
     }
 
 
-    public static DBPropertyService getInstance(){
+    public static DBPropertyService getInstance() throws IOException{
         if (instance == null) {
             instance = new DBPropertyService();
         }

@@ -41,7 +41,7 @@ public class EmailCommand extends AbstractCommand{
         }
     }
 
-    private void sendEmail() throws ServletException{
+    private void sendEmail() throws ServletException, IOException{
         logger.info("Emails are sending");
 
         try{

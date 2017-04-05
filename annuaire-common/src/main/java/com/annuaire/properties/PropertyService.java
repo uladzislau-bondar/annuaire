@@ -9,23 +9,18 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyService {
-    private static Logger logger = LogManager.getLogger(PropertyService.class);
-
     private final Properties properties;
     private static final String EXTENSION = ".properties";
 
-    // todo refactor with exception
-    public PropertyService(String name){
+    public PropertyService(String name) throws IOException {
         properties = new Properties();
         String propFileName = name + EXTENSION;
-        try (InputStream stream = PropertyService.class.getClassLoader().getResourceAsStream(propFileName)) {
-            properties.load(stream);
-        } catch (IOException e) {
-            logger.error(e);
-        }
+
+        InputStream stream = PropertyService.class.getClassLoader().getResourceAsStream(propFileName);
+        properties.load(stream);
     }
 
-    public String getProperty(String name){
+    public String getProperty(String name) {
         return properties.getProperty(name);
     }
 }

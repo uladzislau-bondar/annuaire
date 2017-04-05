@@ -4,13 +4,14 @@ package com.annuaire.db;
 import org.apache.commons.dbcp2.BasicDataSource;
 import com.annuaire.properties.DBPropertyService;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConnectionPool {
     private static BasicDataSource instance;
 
-    public static javax.sql.DataSource getDataSource(){
+    public static javax.sql.DataSource getDataSource() throws IOException{
         if (instance == null){
             instance = new BasicDataSource();
 
@@ -28,7 +29,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    public static Connection getConnection() throws SQLException{
+    public static Connection getConnection() throws SQLException, IOException{
         return getDataSource().getConnection();
     }
 }

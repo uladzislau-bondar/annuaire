@@ -3,6 +3,7 @@ package com.annuaire.db;
 
 import com.annuaire.exceptions.TransactionException;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -18,7 +19,7 @@ public class TransactionHandler {
 
             connection.commit();
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             try {
                 if (connection != null) {
                     connection.rollback();

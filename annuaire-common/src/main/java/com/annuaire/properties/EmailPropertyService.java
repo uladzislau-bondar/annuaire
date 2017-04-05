@@ -1,16 +1,18 @@
 package com.annuaire.properties;
 
+import java.io.IOException;
+
 public class EmailPropertyService {
     private static PropertyService service;
     private static EmailPropertyService instance;
 
 
-    private EmailPropertyService() {
+    private EmailPropertyService() throws IOException{
         service = new PropertyService("email");
     }
 
 
-    public static EmailPropertyService getInstance(){
+    public static EmailPropertyService getInstance() throws IOException{
         if (instance == null) {
             instance = new EmailPropertyService();
         }
