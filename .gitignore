@@ -2,7 +2,7 @@
 out
 target
 *.iml
-/annuaire-db/src/main/resources/email.properties
-/annuaire-db/src/main/resources/db.properties
-/annuaire-db/src/main/resources/upload.properties
 /annuaire-web/src/main/resources/liquibase/liquibase.properties
+/annuaire-common/src/main/resources/db.properties
+/annuaire-common/src/main/resources/email.properties
+/annuaire-common/src/main/resources/upload.properties
