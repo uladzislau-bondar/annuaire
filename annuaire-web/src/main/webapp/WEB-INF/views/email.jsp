@@ -34,9 +34,9 @@
             <label for="message">Текст сообщения:</label>
             <textarea id="message" name="message" ></textarea> <br>
 
-            <button type="submit">Отправить</button>
+            <button type="submit" class="btn btn-submit">Отправить</button>
             <a href="<c:url value="/" /> ">
-                <button type="button">Отменить</button>
+                <button type="button" class="btn btn-cancel">Отменить</button>
             </a><br>
         </div>
     </div>

@@ -4,6 +4,8 @@
 <head>
     <title><c:out value="${title}"/></title>
 
+    <script type="text/javascript" src="../../resources/js/validate.js"></script>
+
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
 </head>
 <body>
@@ -13,7 +15,7 @@
 <c:set var="urlPattern" value="https?://.+"/>
 <c:set var="zipPattern" value="[0-9]{6}"/>
 
-<form action="<c:url value="/search" />" method="post">
+<form action="<c:url value="/search" />" method="post" onsubmit="return validateSearch()">
     <div class="container">
         <div class="card card-container">
             <h1>Поиск</h1>
@@ -23,13 +25,11 @@
 
                 <label for="firstName">Имя:</label>
                 <input type="text" id="firstName" name="firstName"
-                       maxlength="32" pattern="${textPattern}"
-                       required/> <br>
+                       maxlength="32" pattern="${textPattern}"/> <br>
 
                 <label for="lastName">Фамилия:</label>
                 <input type="text" id="lastName" name="lastName"
-                       maxlength="32" pattern="${textPattern}"
-                       required/> <br>
+                       maxlength="32" pattern="${textPattern}"/> <br>
 
                 <label for="middleName">Отчество:</label>
                 <input type="text" id="middleName" name="middleName"
@@ -94,9 +94,9 @@
                        maxlength="10" pattern="${zipPattern}"/> <br>
             </fieldset>
 
-            <button type="submit">Поиск</button>
+            <button type="submit" class="btn btn-submit">Поиск</button>
             <a href="<c:url value="/" /> ">
-                <button type="button">Отменить</button>
+                <button type="button" class="btn btn-cancel">Отменить</button>
             </a><br>
         </div>
     </div>
