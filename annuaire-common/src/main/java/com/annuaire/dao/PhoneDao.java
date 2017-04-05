@@ -27,8 +27,8 @@ public class PhoneDao extends AbstractTemplateDao<Phone, Long> {
         statement.setString(2, phone.getCountryCode());
         statement.setString(3, phone.getOperatorCode());
         statement.setString(4, phone.getNumber());
-        statement.setString(4, phone.getType().value());
-        statement.setString(5, phone.getComment());
+        statement.setString(5, phone.getType().value());
+        statement.setString(6, phone.getComment());
 
         logger.info(statement.toString());
 

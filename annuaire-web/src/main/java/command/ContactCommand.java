@@ -3,6 +3,7 @@ package command;
 import com.annuaire.exceptions.ServiceException;
 import command.helpers.ContactHelper;
 import com.annuaire.dto.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.annuaire.service.ContactService;
@@ -55,12 +56,15 @@ public class ContactCommand extends AbstractCommand {
             showCreationForm();
             forward("contact");
         } else if (params.containsKey("id")) {
-            Long id = Long.valueOf(params.get("id"));
-            if (params.containsKey("method")) {
-                String queryMethod = params.get("method");
-                processMethodForContact(id, queryMethod);
-            } else{
-                showContact(id);
+            String idParam = params.get("id");
+            if (StringUtils.isNotEmpty(idParam)){
+                Long contactId = Long.valueOf(idParam);
+                if (params.containsKey("method")) {
+                    String queryMethod = params.get("method");
+                    processMethodForContact(contactId, queryMethod);
+                } else{
+                    showContact(contactId);
+                }
             }
         } else {
             throw new ServletException("Invalid params.");
@@ -73,8 +77,11 @@ public class ContactCommand extends AbstractCommand {
         if (params.isEmpty()) {
             saveContact();
         } else if (params.containsKey("id")) {
-            Long contactId = Long.valueOf(params.get("id"));
-            updateContact(contactId);
+            String idParam = params.get("id");
+            if (StringUtils.isNotEmpty(idParam)){
+                Long contactId = Long.valueOf(idParam);
+                updateContact(contactId);
+            }
         } else{
             throw new ServletException("Invalid POST params.");
         }

@@ -45,8 +45,11 @@ public class AttachmentCommand extends AbstractCommand {
         Map<String, String> params = helper.getQuery();
 
         if (params.containsKey("id")) {
-            Long id = Long.valueOf(params.get("id"));
-            processAttachmentRendering(id);
+            String idParam = params.get("id");
+            if (StringUtils.isNotEmpty(idParam)) {
+                Long contactId = Long.valueOf(idParam);
+                processAttachmentRendering(contactId);
+            }
         } else{
             throw new ServletException("No attachment id specified.");
         }

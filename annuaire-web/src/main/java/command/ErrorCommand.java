@@ -40,6 +40,7 @@ public class ErrorCommand extends AbstractCommand{
             String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
             request.setAttribute("exception", throwable.getClass().getName());
             request.setAttribute("message", message);
+            request.setAttribute("errorStack", throwable.getStackTrace());
         }
 
         setTitle(statusCode.toString());

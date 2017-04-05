@@ -37,7 +37,7 @@ public class EmailCommand extends AbstractCommand{
             sendEmail();
             redirect("/");
         } else{
-            throw new ServletException("Can't process" + method);
+            throw new ServletException("Can't process " + method);
         }
     }
 

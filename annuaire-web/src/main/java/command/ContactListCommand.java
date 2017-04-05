@@ -107,8 +107,6 @@ public class ContactListCommand extends AbstractCommand {
             if (!ids.isEmpty()){
                 List<String> emails = contactListService.getEmailsOfSelected(ids);
                 helper.redirectWithEmails(emails);
-            } else{
-                redirect("/email");
             }
 
             setTitle("Email page");
