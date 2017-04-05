@@ -1,10 +1,13 @@
 package command;
 
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class ErrorCommand extends AbstractCommand{
     public ErrorCommand(HttpServletRequest request, HttpServletResponse response) {
@@ -18,24 +21,20 @@ public class ErrorCommand extends AbstractCommand{
 
     @Override
     public void process() throws ServletException, IOException {
-        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
-        if (servletName == null) {
-            servletName = "Unknown";
-        }
-        String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+        Throwable throwable = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        String requestUri = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
         if (requestUri == null) {
             requestUri = "Unknown";
         }
 
         request.setAttribute("statusCode", statusCode);
         request.setAttribute("requestUri", requestUri);
-        request.setAttribute("servletName", servletName);
 
         if (throwable != null){
-            request.setAttribute("exceptionName", throwable.getClass().getName());
-            request.setAttribute("message", throwable.getMessage());
+            String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
+            request.setAttribute("exception", throwable.getClass().getName());
+            request.setAttribute("message", message);
         }
 
         setTitle(statusCode.toString());

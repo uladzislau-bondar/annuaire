@@ -12,7 +12,17 @@
     <div class="row space-top-8 space-8 row-table">
         <div class="col-5 col-middle">
             <h1 class="text-jumbo text-ginormous">Oops!</h1>
-            <h2>We can't seem to find the page you're looking for.</h2>
+            <c:choose>
+                <c:when test="${statusCode == 404}">
+                    <h2>We can't seem to find the page on <${requestUri}</h2>
+                </c:when>
+                <c:otherwise>
+                    <h2>Something went wrong.</h2>
+                    <h2>Exception: <c:out value="${exception}" /></h2>
+                    <h2>Message: <c:out value="${message}" /></h2>
+                </c:otherwise>
+            </c:choose>
+
             <h6>Error code: <c:out value="${statusCode}" /> </h6>
         </div>
         <div class="col-5 col-middle text-center">
