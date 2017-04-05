@@ -5,18 +5,19 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 
 public class AttachmentHelper extends AbstractHelper {
     public AttachmentHelper(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 
-    public void renderAttachment(File attachment) {
+    public void renderAttachment(File attachment) throws IOException {
         renderFile(attachment);
         addDownloadParams(attachment);
     }
 
-    private void addDownloadParams(File attachment){
+    private void addDownloadParams(File attachment) {
         ServletContext context = request.getServletContext();
         String mimeType = context.getMimeType(attachment.getAbsolutePath());
         if (mimeType == null) {

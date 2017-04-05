@@ -10,7 +10,7 @@ public class PhotoHelper extends AbstractHelper{
         super(request, response);
     }
 
-    public void renderPhoto(File photo){
+    public void renderPhoto(File photo) throws IOException{
         renderFile(photo);
     }
 }

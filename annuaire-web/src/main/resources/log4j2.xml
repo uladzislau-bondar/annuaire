@@ -17,5 +17,8 @@
         <logger name="db" level="ALL">
             <AppenderRef ref="Console" />
         </logger>
+        <logger name="schedulers" level="ALL">
+            <AppenderRef ref="Console" />
+        </logger>
     </Loggers>
 </Configuration>

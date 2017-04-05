@@ -136,7 +136,6 @@
                        maxlength="10" pattern="${zipPattern}"/> <br>
             </fieldset>
 
-            <button type="submit">Сохранить</button>
         </div>
     </div>
 
@@ -251,6 +250,8 @@
             <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>
         </div>
     </div>
+
+    <button type="submit" class="btn btn-submit">Сохранить</button>
 </form>
 
 </body>
