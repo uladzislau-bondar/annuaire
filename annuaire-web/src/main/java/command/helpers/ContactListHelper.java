@@ -18,13 +18,17 @@ public class ContactListHelper extends AbstractHelper{
         return Utils.toLongList(request.getParameterValues("selected"));
     }
 
-    public void redirectWithEmails(List<String> emails){
+    public void redirectToEmailPageWithList(List<String> emails){
         String emailsList = String.join("; ", emails);
+        request.setAttribute("emails", emailsList);
+        redirectToEmailPage();
+    }
+
+    public void redirectToEmailPage(){
         StringTemplateGroup templatesGroup = retrieveStringTemplateGroup();
         Map<String, String> templates = createMapOfTemplates(templatesGroup);
 
         request.setAttribute("templates", templates);
-        request.setAttribute("emails", emailsList);
     }
 
     private StringTemplateGroup retrieveStringTemplateGroup(){

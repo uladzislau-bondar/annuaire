@@ -60,14 +60,15 @@ public class ContactListCommand extends AbstractCommand {
     private void processPost() throws ServletException, IOException {
         String methodParam = helper.getMethodParam();
 
-        if (methodParam.equals("delete")) {
-            deleteSelectedContacts();
-            redirect("/");
-        } else if (methodParam.equals("email")) {
-            emailSelectedContacts();
-            forward("email");
-        } else {
-            throw new ServletException("Invalid POST params.");
+        switch (methodParam) {
+            case "delete":
+                deleteSelectedContacts();
+                break;
+            case "email":
+                emailSelectedContacts();
+                break;
+            default:
+                throw new ServletException("Invalid POST params.");
         }
     }
 
@@ -85,7 +86,7 @@ public class ContactListCommand extends AbstractCommand {
         }
     }
 
-    private void deleteSelectedContacts() throws ServletException {
+    private void deleteSelectedContacts() throws ServletException, IOException{
         logger.info("Deleting selected contacts");
 
         try {
@@ -93,6 +94,7 @@ public class ContactListCommand extends AbstractCommand {
             if (!ids.isEmpty()){
                 contactListService.deleteSelected(ids);
             }
+            redirect("/");
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
@@ -106,9 +108,12 @@ public class ContactListCommand extends AbstractCommand {
             List<Long> ids = helper.getSelectedIds();
             if (!ids.isEmpty()){
                 List<String> emails = contactListService.getEmailsOfSelected(ids);
-                helper.redirectWithEmails(emails);
+                helper.redirectToEmailPageWithList(emails);
+            } else{
+                helper.redirectToEmailPage();
             }
 
+            forward("email");
             setTitle("Email page");
         } catch (ServiceException e) {
             throw new ServletException(e);

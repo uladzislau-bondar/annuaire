@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ContactHelper extends AbstractHelper{
+public class ContactHelper extends AbstractHelper {
     private static final Long FAKE_ID = 1L;
 
     public ContactHelper(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 
-    public ContactFrontDto getContact() throws ServletException, IOException{
+    public ContactFrontDto getContact() throws ServletException, IOException {
         ContactFrontDto dto = new ContactFrontDto();
         dto.setContact(parseContact());
         dto.setPhoto(parsePhoto());
@@ -42,10 +42,18 @@ public class ContactHelper extends AbstractHelper{
         return dto;
     }
 
-    public void showContact(ContactDatabaseDto contact){
-        fillRequestWithContact(contact.getContact());
-        fillRequestWithPhones(contact.getPhones());
-        fillRequestWithAttachments(contact.getAttachments());
+    public void showContact(ContactDatabaseDto contact) throws ServletException{
+        if (contactExists(contact)) {
+            fillRequestWithContact(contact.getContact());
+            fillRequestWithPhones(contact.getPhones());
+            fillRequestWithAttachments(contact.getAttachments());
+        } else {
+            throw new ServletException("Contact doesn't exist");
+        }
+    }
+
+    private boolean contactExists(ContactDatabaseDto contact) {
+        return contact.getContact().getFirstName() != null;
     }
 
     private void fillRequestWithContact(Contact contact) {
@@ -75,7 +83,7 @@ public class ContactHelper extends AbstractHelper{
         request.setAttribute("attachments", attachments);
     }
 
-    private Contact parseContact(){
+    private Contact parseContact() {
         ContactBuilder builder = new ContactBuilder();
         builder.firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
@@ -95,7 +103,7 @@ public class ContactHelper extends AbstractHelper{
         return builder.build();
     }
 
-    private Part parsePhoto() throws ServletException, IOException{
+    private Part parsePhoto() throws ServletException, IOException {
         return request.getPart("photo");
     }
 
@@ -141,7 +149,7 @@ public class ContactHelper extends AbstractHelper{
         return Utils.toLongList(request.getParameterValues("attachmentToDelete"));
     }
 
-    private List<Phone> parsePhonesFromJSON(String json){
+    private List<Phone> parsePhonesFromJSON(String json) {
         JSONArray phonesInJson = new JSONArray(json);
 
         List<Phone> phones = new ArrayList<>();

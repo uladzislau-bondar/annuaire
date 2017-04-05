@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.Map;
 
 
-// todo if nothing found
 public class ContactCommand extends AbstractCommand {
     private final static Logger logger = LogManager.getLogger(ContactCommand.class);
     private ContactService service;
@@ -54,7 +53,6 @@ public class ContactCommand extends AbstractCommand {
 
         if (params.isEmpty()) {
             showCreationForm();
-            forward("contact");
         } else if (params.containsKey("id")) {
             String idParam = params.get("id");
             if (StringUtils.isNotEmpty(idParam)){
@@ -85,31 +83,29 @@ public class ContactCommand extends AbstractCommand {
         } else{
             throw new ServletException("Invalid POST params.");
         }
-
-        redirect("/");
     }
 
     private void processMethodForContact(Long id, String method) throws ServletException, IOException{
         switch (method) {
             case "delete":
                 deleteContact(id);
-                redirect("/");
                 break;
             case "show":
                 showContact(id);
-                forward("contact");
                 break;
             default:
                 throw new ServletException("No such method declared.");
         }
     }
 
-    private void showCreationForm() {
+    private void showCreationForm() throws ServletException, IOException{
         logger.info("Show form for creating new contact");
         setTitle("Contact Creation Form");
+
+        forward("contact");
     }
 
-    private void showContact(Long id) throws ServletException {
+    private void showContact(Long id) throws ServletException, IOException{
         logger.info("Show form for editing contact #{}", id);
         setTitle("Contact " + id);
 
@@ -119,6 +115,8 @@ public class ContactCommand extends AbstractCommand {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
+
+        forward("contact");
     }
 
     private void saveContact() throws ServletException, IOException {
@@ -130,6 +128,8 @@ public class ContactCommand extends AbstractCommand {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
+
+        redirect("/");
     }
 
     private void updateContact(Long id) throws ServletException, IOException {
@@ -141,9 +141,11 @@ public class ContactCommand extends AbstractCommand {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
+
+        redirect("/");
     }
 
-    private void deleteContact(Long id) throws ServletException {
+    private void deleteContact(Long id) throws ServletException, IOException{
         logger.info("Deleting contact #{}", id);
 
         try {
@@ -151,5 +153,7 @@ public class ContactCommand extends AbstractCommand {
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
+
+        redirect("/");
     }
 }
