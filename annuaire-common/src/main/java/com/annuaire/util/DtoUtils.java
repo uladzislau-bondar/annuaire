@@ -20,6 +20,7 @@ public class DtoUtils {
         dto.setDateOfBirth(contact.getDateOfBirth());
         String address = createAddress(contact);
         dto.setAddress(address);
+        dto.setPlaceOfWork(contact.getPlaceOfWork());
 
         return dto;
     }

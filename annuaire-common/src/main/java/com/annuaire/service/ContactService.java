@@ -193,6 +193,7 @@ public class ContactService {
         }
     }
 
+    // todo delete from drive
     private void deleteAttachments(AttachmentDao dao, List<Long> ids) throws SQLException{
         for (Long id : ids) {
             dao.delete(id);

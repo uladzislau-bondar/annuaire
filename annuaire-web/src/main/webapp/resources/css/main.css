@@ -4,18 +4,27 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Nunito', sans-serif;
+body{
+    font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;
     color: #384047;
     height: 100%;
+    overflow: auto;
     background-repeat: no-repeat;
-    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+    background-image: linear-gradient(rgb(204, 153, 255), rgb(135, 206, 250));
 }
 
-form {
+.container {
     max-width: 300px;
     margin: 10px auto;
     padding: 10px 20px;
+}
+
+@media screen and (min-width: 480px) {
+
+    .container {
+        max-width: 480px;
+    }
+
 }
 
 h1 {
@@ -107,18 +116,6 @@ label.light {
     text-align: center;
     text-shadow: 0 1px 0 rgba(255,255,255,0.2);
     border-radius: 100%;
-}
-
-@media screen and (min-width: 480px) {
-
-    form {
-        max-width: 480px;
-    }
-
-}
-
-.container {
-
 }
 
 .card-container.card {

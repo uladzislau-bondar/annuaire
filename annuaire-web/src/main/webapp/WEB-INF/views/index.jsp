@@ -7,10 +7,14 @@
     <title><c:out value="${title}"/></title>
 
     <script type="text/javascript" src="../../resources/js/index.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/table.css">
 </head>
 <body>
 
-<c:set var="method" value="${param.method}" />
+<c:set var="method" value="${param.method}"/>
 
 <c:choose>
     <c:when test="${method == 'show' or method == null}">
@@ -35,16 +39,19 @@
         </c:url>
 
         <form id="contactsForm" action="<c:url value="/" />" method="post">
-            <table>
+            <table class="table table-hover table-mc-light-blue">
+                <thead>
                 <tr>
                     <th></th>
-                    <th>Полное имя</th>
-                    <th>Дата рождения</th>
-                    <th>Адрес</th>
-                    <th>Компания</th>
+                    <th class="text-left">Полное имя</th>
+                    <th class="text-left">Дата рождения</th>
+                    <th class="text-left">Адрес</th>
+                    <th class="text-left">Компания</th>
                     <th></th>
                     <th></th>
                 </tr>
+                </thead>
+                <tbody class="table-hover">
                 <c:forEach items="${contactList}" var="contact">
                     <tr>
                         <c:url value="/contact" var="editUrl">
@@ -56,22 +63,23 @@
                             <c:param name="method" value="delete"/>
                         </c:url>
 
-                        <td>
+                        <td class="text-left">
                             <input type="checkbox" name="selected" value="${contact.id}"/>
                         </td>
-                        <td>
+                        <td class="text-left">
                             <a href="${editUrl}"><c:out value="${contact.fullName}"/></a>
                         </td>
-                        <td><c:out value="${contact.dateOfBirth}"/></td>
-                        <td><c:out value="${contact.address}"/></td>
-                        <td><c:out value="${contact.placeOfWork}"/></td>
-                        <td>
+                        <td class="text-left"><c:out value="${contact.dateOfBirth}"/></td>
+                        <td class="text-left"><c:out value="${contact.address}"/></td>
+                        <td class="text-left"><c:out value="${contact.placeOfWork}"/></td>
+                        <td class="text-left">
                             <a href="${editUrl}">Изменить</a></td>
-                        <td>
+                        <td class="text-left">
                             <a href="${deleteUrl}">Удалить</a>
                         </td>
                     </tr>
                 </c:forEach>
+                </tbody>
             </table>
 
             <input id="deleteButton" type="button" value="Удалить" onclick="processSelected(this)">
@@ -105,8 +113,8 @@
                     <!-- todo process post-->
                         <%--<a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>--%>
                         <%--<c:out value="${page+1}"/></a>--%>
-                    <c:forEach items="${searchParams}" var="searchParam" >
-                        <input type="hidden" name="${searchParam.key}" value="${searchParam.value}" />
+                    <c:forEach items="${searchParams}" var="searchParam">
+                        <input type="hidden" name="${searchParam.key}" value="${searchParam.value}"/>
                     </c:forEach>
                     <c:out value="${page+1}"/>
                     <input type="submit">
