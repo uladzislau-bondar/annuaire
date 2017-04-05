@@ -1,6 +1,7 @@
 package com.annuaire.service;
 
 
+import com.annuaire.exceptions.ServiceException;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -12,13 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 public class EmailService {
-    public void sendEmail(Map<String, String> params) {
+    public void sendEmail(Map<String, String> params) throws ServiceException{
         try{
             Email email = configureEmail();
             email = fillWithParams(email, params);
             email.send();
         } catch (EmailException e){
-            // todo msg
+            throw new ServiceException(e);
         }
 
     }

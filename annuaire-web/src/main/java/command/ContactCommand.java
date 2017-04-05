@@ -1,11 +1,13 @@
 package command;
 
+import com.annuaire.exceptions.ServiceException;
 import command.helpers.ContactHelper;
 import com.annuaire.dto.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.annuaire.service.ContactService;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,45 +34,64 @@ public class ContactCommand extends AbstractCommand {
     @Override
     public void process() throws ServletException, IOException {
         String method = helper.getMethod();
-        Map<String, String> query = helper.getQuery();
 
-        // todo look awful
         switch (method) {
             case "GET":
-                if (query.isEmpty()) {
-                    showCreationForm();
-                    forward("contact");
-                } else if (query.containsKey("id")) {
-                    Long contactId = Long.valueOf(query.get("id"));
-                    if (query.containsKey("method")) {
-                        String queryMethod = query.get("method");
-                        if (queryMethod.equals("delete")){
-                            deleteContact(contactId);
-                            redirect("/");
-                        } else if (queryMethod.equals("show")){
-                            showContact(contactId);
-                            forward("contact");
-                        }
-                    }
-                }
-
+                processGet();
                 break;
             case "POST":
-                if (query.isEmpty()) {
-                    saveContact();
-                } else if (query.containsKey("id")) {
-                    Long contactId = Long.valueOf(query.get("id"));
-                    updateContact(contactId);
-                }
-
-                redirect("/");
+                processPost();
                 break;
             default:
-                forward("error");
-                break;
+                throw new ServletException("Can't process" + method);
+        }
+    }
+
+    private void processGet() throws ServletException, IOException {
+        Map<String, String> params = helper.getQuery();
+
+        if (params.isEmpty()) {
+            showCreationForm();
+            forward("contact");
+        } else if (params.containsKey("id")) {
+            Long id = Long.valueOf(params.get("id"));
+            if (params.containsKey("method")) {
+                String queryMethod = params.get("method");
+                processMethodForContact(id, queryMethod);
+            } else{
+                showContact(id);
+            }
+        } else {
+            throw new ServletException("Invalid params.");
+        }
+    }
+
+    private void processPost() throws ServletException, IOException{
+        Map<String, String> query = helper.getQuery();
+
+        if (query.isEmpty()) {
+            saveContact();
+        } else if (query.containsKey("id")) {
+            Long contactId = Long.valueOf(query.get("id"));
+            updateContact(contactId);
         }
 
+        redirect("/");
+    }
 
+    private void processMethodForContact(Long id, String method) throws ServletException, IOException{
+        switch (method) {
+            case "delete":
+                deleteContact(id);
+                redirect("/");
+                break;
+            case "show":
+                showContact(id);
+                forward("contact");
+                break;
+            default:
+                throw new ServletException("No such method declared.");
+        }
     }
 
     private void showCreationForm() {
@@ -78,31 +99,47 @@ public class ContactCommand extends AbstractCommand {
         setTitle("Contact Creation Form");
     }
 
-    private void showContact(Long id) {
+    private void showContact(Long id) throws ServletException {
         logger.info("Show form for editing contact #{}", id);
         setTitle("Contact " + id);
 
-        ContactDatabaseDto contact = service.get(id);
-        helper.showContact(contact);
+        try {
+            ContactDatabaseDto contact = service.get(id);
+            helper.showContact(contact);
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
     }
 
-    private void saveContact() throws ServletException, IOException{
+    private void saveContact() throws ServletException, IOException {
         logger.info("Saving new contact");
 
-        ContactFrontDto contact = helper.getContact();
-        service.save(contact);
+        try {
+            ContactFrontDto contact = helper.getContact();
+            service.save(contact);
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
     }
 
-    private void updateContact(Long id) throws ServletException, IOException{
+    private void updateContact(Long id) throws ServletException, IOException {
         logger.info("Updating contact #{}", id);
 
-        ContactFrontDto contact = helper.getContact();
-        service.update(contact, id);
+        try {
+            ContactFrontDto contact = helper.getContact();
+            service.update(contact, id);
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
     }
 
-    private void deleteContact(Long id) {
+    private void deleteContact(Long id) throws ServletException {
         logger.info("Deleting contact #{}", id);
 
-        service.delete(id);
+        try {
+            service.delete(id);
+        } catch (ServiceException e) {
+            throw new ServletException(e);
+        }
     }
 }

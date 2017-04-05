@@ -33,6 +33,10 @@ public abstract class AbstractCommand implements Command {
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + path));
     }
 
+    public void redirectToErrorPage() throws IOException{
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/error"));
+    }
+
     protected void setTitle(String title){
         request.setAttribute("title", title);
     }

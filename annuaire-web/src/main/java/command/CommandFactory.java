@@ -29,6 +29,9 @@ public class CommandFactory {
             case "/photo":
                 command = new PhotoCommand(request, response);
                 break;
+            case "/error":
+                command = new ErrorCommand(request, response);
+                break;
             default:
                 command = new ErrorCommand(request, response);
         }

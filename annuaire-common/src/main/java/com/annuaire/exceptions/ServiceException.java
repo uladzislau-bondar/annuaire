@@ -1,20 +1,20 @@
 package com.annuaire.exceptions;
 
 
-public class GeneralException extends Exception{
-    public GeneralException() {
+public class ServiceException extends Exception{
+    public ServiceException() {
         super();
     }
 
-    public GeneralException(String message) {
+    public ServiceException(String message) {
         super(message);
     }
 
-    public GeneralException(String message, Throwable cause) {
+    public ServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public GeneralException(Throwable cause) {
+    public ServiceException(Throwable cause) {
         super(cause);
     }
 }

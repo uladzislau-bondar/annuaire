@@ -14,6 +14,7 @@ public class PropertyService {
     private final Properties properties;
     private static final String EXTENSION = ".properties";
 
+    // todo refactor with exception
     public PropertyService(String name){
         properties = new Properties();
         String propFileName = name + EXTENSION;
