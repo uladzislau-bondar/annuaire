@@ -6,10 +6,10 @@ import java.sql.Date;
 public class Attachment {
     private Long id;
     private Long contactId;
-    private String name;
+    private String name = "";
     private Date dateOfUpload;
-    private String comment;
-    private String fileName;
+    private String comment = "";
+    private String fileName = "";
 
     public Long getId() {
         return id;

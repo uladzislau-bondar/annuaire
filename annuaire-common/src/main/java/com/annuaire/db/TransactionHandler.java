@@ -1,12 +1,14 @@
 package com.annuaire.db;
 
 
+import com.annuaire.exceptions.TransactionException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class TransactionHandler {
 
-    public static void run(Transaction transaction){
+    public static void run(Transaction transaction) throws TransactionException{
         Connection connection = null;
         try {
             connection = ConnectionPool.getConnection();
@@ -17,15 +19,15 @@ public class TransactionHandler {
             connection.commit();
 
         } catch (SQLException e) {
-            //todo msg
             try {
                 if (connection != null) {
                     connection.rollback();
                 }
 
             } catch (SQLException e1) {
-                //todo msg
+                throw new TransactionException(e1);
             }
+            throw new TransactionException(e);
         } finally {
             try {
                 if (connection != null) {
@@ -33,7 +35,7 @@ public class TransactionHandler {
                     connection.close();
                 }
             } catch (SQLException e) {
-                //todo msg
+                throw new TransactionException(e);
             }
         }
     }
