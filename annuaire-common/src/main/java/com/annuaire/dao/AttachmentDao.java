@@ -21,133 +21,99 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
     }
 
     @Override
-    public Long save(Attachment attachment) {
-        Long id = null;
+    public Long save(Attachment attachment) throws SQLException {
+        PreparedStatement statement = getPreparedStatementAndReturnGeneratedKeys(AttachmentConstants.SAVE);
+        statement.setLong(1, attachment.getContactId());
+        statement.setString(2, attachment.getName());
+        statement.setDate(3, attachment.getDateOfUpload());
+        statement.setString(4, attachment.getComment());
+        String filePath = attachment.getFileName();
+        statement.setString(5, filePath);
 
-        try (PreparedStatement statement = getPreparedStatementAndReturnGeneratedKeys(AttachmentConstants.SAVE)) {
-            statement.setLong(1, attachment.getContactId());
-            statement.setString(2, attachment.getName());
-            statement.setDate(3, attachment.getDateOfUpload());
-            statement.setString(4, attachment.getComment());
-            String filePath = attachment.getFileName();
-            statement.setString(5, filePath);
+        logger.info(statement.toString());
 
-            logger.info(statement.toString());
+        statement.executeUpdate();
 
-            statement.executeUpdate();
-            id = obtainIdFromStatement(statement);
-        } catch (SQLException e) {
-            logger.error(e);
-        }
-
-        return id;
+        return obtainIdFromStatement(statement);
     }
 
     @Override
-    public List<Attachment> getAll() {
-        List<Attachment> attachments = new ArrayList<>();
+    public List<Attachment> getAll() throws SQLException {
+        PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_ALL);
 
-        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_ALL)) {
-            logger.info(statement.toString());
+        logger.info(statement.toString());
 
-            ResultSet set = statement.executeQuery();
-            attachments = fillListFromResultSet(set);
-        } catch (SQLException e) {
-            logger.error(e);
-        }
+        ResultSet set = statement.executeQuery();
 
-        return attachments;
+        return parseListFromResultSet(set);
     }
 
     @Override
-    public Attachment getById(Long id) {
-        Attachment attachment = null;
+    public Attachment getById(Long id) throws SQLException {
+        PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_BY_ID);
+        statement.setLong(1, id);
 
-        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_BY_ID)) {
-            statement.setLong(1, id);
+        logger.info(statement.toString());
 
-            logger.info(statement.toString());
+        ResultSet set = statement.executeQuery();
 
-            ResultSet set = statement.executeQuery();
-
-            attachment = fillAttachmentFromResultSet(set);
-        } catch (SQLException e) {
-            logger.error(e);
-        }
-
-        return attachment;
+        return parseAttachmentFromResultSet(set);
     }
 
     @Override
-    public void update(Attachment attachment) {
-        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.UPDATE)) {
-            statement.setLong(1, attachment.getContactId());
-            statement.setString(2, attachment.getName());
-            statement.setDate(3, attachment.getDateOfUpload());
-            statement.setString(4, attachment.getComment());
-            String filePath = attachment.getFileName();
-            statement.setString(5, filePath);
-            statement.setLong(6, attachment.getId());
+    public void update(Attachment attachment) throws SQLException {
+        PreparedStatement statement = getPreparedStatement(AttachmentConstants.UPDATE);
+        statement.setLong(1, attachment.getContactId());
+        statement.setString(2, attachment.getName());
+        statement.setDate(3, attachment.getDateOfUpload());
+        statement.setString(4, attachment.getComment());
+        String filePath = attachment.getFileName();
+        statement.setString(5, filePath);
+        statement.setLong(6, attachment.getId());
 
-            logger.info(statement.toString());
+        logger.info(statement.toString());
 
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
+        statement.executeUpdate();
     }
 
     @Override
-    public void delete(Long id) {
-        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.DELETE)) {
-            statement.setLong(1, id);
+    public void delete(Long id) throws SQLException {
+        PreparedStatement statement = getPreparedStatement(AttachmentConstants.DELETE);
+        statement.setLong(1, id);
 
-            logger.info(statement.toString());
+        logger.info(statement.toString());
 
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            logger.error(e);
-        }
+        statement.executeUpdate();
     }
 
-    public List<Attachment> getByContactId(Long contactId){
-        List<Attachment> attachments = new ArrayList<>();
+    public List<Attachment> getByContactId(Long contactId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_BY_CONTACT_ID);
+        statement.setLong(1, contactId);
 
-        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_BY_CONTACT_ID)) {
-            statement.setLong(1, contactId);
+        logger.info(statement.toString());
 
-            logger.info(statement.toString());
+        ResultSet set = statement.executeQuery();
 
-            ResultSet set = statement.executeQuery();
-
-            attachments = fillListFromResultSet(set);
-        } catch (SQLException e) {
-            logger.error(e);
-        }
-
-        return attachments;
+        return parseListFromResultSet(set);
     }
 
-    public String getFilePathById(Long id) {
+    public String getFilePathById(Long id) throws SQLException {
         String email = null;
-        try (PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_FILEPATH_BY_ID)) {
-            statement.setLong(1, id);
 
-            logger.info(statement.toString());
+        PreparedStatement statement = getPreparedStatement(AttachmentConstants.GET_FILEPATH_BY_ID);
+        statement.setLong(1, id);
 
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                email = set.getString("filePath");
-            }
+        logger.info(statement.toString());
 
-        } catch (SQLException e) {
-            logger.error(e);
+        ResultSet set = statement.executeQuery();
+        if (set.next()) {
+            email = set.getString("filePath");
         }
 
         return email;
     }
 
-    private List<Attachment> fillListFromResultSet(ResultSet set) throws SQLException {
+    private List<Attachment> parseListFromResultSet(ResultSet set) throws SQLException {
         List<Attachment> attachments = new ArrayList<>();
 
         while (set.next()) {
@@ -164,7 +130,7 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
         return attachments;
     }
 
-    private Attachment fillAttachmentFromResultSet(ResultSet set) throws SQLException {
+    private Attachment parseAttachmentFromResultSet(ResultSet set) throws SQLException {
         Attachment attachment = new Attachment();
 
         if (set.next()) {

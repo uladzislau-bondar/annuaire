@@ -1,4 +1,4 @@
-package exceptions;
+package com.annuaire.exceptions;
 
 
 public class GeneralException extends Exception{
