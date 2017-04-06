@@ -25,7 +25,14 @@
 <form id="contactsForm" action="<c:url value="/" />" method="post">
     <c:choose>
         <c:when test="${empty contactList}">
-            <!-- todo no contacts-->
+            <c:choose>
+                <c:when test="${method == 'show' or method == null}">
+                    <h1>Контакты еще не созданы</h1>
+                </c:when>
+                <c:when test="${method == 'search'}">
+                    <h1>Ничего не найдено</h1>
+                </c:when>
+            </c:choose>
         </c:when>
         <c:otherwise>
             <c:url value="/" var="deleteSelectedUrl">
@@ -35,6 +42,15 @@
             <c:url value="/" var="emailSelectedUrl">
                 <c:param name="method" value="email"/>
             </c:url>
+
+            <c:choose>
+                <c:when test="${method == 'show' or method == null}">
+                    <h1>Список контактов</h1>
+                </c:when>
+                <c:when test="${method == 'search'}">
+                    <h1>Результаты поиска</h1>
+                </c:when>
+            </c:choose>
 
 
             <table class="table table-hover table-mc-light-blue">
