@@ -174,9 +174,10 @@ public class ContactService {
             attachment.setContactId(contactId);
 
             if (dto.getFile() != null) {
-                String fileName = savePartToFile(dto.getName(), dto.getFile(), contactId);
-                attachment.setFileName(fileName);
-                dao.save(attachment);
+                Long id = dao.save(attachment);
+
+                String fileName = savePartToFile(String.valueOf(id), dto.getFile(), contactId);
+                dao.updateFilePathById(fileName, id);
             }
         }
     }
@@ -209,7 +210,6 @@ public class ContactService {
     }
 
 
-    // todo maybe save attachments by id
     private String savePartToFile(String name, Part part, Long contactId) throws IOException {
         String uploadPath = UploadPropertyService.getInstance().getPath();
         String path = uploadPath + File.separator + "contact" + contactId;

@@ -113,6 +113,16 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
         return email;
     }
 
+    public void updateFilePathById(String filePath, Long id) throws SQLException{
+        PreparedStatement statement = getPreparedStatement(AttachmentConstants.UPDATE_FILEPATH);
+        statement.setString(1, filePath);
+        statement.setLong(2, id);
+
+        logger.info(statement.toString());
+
+        statement.executeUpdate();
+    }
+
     private List<Attachment> parseListFromResultSet(ResultSet set) throws SQLException {
         List<Attachment> attachments = new ArrayList<>();
 
