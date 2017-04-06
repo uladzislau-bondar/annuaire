@@ -2,6 +2,8 @@ package com.annuaire.service;
 
 import com.annuaire.dao.AttachmentDao;
 import com.annuaire.db.TransactionHandler;
+import com.annuaire.dto.AttachmentDatabaseDto;
+import com.annuaire.entities.Attachment;
 import com.annuaire.exceptions.ServiceException;
 import com.annuaire.exceptions.TransactionException;
 
@@ -9,21 +11,19 @@ import javax.servlet.ServletException;
 import java.io.File;
 
 public class AttachmentService {
-    public File getByContactId(Long id) throws ServiceException{
-        return new File(getFilePath(id));
-    }
-
-    private String getFilePath(Long id) throws ServiceException {
-        final StringBuilder filePath = new StringBuilder();
+    public AttachmentDatabaseDto getByContactId(Long id) throws ServiceException {
+        final AttachmentDatabaseDto dto = new AttachmentDatabaseDto();
         try {
             TransactionHandler.run(connection -> {
                 AttachmentDao dao = new AttachmentDao(connection);
-                filePath.append(dao.getFilePathById(id));
+                Attachment attachment = dao.getById(id);
+                dto.setFile(new File(attachment.getFileName()));
+                dto.setName(attachment.getName());
             });
         } catch (TransactionException e) {
             throw new ServiceException(e);
         }
 
-        return filePath.toString();
+        return dto;
     }
 }

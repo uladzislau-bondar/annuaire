@@ -1,5 +1,6 @@
 package command;
 
+import com.annuaire.dto.AttachmentDatabaseDto;
 import com.annuaire.exceptions.ServiceException;
 import com.annuaire.service.AttachmentService;
 import command.helpers.AttachmentHelper;
@@ -59,8 +60,8 @@ public class AttachmentCommand extends AbstractCommand {
         logger.info("Rendering attachment {}", id);
 
         try {
-            File photo = service.getByContactId(id);
-            helper.renderAttachment(photo);
+            AttachmentDatabaseDto attachment = service.getByContactId(id);
+            helper.renderAttachment(attachment);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }

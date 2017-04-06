@@ -1,6 +1,8 @@
 package command.helpers;
 
 
+import com.annuaire.dto.AttachmentDatabaseDto;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,12 +14,12 @@ public class AttachmentHelper extends AbstractHelper {
         super(request, response);
     }
 
-    public void renderAttachment(File attachment) throws IOException {
-        renderFile(attachment);
-        addDownloadParams(attachment);
+    public void renderAttachment(AttachmentDatabaseDto attachment) throws IOException {
+        addDownloadParams(attachment.getName(), attachment.getFile());
+        renderFile(attachment.getFile());
     }
 
-    private void addDownloadParams(File attachment) {
+    private void addDownloadParams(String fileName, File attachment) {
         ServletContext context = request.getServletContext();
         String mimeType = context.getMimeType(attachment.getAbsolutePath());
         if (mimeType == null) {
@@ -28,7 +30,7 @@ public class AttachmentHelper extends AbstractHelper {
         response.setContentLength((int) attachment.length());
 
         String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", attachment.getName());
+        String headerValue = String.format("attachment; filename=\"%s\"", fileName);
         response.setHeader(headerKey, headerValue);
     }
 }

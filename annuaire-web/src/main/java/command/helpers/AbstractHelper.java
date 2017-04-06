@@ -41,7 +41,6 @@ public class AbstractHelper {
         return offsetParam != null ? Integer.valueOf(offsetParam) : 0;
     }
 
-    // todo doesn't work correctly
     public void renderFile(File file) throws IOException{
         if (file != null) {
             FileInputStream in = new FileInputStream(file);
