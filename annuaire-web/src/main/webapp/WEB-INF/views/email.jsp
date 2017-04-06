@@ -5,9 +5,14 @@
     <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/email.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
 </head>
 <body>
+
+<%@include file="header.jsp" %>
+
 <form action="<c:url value="/email" />" method="post">
     <div class="container">
         <div class="card card-container">

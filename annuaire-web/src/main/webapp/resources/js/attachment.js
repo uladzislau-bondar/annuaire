@@ -196,13 +196,13 @@ function appendAddedAttachmentRow(attachment) {
     var tr = document.createElement("tr");
     tr.setAttribute("id", "attachment" + attachment.id);
     tr.innerHTML = "<td><input type='hidden' value='added'></td>" +
-        "<td><input type='checkbox' name='selected' value=" + attachment.id + "></td>" +
-        "<td>" + attachment.name + "</td>" +
-        "<td>" + attachment.dateOfUpload + "</td>" +
-        "<td>" + attachment.comment + "</td>" +
+        "<td class='text-left'><input type='checkbox' name='selected' value=" + attachment.id + "></td>" +
+        "<td class='text-left'>" + attachment.name + "</td>" +
+        "<td class='text-left'>" + attachment.dateOfUpload + "</td>" +
+        "<td class='text-left'>" + attachment.comment + "</td>" +
         "<td><input type='hidden' name='fileName' value='" + attachment.fileName + "'></td>" +
-        "<td><input type='button' value='Изменить' onclick='editAttachment(this)'></td>" +
-        "<td><input type='button' value='Удалить' onclick='deleteAttachment(this)'></td>";
+        "<td class='text-left'><input type='button' value='Изменить' onclick='editAttachment(this)'></td>" +
+        "<td class='text-left'><input type='button' value='Удалить' onclick='deleteAttachment(this)'></td>";
     document.getElementById("attachmentsTable").getElementsByTagName("tbody")[0].appendChild(tr);
 }
 

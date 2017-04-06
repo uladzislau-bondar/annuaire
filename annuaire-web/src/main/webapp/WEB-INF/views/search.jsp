@@ -6,8 +6,9 @@
 
     <script type="text/javascript" src="../../resources/js/validate.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="../../resources/css/button.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
 </head>
 <body>
 
@@ -15,6 +16,8 @@
 <c:set var="textPatternWithSpaces" value="^[a-zA-ZА-Яа-яЁё\s]+$"/>
 <c:set var="urlPattern" value="https?://.+"/>
 <c:set var="zipPattern" value="[0-9]{6}"/>
+
+<%@include file="header.jsp" %>
 
 <form action="<c:url value="/search" />" method="post" onsubmit="return validateSearch()">
     <div class="container">

@@ -1,0 +1,29 @@
+.pagination-wrapper {
+    width: 400px;
+}
+
+.pagination {
+    width: 100%;
+    padding: 0;
+    list-style-type: none;
+    padding-left: 20px;
+}
+.pagination li {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.2rem;
+    padding: 0 10px;
+    line-height: 30px;
+    border-radius: 2px;
+    text-align: center;
+}
+.pagination li:hover {
+    background-color: #e0dede;
+}
+.pagination li.chevron {
+    border-radius: 2px;
+}
+.pagination li a.active {
+    background-color: #00BBC6;
+    color: white;
+}

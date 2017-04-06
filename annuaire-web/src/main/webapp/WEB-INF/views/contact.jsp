@@ -9,8 +9,11 @@
     <script type="text/javascript" src="../../resources/js/attachment.js"></script>
     <script type="text/javascript" src="../../resources/js/photo.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/contact.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/table.css">
 </head>
 <body>
 
@@ -24,6 +27,9 @@
         <c:param name="id" value="${param.id}"/>
     </c:if>
 </c:url>
+
+<%@include file="header.jsp" %>
+
 <form id="form" action="${postUrl}" method="post" enctype="multipart/form-data" onsubmit="save()">
     <div class="container">
         <div class="card card-container">
@@ -136,38 +142,40 @@
                        maxlength="10" pattern="${zipPattern}"/> <br>
             </fieldset>
 
+            <button type="submit" class="btn btn-submit">Сохранить</button>
         </div>
     </div>
 
-    <!-- todo first head element of tables -->
-
-    <table id="phonesTable">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Номер</th>
-            <th>Тип</th>
-            <th>Комментарий</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${phones}" var="phone">
-            <tr id="phone${phone.id}">
-                <td><input type="hidden" value="existed"></td>
-                <td><input type="checkbox" name="selected" value="${phone.id}"></td>
-                <td><c:out value="${phone.number}"/></td>
-                <td><c:out value="${phone.type}"/></td>
-                <td><c:out value="${phone.comment}"/></td>
-                <td><input type="button" onclick="editPhone(this)" value="Изменить"></td>
-                <td><input type="button" onclick="deletePhone(this)" value="Удалить"></td>
+    <div class="card card-container">
+        <table id="phonesTable" class="table table-hover table-mc-light-blue">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="text-left">Номер</th>
+                <th class="text-left">Тип</th>
+                <th class="text-left">Комментарий</th>
+                <th></th>
+                <th></th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <input type="button" onclick="openPhoneModal()" value="Создать телефон"/> <br>
-    <input type="button" onclick="deleteSelectedPhones()" value="Удалить выбранные"/> <br>
+            </thead>
+            <tbody class="table-hover">
+            <c:forEach items="${phones}" var="phone">
+                <tr id="phone${phone.id}">
+                    <td><input type="hidden" value="existed"></td>
+                    <td class="text-left"><input type="checkbox" name="selected" value="${phone.id}"></td>
+                    <td class="text-left"><c:out value="${phone.number}"/></td>
+                    <td class="text-left"><c:out value="${phone.type}"/></td>
+                    <td class="text-left"><c:out value="${phone.comment}"/></td>
+                    <td class="text-left"><input type="button" onclick="editPhone(this)" value="Изменить"></td>
+                    <td class="text-left"><input type="button" onclick="deletePhone(this)" value="Удалить"></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <input type="button" onclick="openPhoneModal()" value="Создать телефон"/> <br>
+        <input type="button" onclick="deleteSelectedPhones()" value="Удалить выбранные"/> <br>
+    </div>
 
     <c:choose>
         <c:when test="${empty phones}">
@@ -177,39 +185,43 @@
 
         </c:otherwise>
     </c:choose>
-    <table id="attachmentsTable">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Название</th>
-            <th>Дата загрузки</th>
-            <th>Комментарий</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${attachments}" var="attachment">
-            <tr id="attachment${attachment.id}">
-                <c:url value="/attachment" var="attachmentUrl">
-                    <c:param name="id" value="${attachment.id}"/>
-                </c:url>
-                <td><input type="hidden" value="existed"></td>
-                <td><input type="checkbox" name="selected" value="${attachment.id}"></td>
-                <td>
-                    <a href="${attachmentUrl}"><c:out value="${attachment.name}"/></a>
-                </td>
-                <td><c:out value="${attachment.dateOfUpload}"/></td>
-                <td><c:out value="${attachment.comment}"/></td>
-                <td><input type="hidden" name="fileName" value="${attachment.fileName}"></td>
-                <td><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
-                <td><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
+
+    <div class="card card-container">
+        <table id="attachmentsTable" class="table table-hover table-mc-light-blue">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="text-left">Название</th>
+                <th class="text-left">Дата загрузки</th>
+                <th class="text-left">Комментарий</th>
+                <th class="text-left"></th>
+                <th class="text-left"></th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <input type="button" onclick="openAttachmentModal()" value="Создать присоединение"/> <br>
-    <input type="button" onclick="deleteSelectedAttachments()" value="Удалить выбранные"/> <br>
+            </thead>
+            <tbody class="table-hover">
+            <c:forEach items="${attachments}" var="attachment">
+                <tr id="attachment${attachment.id}">
+                    <c:url value="/attachment" var="attachmentUrl">
+                        <c:param name="id" value="${attachment.id}"/>
+                    </c:url>
+                    <td><input type="hidden" value="existed"></td>
+                    <td class="text-left"><input type="checkbox" name="selected" value="${attachment.id}"></td>
+                    <td class="text-left">
+                        <a href="${attachmentUrl}"><c:out value="${attachment.name}"/></a>
+                    </td>
+                    <td class="text-left"><c:out value="${attachment.dateOfUpload}"/></td>
+                    <td class="text-left"><c:out value="${attachment.comment}"/></td>
+                    <td><input type="hidden" name="fileName" value="${attachment.fileName}"></td>
+                    <td class="text-left"><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
+                    <td class="text-left"><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <input type="button" onclick="openAttachmentModal()" value="Создать присоединение"/> <br>
+        <input type="button" onclick="deleteSelectedAttachments()" value="Удалить выбранные"/> <br>
+    </div>
 
     <div id="phoneModal" class="modal">
         <div class="modal-content">
@@ -250,8 +262,6 @@
             <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>
         </div>
     </div>
-
-    <button type="submit" class="btn btn-submit">Сохранить</button>
 </form>
 
 </body>

@@ -80,7 +80,7 @@ public class ContactListCommand extends AbstractCommand {
             List<ContactInfoDto> contacts = contactListService.getAllWithOffset(offset);
             request.setAttribute("contactList", contacts);
 
-            setTitle("List of contacts");
+            setTitle("Список контактов");
         } catch (ServiceException e) {
             throw new ServletException(e);
         }

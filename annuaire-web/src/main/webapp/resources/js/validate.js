@@ -1,31 +1,29 @@
-function requireFirstName(){
-    var element, msg;
-    element = document.getElementsByName("firstName")[0];
-
-    if (element.value.length > 32) {
-        msg = "Имя должно быть короче 32 символов.";
-    }
-    element.innerHTML = msg;
-}
-
-function validateFields() {
-    requireFirstName();
-}
-
 function validateSearch() {
-    if (validateAllInputsEmptiness()){
+    if (validateAllInputsEmptiness(document)){
         // todo create good-looking alert window
         alert("Заполните хотя бы одно поле!");
         return false;
     }
 }
 
-function validateAllInputsEmptiness() {
+// todo
+function validatePhoneModal() {
+    var modal = document.getElementById('phoneModal');
+    if (validateAllInputsEmptiness(modal)){
+        // todo create good-looking alert window
+        alert("Заполните нужные поля!");
+        return false;
+    }
+
+    return true;
+}
+
+function validateAllInputsEmptiness(element) {
     var allEmpty = true;
 
-    var inputs = Array.prototype.slice.call(document.getElementsByTagName("input"));
+    var inputs = Array.prototype.slice.call(element.getElementsByTagName("input"));
     var textInputs = inputs.filter(function (input) {
-        return input.type != "radio";
+        return input.type != "radio" && input.type != "checkbox";
     });
 
     textInputs.forEach(function (input) {

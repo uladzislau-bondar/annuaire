@@ -5,12 +5,41 @@
 }
 
 body{
-    font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;
-    color: #384047;
+    font-family: 'Roboto', sans-serif;
     height: 100%;
     overflow: auto;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(rgb(204, 153, 255), rgb(135, 206, 250));
+    /*background-repeat: no-repeat;*/
+    /*background-color: rgb(135, 206, 250);*/
+    /*background: -webkit-linear-gradient(left, #22d686, #24d3d3, #22d686, #24d3d3);*/
+    /*background: linear-gradient(to right, #22d686, #24d3d3, #22d686, #24d3d3);*/
+    /*background-size: 600% 100%;*/
+    /*-webkit-animation: HeroBG 20s ease infinite;*/
+    /*animation: HeroBG 20s ease infinite;*/
+    background-color: #e8eeef;
+}
+
+@-webkit-keyframes HeroBG {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes HeroBG {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
 }
 
 .container {
@@ -124,7 +153,7 @@ label.light {
 }
 
 .card {
-    background-color: #F7F7F7;
+    background-color: #fff;
     /* just in case there no content*/
     padding: 20px 25px 30px;
     margin: 0 auto 25px;
@@ -152,6 +181,8 @@ label.light {
     -moz-transition: all 0.218s;
     -webkit-transition: all 0.218s;
     transition: all 0.218s;
+
+    display: inline-block;
 }
 
 .btn.btn-submit:hover,

@@ -64,6 +64,8 @@ public class SearchCommand extends AbstractCommand {
 
             request.setAttribute("contactList", result);
             request.setAttribute("searchParams", searchParams);
+
+            setTitle("Результаты поиска");
         } catch (ServiceException e){
             throw new ServletException(e);
         }

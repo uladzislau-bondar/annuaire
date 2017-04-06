@@ -3,41 +3,40 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
+<html>
 <head>
     <title><c:out value="${title}"/></title>
 
     <script type="text/javascript" src="../../resources/js/index.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/table.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/containers.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/pagination.css">
 </head>
 <body>
 
 <c:set var="method" value="${param.method}"/>
 
-<c:choose>
-    <c:when test="${method == 'show' or method == null}">
-        <a href="<c:url value="/search" /> ">Поиск</a><br>
-    </c:when>
-    <c:when test="${method == 'search'}">
-        <a href="<c:url value="/" /> ">На главную</a><br>
-    </c:when>
-</c:choose>
+<%@include file="header.jsp" %>
 
-<c:choose>
-    <c:when test="${empty contactList}">
-        <!-- todo no contacts-->
-    </c:when>
-    <c:otherwise>
-        <c:url value="/" var="deleteSelectedUrl">
-            <c:param name="method" value="delete"/>
-        </c:url>
+<form id="contactsForm" action="<c:url value="/" />" method="post">
+    <c:choose>
+        <c:when test="${empty contactList}">
+            <!-- todo no contacts-->
+        </c:when>
+        <c:otherwise>
+            <c:url value="/" var="deleteSelectedUrl">
+                <c:param name="method" value="delete"/>
+            </c:url>
 
-        <c:url value="/" var="emailSelectedUrl">
-            <c:param name="method" value="email"/>
-        </c:url>
+            <c:url value="/" var="emailSelectedUrl">
+                <c:param name="method" value="email"/>
+            </c:url>
 
-        <form id="contactsForm" action="<c:url value="/" />" method="post">
+
             <table class="table table-hover table-mc-light-blue">
                 <thead>
                 <tr>
@@ -80,47 +79,58 @@
                 </c:forEach>
                 </tbody>
             </table>
+        </c:otherwise>
+    </c:choose>
 
-            <input id="deleteButton" type="button" value="Удалить" onclick="processSelected(this)">
-            <input id="emailButton" type="button" value="Отправить email" onclick="processSelected(this)">
-        </form>
-    </c:otherwise>
-</c:choose>
+    <div class="btn-container">
+        <a href="<c:url value="/contact" />">
+            <button type="button" class="btn btn-submit">Создать</button>
+        </a>
+        <button id="emailButton" type="button" class="btn btn-submit"
+                onclick="processSelected(this)">Отправить email
+        </button>
+        <button id="deleteButton" type="button" class="btn btn-cancel"
+                onclick="processSelected(this)">Удалить
+        </button>
+    </div>
+</form>
 
-<a href="<c:url value="/contact" />">Создать</a>
-
-<div class="pagination">
+<div class="pagination-wrapper">
     <fmt:parseNumber var="pagesCount" type="number" value="${fn:length(contactList)/10}"/>
     <c:set var="currentPage" value="${empty param.offset ? 0 : param.offset}"/>
 
-    <c:forEach begin="0" end="${pagesCount}" var="page">
-        <c:choose>
-            <c:when test="${method == 'show' or method == null}">
-                <c:url var="url" value="/">
-                    <c:param name="offset" value="${page*10}"/>
-                    <c:param name="method" value="show"/>
-                </c:url>
-                <a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>
-                    <c:out value="${page+1}"/></a>
-            </c:when>
-            <c:when test="${method == 'search'}">
-                <c:url var="url" value="/search">
-                    <c:param name="offset" value="${page*10}"/>
-                    <c:param name="method" value="search"/>
-                </c:url>
-                <form action="${url}" method="post">
-                    <!-- todo process post-->
-                        <%--<a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>--%>
-                        <%--<c:out value="${page+1}"/></a>--%>
-                    <c:forEach items="${searchParams}" var="searchParam">
-                        <input type="hidden" name="${searchParam.key}" value="${searchParam.value}"/>
-                    </c:forEach>
-                    <c:out value="${page+1}"/>
-                    <input type="submit">
-                </form>
-            </c:when>
-        </c:choose>
-    </c:forEach>
+    <ul class="pagination">
+        <c:forEach begin="0" end="${pagesCount}" var="page">
+            <li>
+                <c:choose>
+                    <c:when test="${method == 'show' or method == null}">
+                        <c:url var="url" value="/">
+                            <c:param name="offset" value="${page*10}"/>
+                            <c:param name="method" value="show"/>
+                        </c:url>
+                        <a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>
+                            <c:out value="${page+1}"/></a>
+                    </c:when>
+                    <c:when test="${method == 'search'}">
+                        <c:url var="url" value="/search">
+                            <c:param name="offset" value="${page*10}"/>
+                            <c:param name="method" value="search"/>
+                        </c:url>
+                        <form action="${url}" method="post">
+                            <!-- todo process post-->
+                                <%--<a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>--%>
+                                <%--<c:out value="${page+1}"/></a>--%>
+                            <c:forEach items="${searchParams}" var="searchParam">
+                                <input type="hidden" name="${searchParam.key}" value="${searchParam.value}"/>
+                            </c:forEach>
+                            <c:out value="${page+1}"/>
+                            <input type="submit">
+                        </form>
+                    </c:when>
+                </c:choose>
+            </li>
+        </c:forEach>
+    </ul>
 </div>
 </body>
 </html>

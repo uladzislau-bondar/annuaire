@@ -33,6 +33,7 @@ public class EmailCommand extends AbstractCommand{
     public void process() throws ServletException, IOException {
         String method = helper.getMethod();
 
+
         if (method.equals("POST")){
             sendEmail();
             redirect("/");

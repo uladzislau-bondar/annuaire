@@ -31,8 +31,7 @@ function editPhone(element) {
 }
 
 function savePhone() {
-    // var valid = validatePhoneModal();
-    // if (valid){
+    if (validatePhoneModal()){
         var id = document.getElementById("phoneId").value;
         if (id != '') {
             updatePhone(id);
@@ -41,7 +40,7 @@ function savePhone() {
         }
 
         closePhoneModal();
-    // }
+    }
 }
 
 function createNewPhone() {
@@ -156,12 +155,12 @@ function appendAddedPhoneRow(phone) {
     var tr = document.createElement("tr");
     tr.setAttribute("id", "phone" + phone.id);
     tr.innerHTML = "<td><input type='hidden' value='added'></td>" +
-        "<td><input type='checkbox' name='selected' value=" + phone.id + "></td>" +
-        "<td>" + phone.number + "</td>" +
-        "<td>" + phone.type + "</td>" +
-        "<td>" + phone.comment + "</td>" +
-        "<td><input type='button' value='Изменить' onclick='editPhone(this)'></td>" +
-        "<td><input type='button' value='Удалить' onclick='deletePhone(this)'></td>";
+        "<td class='text-left'><input type='checkbox' name='selected' value=" + phone.id + "></td>" +
+        "<td class='text-left'>" + phone.number + "</td>" +
+        "<td class='text-left'>" + phone.type + "</td>" +
+        "<td class='text-left'>" + phone.comment + "</td>" +
+        "<td class='text-left'><input type='button' value='Изменить' onclick='editPhone(this)'></td>" +
+        "<td class='text-left'><input type='button' value='Удалить' onclick='deletePhone(this)'></td>";
     document.getElementById("phonesTable").getElementsByTagName("tbody")[0].appendChild(tr);
 }
 
