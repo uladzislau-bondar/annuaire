@@ -71,9 +71,14 @@
                         <td class="text-left"><c:out value="${contact.address}"/></td>
                         <td class="text-left"><c:out value="${contact.placeOfWork}"/></td>
                         <td class="text-left">
-                            <a href="${editUrl}">Изменить</a></td>
+                            <a href="${editUrl}">
+                                <button type="button" class="btn btn-submit">Изменить</button>
+                            </a>
+                        </td>
                         <td class="text-left">
-                            <a href="${deleteUrl}">Удалить</a>
+                            <a href="${deleteUrl}">
+                                <button type="button" class="btn btn-cancel">Удалить</button>
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -86,7 +91,7 @@
         <a href="<c:url value="/contact" />">
             <button type="button" class="btn btn-submit">Создать</button>
         </a>
-        <button id="emailButton" type="button" class="btn btn-submit"
+        <button id="emailButton" type="button" class="btn btn-email"
                 onclick="processSelected(this)">Отправить email
         </button>
         <button id="deleteButton" type="button" class="btn btn-cancel"

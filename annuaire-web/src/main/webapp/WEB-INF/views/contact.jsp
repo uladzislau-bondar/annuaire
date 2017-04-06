@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/containers.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/contact.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/table.css">
 </head>
@@ -146,7 +147,8 @@
         </div>
     </div>
 
-    <div class="card card-container">
+    <div class="table-container">
+        <h1>Список телефонов</h1>
         <table id="phonesTable" class="table table-hover table-mc-light-blue">
             <thead>
             <tr>
@@ -186,7 +188,8 @@
         </c:otherwise>
     </c:choose>
 
-    <div class="card card-container">
+    <div class="table-container">
+        <h1>Список присоединений</h1>
         <table id="attachmentsTable" class="table table-hover table-mc-light-blue">
             <thead>
             <tr>

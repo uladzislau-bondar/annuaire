@@ -31,7 +31,7 @@ function editPhone(element) {
 }
 
 function savePhone() {
-    if (validatePhoneModal()){
+    // if (validatePhoneModal()){
         var id = document.getElementById("phoneId").value;
         if (id != '') {
             updatePhone(id);
@@ -40,7 +40,8 @@ function savePhone() {
         }
 
         closePhoneModal();
-    }
+        showPhoneTable();
+    // }
 }
 
 function createNewPhone() {
@@ -91,6 +92,8 @@ function deletePhoneById(id) {
     } else {
         deleteExistedPhone(id);
     }
+
+    hidePhoneTableIfEmpty();
 }
 
 function deleteSelectedPhones() {
@@ -102,7 +105,9 @@ function deleteSelectedPhones() {
         if (checkBox.checked) {
             deletePhoneById(id);
         }
-    })
+    });
+
+    hidePhoneTableIfEmpty();
 }
 
 function deletePhoneRow(id) {
@@ -229,26 +234,14 @@ function trim(str) {
     return str.replace(/\s/g, '');
 }
 
-// function validatePhoneModal() {
-//     var countryCode = document.getElementById("phoneCountryCode");
-//     if (!validInteger(countryCode.value)){
-//         alert("invalid");
-//         return false;
-//     }
-//     var operatorCode = document.getElementById("phoneOperatorCode");
-//     if (!validInteger(operatorCode.value)){
-//         alert("invalid");
-//         return false;
-//     }
-//     var number = document.getElementById("phoneNumber");
-//     if (!validInteger(number.value)){
-//         alert("invalid");
-//         return false;
-//     }
-//
-//     return true;
-// }
-//
-// function validInteger(number){
-//     return /^[0-9]\d*$/.test(number);
-// }
+function hidePhoneTableIfEmpty() {
+    var table = document.getElementById("phonesTable");
+    if (table.getElementsByTagName("tbody")[0].children.length == 0){
+        table.style.display = "none";
+    }
+}
+
+function showPhoneTable() {
+    var table = document.getElementById("phonesTable");
+    table.style.display = "block";
+}

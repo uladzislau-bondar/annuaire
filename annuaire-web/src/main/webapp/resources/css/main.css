@@ -188,12 +188,18 @@ label.light {
 .btn.btn-submit:hover,
 .btn.btn-submit:active,
 .btn.btn-submit:focus {
-    background-color: rgb(12, 97, 33);
+    background-color: #4CAF50;
+}
+
+.btn.btn-email:hover,
+.btn.btn-email:active,
+.btn.btn-email:focus {
+    background-color: #FFC107;
 }
 
 .btn.btn-cancel:hover,
 .btn.btn-cancel:active,
 .btn.btn-cancel:focus {
-    background-color: rgb(255, 50, 80);
+    background-color: #F44336;
 }
 

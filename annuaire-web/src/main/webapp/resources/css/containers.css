@@ -1,3 +1,9 @@
+.table-container {
+    padding: 40px 40px;
+    border-radius: 8px;
+    background: rgba(60, 60, 60, 0);
+}
+
 .btn-container {
     width:70%;
     margin-left:15%;

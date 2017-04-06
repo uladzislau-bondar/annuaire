@@ -35,6 +35,7 @@ function saveAttachment() {
     }
 
     closeAttachmentModal();
+    showAttachmentTable();
 }
 
 
@@ -137,6 +138,7 @@ function deleteFile(id) {
 function deleteAttachment(element) {
     var id = element.parentNode.parentNode.id.substring(10);
     deleteAttachmentById(id);
+    hideAttachmentTableIfEmpty();
 }
 
 function deleteSelectedAttachments() {
@@ -148,7 +150,9 @@ function deleteSelectedAttachments() {
         if (checkBox.checked) {
             deleteAttachmentById(id);
         }
-    })
+    });
+
+    hideAttachmentTableIfEmpty();
 }
 
 
@@ -250,4 +254,16 @@ function today() {
     today = yyyy+'-'+mm+'-'+dd;
 
     return today;
+}
+
+function hideAttachmentTableIfEmpty() {
+    var table = document.getElementById("attachmentsTable");
+    if (table.getElementsByTagName("tbody")[0].children.length == 0){
+        table.style.display = "none";
+    }
+}
+
+function showAttachmentTable() {
+    var table = document.getElementById("attachmentsTable");
+    table.style.display = "block";
 }
