@@ -151,10 +151,10 @@
     <div class="table-container">
         <c:choose>
             <c:when test="${empty phones}">
-                <h1>Телефоны еще не созданы</h1>
+                <h2 id="phoneTableLabel">Телефоны еще не созданы</h2>
             </c:when>
             <c:otherwise>
-                <h1>Список телефонов</h1>
+                <h2 id="phoneTableLabel">Список телефонов</h2>
             </c:otherwise>
         </c:choose>
         <table id="phonesTable" class="table table-hover table-mc-light-blue">
@@ -190,10 +190,10 @@
     <div class="table-container">
         <c:choose>
             <c:when test="${empty attachments}">
-                <h1>Присоединения еще не созданы</h1>
+                <h2 id="attachmentTableLabel">Присоединения еще не созданы</h2>
             </c:when>
             <c:otherwise>
-                <h1>Список присоединений</h1>
+                <h2 id="attachmentTableLabel">Список присоединений</h2>
             </c:otherwise>
         </c:choose>
         <table id="attachmentsTable" class="table table-hover table-mc-light-blue">

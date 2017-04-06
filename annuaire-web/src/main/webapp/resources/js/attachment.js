@@ -260,10 +260,16 @@ function hideAttachmentTableIfEmpty() {
     var table = document.getElementById("attachmentsTable");
     if (table.getElementsByTagName("tbody")[0].children.length == 0){
         table.style.display = "none";
+
+        var label = document.getElementById("attachmentTableLabel");
+        label.innerHTML = "Присоединения еще не созданы"
     }
 }
 
 function showAttachmentTable() {
     var table = document.getElementById("attachmentsTable");
     table.style.display = "block";
+
+    var label = document.getElementById("attachmentTableLabel");
+    label.innerHTML = "Список присоединений"
 }

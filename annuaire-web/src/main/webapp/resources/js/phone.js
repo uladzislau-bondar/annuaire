@@ -238,10 +238,16 @@ function hidePhoneTableIfEmpty() {
     var table = document.getElementById("phonesTable");
     if (table.getElementsByTagName("tbody")[0].children.length == 0){
         table.style.display = "none";
+
+        var label = document.getElementById("phoneTableLabel");
+        label.innerHTML = "Телефоны еще не созданы"
     }
 }
 
 function showPhoneTable() {
     var table = document.getElementById("phonesTable");
     table.style.display = "block";
+
+    var label = document.getElementById("phoneTableLabel");
+    label.innerHTML = "Список телефонов"
 }
