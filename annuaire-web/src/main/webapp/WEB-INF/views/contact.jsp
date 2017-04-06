@@ -6,6 +6,7 @@
     <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/contact.js"></script>
     <script type="text/javascript" src="../../resources/js/save.js"></script>
+    <script type="text/javascript" src="../../resources/js/validate.js"></script>
     <script type="text/javascript" src="../../resources/js/phone.js"></script>
     <script type="text/javascript" src="../../resources/js/attachment.js"></script>
     <script type="text/javascript" src="../../resources/js/photo.js"></script>
@@ -183,8 +184,11 @@
             </c:forEach>
             </tbody>
         </table>
-        <input type="button" onclick="openPhoneModal()" value="Создать телефон"/> <br>
-        <input type="button" onclick="deleteSelectedPhones()" value="Удалить выбранные"/> <br>
+
+        <div class="btn-container left">
+            <button type="button" class="btn btn-submit" onclick="openPhoneModal()">Создать</button>
+            <button type="button" class="btn btn-cancel" onclick="deleteSelectedPhones()">Удалить</button>
+        </div>
     </div>
 
     <div class="table-container">
@@ -228,8 +232,11 @@
             </c:forEach>
             </tbody>
         </table>
-        <input type="button" onclick="openAttachmentModal()" value="Создать присоединение"/> <br>
-        <input type="button" onclick="deleteSelectedAttachments()" value="Удалить выбранные"/> <br>
+
+        <div class="btn-container left">
+            <button type="button" class="btn btn-submit" onclick="openAttachmentModal()">Создать</button>
+            <button type="button" class="btn btn-cancel" onclick="deleteSelectedAttachments()">Удалить</button>
+        </div>
     </div>
 
     <div id="phoneModal" class="modal">

@@ -31,7 +31,7 @@ function editPhone(element) {
 }
 
 function savePhone() {
-    // if (validatePhoneModal()){
+    if (validatePhoneModal()){
         var id = document.getElementById("phoneId").value;
         if (id != '') {
             updatePhone(id);
@@ -41,7 +41,7 @@ function savePhone() {
 
         closePhoneModal();
         showPhoneTable();
-    // }
+    }
 }
 
 function createNewPhone() {

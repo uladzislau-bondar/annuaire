@@ -1,3 +1,4 @@
+// todo delete input field for updated and existed
 function openAttachmentModal() {
     var modal = document.getElementById('attachmentModal');
     insertAfter(fileInput(), document.getElementById("attachmentComment"));
@@ -27,15 +28,17 @@ function editAttachment(element) {
 }
 
 function saveAttachment() {
-    var id = document.getElementById('attachmentId').value;
-    if (id != '') {
-        updateAttachment(id);
-    } else {
-        createNewAttachment();
-    }
+    if (validateAttachmentModal()){
+        var id = document.getElementById('attachmentId').value;
+        if (id != '') {
+            updateAttachment(id);
+        } else {
+            createNewAttachment();
+        }
 
-    closeAttachmentModal();
-    showAttachmentTable();
+        closeAttachmentModal();
+        showAttachmentTable();
+    }
 }
 
 
@@ -188,6 +191,10 @@ function parseAttachmentFromWindow(id) {
     attachment.hidden = attachmentRows[0].getElementsByTagName("input")[0].value;
     attachment.id = id;
     attachment.name = attachmentRows[2].children[0].innerHTML;
+    // todo reads <a href instead of value
+    if (attachment.name == undefined){
+        attachment.name = attachmentRows[2].children[0].children[0].innerHTML;
+    }
     attachment.dateOfUpload = attachmentRows[3].innerHTML;
     attachment.comment = attachmentRows[4].innerHTML;
     attachment.fileName = attachmentRows[5].getElementsByTagName("input")[0].value;

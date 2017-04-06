@@ -11,6 +11,10 @@
     text-align: center;
 }
 
+.left {
+    float: left;
+}
+
 .btn-container button {
     display: inline-block;
     width: 15%;
