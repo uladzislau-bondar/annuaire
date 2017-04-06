@@ -17,6 +17,7 @@ import com.annuaire.util.DtoUtils;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -193,9 +194,11 @@ public class ContactService {
         }
     }
 
-    // todo delete from drive
-    private void deleteAttachments(AttachmentDao dao, List<Long> ids) throws SQLException{
+    private void deleteAttachments(AttachmentDao dao, List<Long> ids) throws SQLException, IOException{
         for (Long id : ids) {
+            String filePath = dao.getFilePathById(id);
+            deleteFileByPath(filePath);
+
             dao.delete(id);
         }
     }
@@ -220,5 +223,12 @@ public class ContactService {
         part.write(filePath);
 
         return filePath;
+    }
+
+    private void deleteFileByPath(String filePath) throws IOException{
+        File file = new File(filePath);
+        if (file.exists()){
+            file.delete();
+        }
     }
 }
