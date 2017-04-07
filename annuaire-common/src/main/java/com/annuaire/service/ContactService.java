@@ -219,7 +219,7 @@ public class ContactService {
             fileSaveDir.mkdirs();
         }
 
-        String filePath = path + File.separator + name;
+        String filePath = fileSaveDir.getAbsolutePath() + File.separator + name;
         part.write(filePath);
 
         return filePath;

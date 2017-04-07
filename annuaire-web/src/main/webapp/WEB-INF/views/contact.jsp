@@ -258,8 +258,10 @@
             Комментарий:
             <input id="phoneComment" type="text" name="comment" maxlength="120"/> <br>
 
-            <input type="button" value="Сохранить" onclick="savePhone()"/>
-            <input type="button" value="Отменить" onclick="closePhoneModal()"/>
+            <div class="btn-container left">
+                <button type="button" class="btn btn-submit" onclick="savePhone()">Сохранить</button>
+                <button type="button" class="btn btn-cancel" onclick="closePhoneModal()">Отменить</button>
+            </div>
         </div>
     </div>
 
@@ -274,8 +276,11 @@
             Комментарий:
             <input id="attachmentComment" type="text" name="comment" maxlength="120"/> <br>
             <input id="attachmentFileName" type="hidden" name="fileName">
-            <input type="button" value="Сохранить" onclick="saveAttachment()"/>
-            <input type="button" value="Отменить" onclick="closeAttachmentModal()"/>
+
+            <div class="btn-container left">
+                <button type="button" class="btn btn-submit" onclick="saveAttachment()">Сохранить</button>
+                <button type="button" class="btn btn-cancel" onclick="closeAttachmentModal()">Отменить</button>
+            </div>
         </div>
     </div>
 </form>
