@@ -21,15 +21,23 @@ function validatePhoneModal() {
 
 function validateAttachmentModal() {
     var name = document.getElementById("attachmentName").value;
-    var file_count = document.getElementsByName("file")[0].files.length;
-
     if (name.trim() == "") {
         alert("Заполните имя присоединения!");
         return false;
     }
-    if (file_count === 0) {
-        alert("Выберите файл!");
-        return false;
+
+    var type = document.getElementById("attachmentHidden").value;
+    if  (type == 'added' || type == '' || type == null){
+        var id = document.getElementById("attachmentId").value;
+        var file = document.getElementsByName("file")[0];
+        if (file == null){
+            file = getExistedFile(id);
+        }
+        var file_count = file.files.length;
+        if (file_count === 0) {
+            alert("Выберите файл!");
+            return false;
+        }
     }
 
     return true;

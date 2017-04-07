@@ -108,7 +108,11 @@ function parseAttachment(row) {
     var attachment = {};
     attachment.hidden = row.children[0].getElementsByTagName("input")[0].value;
     attachment.id = row.children[1].getElementsByTagName("input")[0].value;
-    attachment.name = row.children[2].innerHTML;
+    if (attachment.hidden === 'added'){
+        attachment.name = row.children[2].innerHTML;
+    } else {
+        attachment.name = row.children[2].children[0].innerHTML;
+    }
     attachment.dateOfUpload = row.children[3].innerHTML;
     attachment.comment = row.children[4].innerHTML;
     attachment.fileName = row.children[5].getElementsByTagName("input")[0].value;

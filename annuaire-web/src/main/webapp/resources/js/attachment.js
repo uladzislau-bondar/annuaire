@@ -1,4 +1,3 @@
-// todo delete input field for updated and existed
 function openAttachmentModal() {
     var modal = document.getElementById('attachmentModal');
     insertAfter(fileInput(), document.getElementById("attachmentComment"));
@@ -7,7 +6,10 @@ function openAttachmentModal() {
 
 function closeAttachmentModal() {
     var modal = document.getElementById('attachmentModal');
+    var id = document.getElementById("attachmentId").value;
+    hideFile(id);
     clearAttachmentModal();
+
     modal.style.display = "none";
 }
 
@@ -21,7 +23,7 @@ function editAttachment(element) {
     document.getElementById("attachmentDateOfUpload").value = attachment.dateOfUpload;
     document.getElementById("attachmentComment").value = attachment.comment;
     document.getElementById("attachmentFileName").value = attachment.fileName;
-    showFileInput(id);
+    showFileInput(id, attachment.hidden);
 
     var modal = document.getElementById('attachmentModal');
     modal.style.display = "block";
@@ -70,14 +72,16 @@ function saveFile(id) {
     file.style.display = "none";
 }
 
-function showFileInput(id) {
-    var input = document.getElementById("file" + id);
-    if (input == null){
-        input = fileInput();
-        input.setAttribute("id", "file" + id);
-        insertAfter(fileInput(), document.getElementById("attachmentComment"));
-    } else{
-        input.style.display = "block";
+function showFileInput(id, type) {
+    if (type == 'added'){
+        var input = document.getElementById("file" + id);
+        if (input == null){
+            input = fileInput();
+            input.setAttribute("id", "file" + id);
+            insertAfter(fileInput(), document.getElementById("attachmentComment"));
+        } else{
+            input.style.display = "block";
+        }
     }
 }
 
@@ -91,28 +95,33 @@ function updateAttachment(id) {
     if (file == null){
         file = getExistedFile(id)
     }
-    attachment.fileName = getFilePath(file);
+
+    if (attachment.hidden == 'added'){
+        attachment.fileName = getFilePath(file);
+    }
+
 
     var attachmentRows = document.getElementById("attachment" + id).children;
     attachmentRows[0].getElementsByTagName("input")[0].value = attachment.hidden;
     attachmentRows[1].getElementsByTagName("input")[0].value = attachment.id;
-    attachmentRows[2].getElementsByTagName("a")[0].innerHTML = attachment.name;
+    if (attachment.hidden = 'added'){
+        attachmentRows[2].innerHTML = attachment.name;
+    } else {
+        attachmentRows[2].getElementsByTagName("a")[0].innerHTML = attachment.name;
+    }
     attachmentRows[3].innerHTML = attachment.dateOfUpload;
     attachmentRows[4].innerHTML = attachment.comment;
     attachmentRows[5].getElementsByTagName("input")[0].value = attachment.fileName;
-
-    updateFile(attachment.id);
+    if (attachment.hidden == 'added'){
+        hideFile(attachment.id);
+    }
 }
 
-function updateFile(id) {
-    var file = document.getElementsByName("file")[0];
-    if (file == null){
-        file = getExistedFile(id)
+function hideFile(id) {
+    var file = getExistedFile(id);
+    if (file != null){
+        file.style.display = "none";
     }
-
-    file.setAttribute("id", "file" + id);
-    file.setAttribute("name", "updatedAttachment");
-    file.style.display = "none";
 }
 
 function getExistedFile(id) {
@@ -190,10 +199,10 @@ function parseAttachmentFromWindow(id) {
     var attachmentRows = document.getElementById("attachment" + id).children;
     attachment.hidden = attachmentRows[0].getElementsByTagName("input")[0].value;
     attachment.id = id;
-    attachment.name = attachmentRows[2].children[0].innerHTML;
-    // todo reads <a href instead of value
-    if (attachment.name == undefined){
-        attachment.name = attachmentRows[2].children[0].children[0].innerHTML;
+    if (attachment.hidden == 'added'){
+        attachment.name = attachmentRows[2].innerHTML;
+    } else {
+        attachment.name = attachmentRows[2].children[0].innerHTML;
     }
     attachment.dateOfUpload = attachmentRows[3].innerHTML;
     attachment.comment = attachmentRows[4].innerHTML;
