@@ -53,7 +53,7 @@ public class ContactHelper extends AbstractHelper {
     }
 
     private boolean contactExists(ContactDatabaseDto contact) {
-        return contact.getContact().getFirstName() != null;
+        return contact.getContact() != null;
     }
 
     private void fillRequestWithContact(Contact contact) {

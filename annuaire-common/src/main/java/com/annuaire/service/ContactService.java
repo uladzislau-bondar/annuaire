@@ -14,6 +14,8 @@ import com.annuaire.exceptions.TransactionException;
 import com.annuaire.properties.UploadPropertyService;
 import com.annuaire.util.DtoUtils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
@@ -60,8 +62,13 @@ public class ContactService {
         try {
             TransactionHandler.run(connection -> {
                 dto.getContact().setId(id);
+                if (dto.getContact().getPhotoPath() == null){
+                    ContactDao dao = new ContactDao(connection);
+                    String photoPath = dao.getPhotoPathById(id);
+                    dto.getContact().setPhotoPath(photoPath);
+                    savePhoto(connection, dto.getPhoto(), id);
+                }
                 updateContact(connection, dto.getContact());
-                savePhoto(connection, dto.getPhoto(), id);
                 savePhones(connection, dto, id);
                 saveAttachments(connection, dto, id);
             });
