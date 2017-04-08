@@ -18,15 +18,19 @@
         <div class="card card-container">
             <h1>Отправка email</h1>
 
-            <label for="emails">Кому:</label>
-            <input id="emails" type="text" name="emails"
-                   value="${emails}"><br>
+            <div class="required">
+                <label for="emails">Кому:</label>
+                <input id="emails" type="text" name="emails"
+                       placeholder="Через ;" value="${emails}"><br>
+            </div>
 
-            <label for="subject">Тема</label>
-            <input id="subject" type="text" name="subject"/> <br>
+            <div class="required">
+                <label for="subject">Тема</label>
+                <input id="subject" type="text" name="subject"/> <br>
+            </div>
 
             <label for="template">Шаблон:</label>
-            <select id="template" onchange="changeTemplate(this.selectedIndex)">
+            <select id="template" name="template" onchange="changeTemplate(this.selectedIndex)">
                 <option value="default">...</option>
                 <option value="birthday">День рождения</option>
                 <option value="christmas">Рождество</option>
@@ -36,8 +40,10 @@
                 <input type="hidden" id="${template.key}" name="${template.key}" value="${template.value}"/>
             </c:forEach>
 
-            <label for="message">Текст сообщения:</label>
-            <textarea id="message" name="message" ></textarea> <br>
+            <div class="required">
+                <label for="message">Текст сообщения:</label>
+                <textarea id="message" name="message" ></textarea> <br>
+            </div>
 
             <button type="submit" class="btn btn-submit">Отправить</button>
             <a href="<c:url value="/" /> ">

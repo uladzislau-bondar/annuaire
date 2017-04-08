@@ -97,6 +97,7 @@
             <column name="dateOfBirth" valueDate="2017-03-27"/>
             <column name="sex" value="FEMALE"/>
             <column name="placeOfWork" value="bsuir"/>
+            <column name="email" value="colinforzeal@yandex.ru"/>
             <column name="country" value="BLR"/>
             <column name="city" value="Minsk"/>
             <column name="address" value="some address"/>
@@ -106,6 +107,7 @@
             <column name="id" value="2"/>
             <column name="firstName" value="john"/>
             <column name="lastName" value="smith"/>
+            <column name="email" value="colinforzeal@gmail.com"/>
             <column name="dateOfBirth" valueDate="2017-03-27"/>
             <column name="placeOfWork" value="st wilford's school"/>
         </insert>

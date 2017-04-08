@@ -16,6 +16,8 @@ public class EmailHelper extends AbstractHelper{
         params.put("subject", request.getParameter("subject"));
         params.put("message", request.getParameter("message"));
         params.put("emails", request.getParameter("emails"));
+        params.put("template", request.getParameter("template"));
+        params.put("templatesLocation", getTemplatesLocation());
 
         return params;
     }

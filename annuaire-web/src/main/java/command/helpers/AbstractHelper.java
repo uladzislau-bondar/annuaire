@@ -41,12 +41,16 @@ public class AbstractHelper {
         return offsetParam != null ? Integer.valueOf(offsetParam) : 0;
     }
 
-    public void renderFile(File file) throws IOException{
+    protected void renderFile(File file) throws IOException{
         if (file != null) {
             FileInputStream in = new FileInputStream(file);
             OutputStream out = response.getOutputStream();
 
             IOUtils.copy(in, out);
         }
+    }
+
+    protected String getTemplatesLocation(){
+        return request.getServletContext().getRealPath("/WEB-INF/templates");
     }
 }

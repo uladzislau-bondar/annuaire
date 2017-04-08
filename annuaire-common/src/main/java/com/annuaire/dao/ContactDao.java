@@ -162,6 +162,17 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
         return parseInitialsListFromResultSet(set);
     }
 
+    public ContactInitialsDto getInitialsByEmail(String email) throws SQLException {
+        PreparedStatement statement = getPreparedStatement(ContactConstants.GET_INITIALS_NAME_BY_EMAIL);
+        statement.setString(1, email);
+
+        logger.info(statement.toString());
+
+        ResultSet set = statement.executeQuery();
+
+        return parseInitialsFromResultSet(set);
+    }
+
     public void updatePhotoPathById(String photoPath, Long id) throws SQLException{
         PreparedStatement statement = getPreparedStatement(ContactConstants.UPDATE_PHOTOPATH);
         statement.setString(1, photoPath);
@@ -245,9 +256,22 @@ public class ContactDao extends AbstractTemplateDao<Contact, Long> {
             contact.setFirstName(set.getString("firstName"));
             contact.setLastName(set.getString("lastName"));
             contact.setEmail(set.getString("email"));
+            contacts.add(contact);
         }
 
         return contacts;
+    }
+
+    private ContactInitialsDto parseInitialsFromResultSet(ResultSet set) throws SQLException {
+        ContactInitialsDto contact = null;
+        if (set.next()) {
+            contact = new ContactInitialsDto();
+            contact.setFirstName(set.getString("firstName"));
+            contact.setLastName(set.getString("lastName"));
+            contact.setEmail(set.getString("email"));
+        }
+
+        return contact;
     }
 
     private String parsePhotoPathFromResultSet(ResultSet set) throws SQLException {

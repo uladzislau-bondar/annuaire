@@ -12,6 +12,7 @@ public interface ContactConstants {
     String GET_EMAIL_BY_ID = "SELECT email FROM contacts WHERE id = ?";
     String GET_PHOTOPATH_BY_ID = "SELECT photoPath FROM contacts WHERE id = ?";
     String GET_INITIALS_NAME_BY_DATE_OF_BIRTH = "SELECT firstName, lastName, email FROM contacts WHERE dateOfBirth = ?";
+    String GET_INITIALS_NAME_BY_EMAIL = "SELECT firstName, lastName, email FROM contacts WHERE email = ?";
     String GET_WITH_OFFSET = "SELECT * FROM contacts LIMIT ? OFFSET ?";
     String UPDATE = "UPDATE contacts SET firstName = ?, lastName = ?, middleName = ?," +
             "dateOfBirth = ?, sex = ?, citizenship = ?, maritalStatus = ?, website = ?, email = ?, placeOfWork = ?," +
