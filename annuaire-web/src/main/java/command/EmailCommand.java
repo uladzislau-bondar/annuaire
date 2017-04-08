@@ -32,14 +32,22 @@ public class EmailCommand extends AbstractCommand{
     @Override
     public void process() throws ServletException, IOException {
         String method = helper.getMethod();
-
-
-        if (method.equals("POST")){
-            sendEmail();
-            redirect("/");
-        } else{
-            throw new ServletException("Can't process " + method);
+        switch (method) {
+            case "GET":
+                showEmailForm();
+                break;
+            case "POST":
+                sendEmail();
+                redirect("/");
+                break;
+            default:
+                throw new ServletException("Can't process " + method);
         }
+    }
+
+    private void showEmailForm() throws ServletException, IOException{
+        logger.info("Showing email form");
+        forward("email");
     }
 
     private void sendEmail() throws ServletException, IOException{
