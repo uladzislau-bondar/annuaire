@@ -203,3 +203,9 @@ label.light {
     background-color: #F44336;
 }
 
+.required label:after {
+    color: #F44336;
+    content: ' *';
+    display:inline;
+}
+

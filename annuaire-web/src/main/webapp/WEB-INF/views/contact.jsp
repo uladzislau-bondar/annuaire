@@ -54,17 +54,21 @@
             <fieldset>
                 <legend><span class="number">1</span>Базовая информация</legend>
 
-                <label for="firstName">Имя:</label>
-                <input type="text" id="firstName" name="firstName"
-                       value="<c:out value="${firstName}" />"
-                       maxlength="32" pattern="${textPattern}"
-                       required/> <br>
+                <div class="required" >
+                    <label for="firstName">Имя:</label>
+                    <input type="text" id="firstName" name="firstName"
+                           value="<c:out value="${firstName}" />"
+                           maxlength="32" pattern="${textPattern}"
+                           required/> <br>
+                </div>
 
-                <label for="lastName">Фамилия:</label>
-                <input type="text" id="lastName" name="lastName"
-                       value="<c:out value="${lastName}" />"
-                       maxlength="32" pattern="${textPattern}"
-                       required/> <br>
+                <div class="required">
+                    <label for="lastName">Фамилия:</label>
+                    <input type="text" id="lastName" name="lastName" class="required"
+                           value="<c:out value="${lastName}" />"
+                           maxlength="32" pattern="${textPattern}"
+                           required/> <br>
+                </div>
 
                 <label for="middleName">Отчество:</label>
                 <input type="text" id="middleName" name="middleName"
@@ -259,18 +263,29 @@
             <span class="close" onclick="closePhoneModal()">&times;</span>
             <input id="phoneHidden" type="hidden" name="hidden"/>
             <input id="phoneId" type="hidden" name="id"/>
-            Код страны:
-            <input id="phoneCountryCode" type="number" name="countryCode"/> <br>
-            Код оператора:
-            <input id="phoneOperatorCode" type="number" name="operatorCode"/> <br>
-            Номер телефона:
-            <input id="phoneNumber" type="number" name="number"/> <br>
+
+            <div class="required">
+                <label for="phoneCountryCode">Код страны:</label>
+                <input id="phoneCountryCode" type="number" name="countryCode"/> <br>
+            </div>
+
+            <div class="required">
+                <label for="phoneOperatorCode">Код оператора:</label>
+                <input id="phoneOperatorCode" type="number" name="operatorCode"/> <br>
+            </div>
+
+            <div class="required">
+                <label for="phoneNumber">Номер телефона:</label>
+                <input id="phoneNumber" type="number" name="number"/> <br>
+            </div>
+
             Тип телефона:
             <input id="phoneHomeRadio" type="radio" name="type"
                    value="HOME">Домашний</input>
             <input id="phoneMobileRadio" type="radio" name="type"
                    value="MOBILE">Мобильный</input><br>
-            Комментарий:
+
+            <label for="phoneComment">Комментарий:</label>
             <input id="phoneComment" type="text" name="comment" maxlength="120"/> <br>
 
             <div class="btn-container">
@@ -285,11 +300,17 @@
             <span class="close" onclick="closeAttachmentModal()">&times;</span>
             <input id="attachmentHidden" type="hidden" name="hidden"/>
             <input id="attachmentId" type="hidden" name="id"/>
-            Название:
-            <input id="attachmentName" type="text" name="name"/> <br>
+
+            <div class="required">
+                <label for="attachmentName">Название:</label>
+                <input id="attachmentName" type="text" name="name"/> <br>
+            </div>
+
             <input id="attachmentDateOfUpload" type="hidden" name="dateOfUpload"/>
-            Комментарий:
+
+            <label for="attachmentComment">Комментарий:</label>
             <input id="attachmentComment" type="text" name="comment" maxlength="120"/> <br>
+
             <input id="attachmentFileName" type="hidden" name="fileName">
 
             <div class="btn-container">
