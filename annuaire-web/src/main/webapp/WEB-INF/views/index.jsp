@@ -8,6 +8,7 @@
     <title><c:out value="${title}"/></title>
 
     <script type="text/javascript" src="../../resources/js/validate.js"></script>
+    <script type="text/javascript" src="../../resources/js/save.js"></script>
     <script type="text/javascript" src="../../resources/js/index.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
@@ -130,24 +131,31 @@
                             <c:param name="offset" value="${page*10}"/>
                             <c:param name="method" value="show"/>
                         </c:url>
-                        <a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>
-                            <c:out value="${page+1}"/></a>
+                        <span
+                                <c:if test="${page eq currentPage}">class="active"</c:if>
+                                onclick="paginate('${url}', 'show')">
+                            <c:out value="${page+1}"/></span>
                     </c:when>
                     <c:when test="${method == 'search'}">
+                        <input type="hidden" id="searchParams" value="${searchParams}"/>
+
                         <c:url var="url" value="/search">
                             <c:param name="offset" value="${page*10}"/>
                             <c:param name="method" value="search"/>
                         </c:url>
-                        <form action="${url}" method="post">
-                            <!-- todo process post-->
-                                <%--<a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>--%>
-                                <%--<c:out value="${page+1}"/></a>--%>
-                            <c:forEach items="${searchParams}" var="searchParam">
-                                <input type="hidden" name="${searchParam.key}" value="${searchParam.value}"/>
-                            </c:forEach>
-                            <c:out value="${page+1}"/>
-                            <input type="submit">
-                        </form>
+                        <span
+                                <c:if test="${page eq currentPage}">class="active"</c:if>
+                                onclick="paginate('${url}', 'search')">
+                            <c:out value="${page+1}"/></span>
+                        <%--<form action="${url}" method="post">--%>
+                        <%--<!-- todo process post-->--%>
+                        <%--&lt;%&ndash;<a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<c:out value="${page+1}"/></a>&ndash;%&gt;--%>
+                        <%--<span <c:if test="${page eq currentPage}">class="active"</c:if>>--%>
+                        <%--<c:out value="${page+1}"/>--%>
+                        <%--</span>--%>
+                        <%--<input type="submit">--%>
+                        <%--</form>--%>
                     </c:when>
                 </c:choose>
             </li>

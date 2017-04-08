@@ -47,6 +47,7 @@ public class EmailCommand extends AbstractCommand{
 
     private void showEmailForm() throws ServletException, IOException{
         logger.info("Showing email form");
+        // todo doesn't send templates
         forward("email");
     }
 

@@ -15,3 +15,22 @@ function processSelected(input) {
 
     form.submit();
 }
+
+function paginate(url, method) {
+    if (method == 'show'){
+        var a = document.createElement("a");
+        a.href = url;
+        a.click();
+    }
+    else if (method == 'search'){
+        var form = document.createElement("form");
+        form.action = url;
+        form.method = 'post';
+
+        var params = document.getElementById("searchParams").value;
+        params = params.replace(/'/g, "\"");
+        var paramsObject = JSON.parse(params);
+        appendObjectToForm(form, paramsObject);
+        form.submit();
+    }
+}

@@ -6,6 +6,7 @@ import com.annuaire.dto.ContactInfoDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.annuaire.service.SearchService;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -59,11 +60,12 @@ public class SearchCommand extends AbstractCommand {
 
         try{
             Map<String, String> searchParams = helper.getSearchParams();
+            String searchParamsJSON = new JSONObject(searchParams).toString().replace("\"", "\'");
+            request.setAttribute("searchParams", searchParamsJSON);
+
             int offset = helper.getOffset();
             List<ContactInfoDto> result = service.getSearchResult(searchParams, offset);
-
             request.setAttribute("contactList", result);
-            request.setAttribute("searchParams", searchParams);
 
             setTitle("Результаты поиска");
         } catch (ServiceException e){
