@@ -6,6 +6,19 @@ function validateSearch() {
     }
 }
 
+function someSelected() {
+    var checkboxes = document.getElementsByName("selected");
+
+    var result = false;
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked){
+            result = true;
+        }
+    });
+
+    return result;
+}
+
 function validatePhoneModal() {
     var countryCode = document.getElementById("phoneCountryCode").value;
     var operatorCode = document.getElementById("phoneOperatorCode").value;

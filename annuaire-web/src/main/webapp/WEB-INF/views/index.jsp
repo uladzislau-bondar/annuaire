@@ -7,6 +7,7 @@
 <head>
     <title><c:out value="${title}"/></title>
 
+    <script type="text/javascript" src="../../resources/js/validate.js"></script>
     <script type="text/javascript" src="../../resources/js/index.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
