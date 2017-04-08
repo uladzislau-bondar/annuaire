@@ -23,6 +23,7 @@
 <c:set var="textPattern" value="^[a-zA-ZА-Яа-яЁё]+$"/>
 <c:set var="textPatternWithSpaces" value="^[a-zA-ZА-Яа-яЁё\s]+$"/>
 <c:set var="urlPattern" value="https?://.+"/>
+<c:set var="emailPattern" value="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$" />
 <c:set var="zipPattern" value="[0-9]{6}"/>
 
 <c:url value="/contact" var="postUrl">
@@ -131,8 +132,8 @@
                        pattern="${urlPattern}"/> <br>
 
                 <label for="email">Электронная почта:</label>
-                <input type="email" id="email" name="email"
-                       value="<c:out value="${email}" />"/> <br>
+                <input type="text" id="email" name="email"
+                       value="<c:out value="${email}" />" pattern="${emailPattern}"/> <br>
 
                 <label for="placeOfWork">Место работы:</label>
                 <input type="text" id="placeOfWork" name="placeOfWork"
