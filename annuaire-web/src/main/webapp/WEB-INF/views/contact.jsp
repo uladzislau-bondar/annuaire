@@ -84,10 +84,16 @@
                         <input type="radio" id="female" name="sex" value="FEMALE"/>
                         <label for="female" class="light">Женщина</label>
                     </c:when>
-                    <c:otherwise>
+                    <c:when test="${sex =='FEMALE'}">
                         <input type="radio" id="male" name="sex" value="MALE"/>
                         <label for="male" class="light">Мужчина</label><br>
                         <input type="radio" id="female" name="sex" value="FEMALE" checked="checked"/>
+                        <label for="female" class="light">Женщина</label>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="radio" id="male" name="sex" value="MALE"/>
+                        <label for="male" class="light">Мужчина</label><br>
+                        <input type="radio" id="female" name="sex" value="FEMALE"/>
                         <label for="female" class="light">Женщина</label>
                     </c:otherwise>
                 </c:choose>
@@ -102,9 +108,18 @@
                        maxlength="32" pattern="${textPattern}"/> <br>
 
                 <label for="maritalStatus">Семейное положение:</label>
-                <input type="text" id="maritalStatus" name="maritalStatus"
-                       value="<c:out value="${maritalStatus}" />"
-                       maxlength="32" pattern="${textPatternWithSpaces}"/> <br>
+                <select id="maritalStatus" name="maritalStatus">
+                    <option value="none" ${maritalStatus == 'none' ? 'selected' : ''}>
+                        ...
+                    </option>
+                    <option value="married" ${maritalStatus == 'married' ? 'selected' : ''}>
+                        Женат/Замужем
+                    </option>
+                    <option value="single" ${maritalStatus == 'single' ? 'selected' : ''}>
+                        Холост
+                    </option>
+                    <!-- todo add options -->
+                </select> <br>
 
                 <label for="website">Вебсайт:</label>
                 <input type="url" id="website" name="website"
