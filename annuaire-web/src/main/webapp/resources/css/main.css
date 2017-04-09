@@ -4,42 +4,21 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: "RobotoRegular";
+    src: url("../fonts/RobotoRegular/RobotoRegular.eot");
+    src: url("../fonts/RobotoRegular/RobotoRegular.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/RobotoRegular/RobotoRegular.woff") format("woff"),
+    url("../fonts/RobotoRegular/RobotoRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
 body{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'RobotoRegular', sans-serif;
     height: 100%;
     overflow: auto;
-    /*background-repeat: no-repeat;*/
-    /*background-color: rgb(135, 206, 250);*/
-    /*background: -webkit-linear-gradient(left, #22d686, #24d3d3, #22d686, #24d3d3);*/
-    /*background: linear-gradient(to right, #22d686, #24d3d3, #22d686, #24d3d3);*/
-    /*background-size: 600% 100%;*/
-    /*-webkit-animation: HeroBG 20s ease infinite;*/
-    /*animation: HeroBG 20s ease infinite;*/
-    background-color: #e8eeef;
-}
-
-@-webkit-keyframes HeroBG {
-    0% {
-        background-position: 0 0;
-    }
-    50% {
-        background-position: 100% 0;
-    }
-    100% {
-        background-position: 0 0;
-    }
-}
-
-@keyframes HeroBG {
-    0% {
-        background-position: 0 0;
-    }
-    50% {
-        background-position: 100% 0;
-    }
-    100% {
-        background-position: 0 0;
-    }
+    background-color: #d7e8dd;
 }
 
 .container {
