@@ -2,6 +2,7 @@ package command.helpers;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,5 +55,10 @@ public class SearchHelper extends AbstractHelper{
         }
 
         return params;
+    }
+
+    public void addSearchParams(Map<String, String> params){
+        String searchParamsJSON = new JSONObject(params).toString().replace("\"", "\'");
+        request.setAttribute("searchParams", searchParamsJSON);
     }
 }

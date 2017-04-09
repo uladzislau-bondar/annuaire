@@ -60,8 +60,7 @@ public class SearchCommand extends AbstractCommand {
 
         try{
             Map<String, String> searchParams = helper.getSearchParams();
-            String searchParamsJSON = new JSONObject(searchParams).toString().replace("\"", "\'");
-            request.setAttribute("searchParams", searchParamsJSON);
+            helper.addSearchParams(searchParams);
 
             int offset = helper.getOffset();
             List<ContactInfoDto> result = service.getSearchResult(searchParams, offset);
