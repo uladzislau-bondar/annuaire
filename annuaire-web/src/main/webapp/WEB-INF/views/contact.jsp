@@ -36,7 +36,7 @@
 
 <%@include file="header.jsp" %>
 
-<form id="form" action="${postUrl}" method="post" enctype="multipart/form-data" onsubmit="save()">
+<form id="form" action="${postUrl}" method="post" enctype="multipart/form-data" onsubmit="return save()">
     <div class="container">
         <div class="card card-container">
             <input type="file" id="photoInput" name="photo" onchange="changePhoto(this)"
@@ -125,7 +125,6 @@
                     <option value="single" ${maritalStatus == 'single' ? 'selected' : ''}>
                         Холост
                     </option>
-                    <!-- todo add options -->
                 </select> <br>
 
                 <label for="website">Вебсайт:</label>

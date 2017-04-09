@@ -1,54 +1,59 @@
 function save() {
     if (validateContact()){
-        var form = document.getElementById("form");
-
-        var phoneDtos = parsePhones();
-        var phones = [];
-        phoneDtos.forEach(function (item) {
-            phones.push(dtoToPhone(item));
-        });
-        var addedPhones = phones.filter(function (phone) {
-            return phone.hidden == 'added';
-        });
-        var updatedPhones = phones.filter(function (phone) {
-            return phone.hidden == 'updated';
-        });
-
-        var phonesObject = {};
-        phonesObject.phonesToAdd = JSON.stringify(addedPhones);
-        phonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
-
-        var attachments = parseAttachments();
-        var addedAttachments = attachments.filter(function (attachment) {
-            return attachment.hidden == 'added'
-        });
-        var updatedAttachments = attachments.filter(function (attachment) {
-            return attachment.hidden == 'updated';
-        });
-
-        var attachmentsObject = {};
-        attachmentsObject.attachmentsToAdd = JSON.stringify(addedAttachments);
-        attachmentsObject.attachmentsToUpdate = JSON.stringify(updatedAttachments);
-
-        var deletedPhones = parseDeletedPhones();
-        deletedPhones.forEach(function (item) {
-            form.appendChild(item);
-        });
-
-        var deletedAttachments = parseDeletedAttachments();
-        deletedAttachments.forEach(function (item) {
-            form.appendChild(item);
-        });
-
-        appendObjectToForm(form, phonesObject);
-        appendObjectToForm(form, attachmentsObject);
-        appendArrayToForm(form, deletedPhones);
-        appendArrayToForm(form, deletedAttachments);
-
-        form.submit();
+        processSaving();
     }
+    else {
+        return false;
+    }
+}
 
+function processSaving() {
+    var form = document.getElementById("form");
 
+    var phoneDtos = parsePhones();
+    var phones = [];
+    phoneDtos.forEach(function (item) {
+        phones.push(dtoToPhone(item));
+    });
+    var addedPhones = phones.filter(function (phone) {
+        return phone.hidden == 'added';
+    });
+    var updatedPhones = phones.filter(function (phone) {
+        return phone.hidden == 'updated';
+    });
+
+    var phonesObject = {};
+    phonesObject.phonesToAdd = JSON.stringify(addedPhones);
+    phonesObject.phonesToUpdate = JSON.stringify(updatedPhones);
+
+    var attachments = parseAttachments();
+    var addedAttachments = attachments.filter(function (attachment) {
+        return attachment.hidden == 'added'
+    });
+    var updatedAttachments = attachments.filter(function (attachment) {
+        return attachment.hidden == 'updated';
+    });
+
+    var attachmentsObject = {};
+    attachmentsObject.attachmentsToAdd = JSON.stringify(addedAttachments);
+    attachmentsObject.attachmentsToUpdate = JSON.stringify(updatedAttachments);
+
+    var deletedPhones = parseDeletedPhones();
+    deletedPhones.forEach(function (item) {
+        form.appendChild(item);
+    });
+
+    var deletedAttachments = parseDeletedAttachments();
+    deletedAttachments.forEach(function (item) {
+        form.appendChild(item);
+    });
+
+    appendObjectToForm(form, phonesObject);
+    appendObjectToForm(form, attachmentsObject);
+    appendArrayToForm(form, deletedPhones);
+    appendArrayToForm(form, deletedAttachments);
+
+    form.submit();
 }
 
 function appendArrayToForm(form, array) {

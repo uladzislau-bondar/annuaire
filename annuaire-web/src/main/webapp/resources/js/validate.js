@@ -74,22 +74,25 @@ function validateAllInputsEmptiness(element) {
 
 function validateContact() {
     var date = document.getElementById("dateOfBirth").value;
-    if (!validateDate(date)){
+    if (!isValidDate(date)) {
         showAlert("Неправильная дата!");
+        return false;
     }
 
     return true;
 }
 
 // todo fix date validation
-function validateDate(date) {
-    var matches = /^(\d{4}-\d{1,2}-\d{1,2})$/.exec(date);
-    if (matches == null) return false;
-    var d = matches[2];
-    var m = matches[1] - 1;
-    var y = matches[3];
-    var composedDate = new Date(y, m, d);
-    return composedDate.getDate() == d &&
-        composedDate.getMonth() == m &&
-        composedDate.getFullYear() == y;
+function isValidDate(date) {
+    var matches = /(\d{4})-(\d{2})-(\d{2})/.exec(date);
+    if (matches == null) {
+        return false;
+    }
+    var day = matches[3];
+    var month = matches[2] - 1;
+    var year = matches[1];
+    var composedDate = new Date(year, month, day);
+    return composedDate.getDate() == day &&
+        composedDate.getMonth() == month &&
+        composedDate.getFullYear() == year;
 }
