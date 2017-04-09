@@ -141,9 +141,10 @@ public class AttachmentDao extends AbstractTemplateDao<Attachment, Long> {
     }
 
     private Attachment parseAttachmentFromResultSet(ResultSet set) throws SQLException {
-        Attachment attachment = new Attachment();
+        Attachment attachment = null;
 
         if (set.next()) {
+            attachment = new Attachment();
             attachment.setId(set.getLong("id"));
             attachment.setContactId(set.getLong("contactId"));
             attachment.setName(set.getString("name"));

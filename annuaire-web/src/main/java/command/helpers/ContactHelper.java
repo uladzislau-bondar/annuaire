@@ -48,7 +48,7 @@ public class ContactHelper extends AbstractHelper {
             fillRequestWithPhones(contact.getPhones());
             fillRequestWithAttachments(contact.getAttachments());
         } else {
-            throw new ServletException("Contact doesn't exist");
+            throw new ServletException("Contact doesn't exist.");
         }
     }
 

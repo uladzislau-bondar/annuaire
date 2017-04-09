@@ -2,7 +2,9 @@ package com.annuaire.util;
 
 
 import com.annuaire.dto.ContactInitialsDto;
+import com.annuaire.exceptions.ServiceException;
 
+import javax.servlet.ServletException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Date;
@@ -10,13 +12,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Utils {
-    public static Map<String, String> splitQuery(String query) throws UnsupportedEncodingException {
+    public static Map<String, String> splitQuery(String query) throws ServletException, UnsupportedEncodingException {
         Map<String, String> queryPairs = new LinkedHashMap<>();
         if (query != null) {
             String[] pairs = query.split("&");
             for (String pair : pairs) {
                 int idx = pair.indexOf("=");
-                queryPairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+                if (idx >= 0){
+                    queryPairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+                } else{
+                    throw new ServletException("Invalid params");
+                }
             }
         }
 

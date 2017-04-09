@@ -8,9 +8,8 @@
 
 
 .table {
-    width:70%;
-    margin-left:15%;
-    margin-right:15%;
+    width: 100%;
+    max-width: 100%;
     margin-bottom: 2rem;
     background-color: #fff;
     /* shadows and rounded borders */

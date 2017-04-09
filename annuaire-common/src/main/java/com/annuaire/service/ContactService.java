@@ -34,9 +34,12 @@ public class ContactService {
 
         try {
             TransactionHandler.run(connection -> {
-                dto.setContact(getContact(connection, id));
-                dto.setPhones(getPhones(connection, id));
-                dto.setAttachments(getAttachments(connection, id));
+                Contact contact = (getContact(connection, id));
+                if (contact != null){
+                    dto.setContact(contact);
+                    dto.setPhones(getPhones(connection, id));
+                    dto.setAttachments(getAttachments(connection, id));
+                }
             });
         } catch (TransactionException e) {
             throw new ServiceException(e);

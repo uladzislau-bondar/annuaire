@@ -4,14 +4,13 @@ import com.annuaire.dto.AttachmentDatabaseDto;
 import com.annuaire.exceptions.ServiceException;
 import com.annuaire.service.AttachmentService;
 import command.helpers.AttachmentHelper;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -47,11 +46,13 @@ public class AttachmentCommand extends AbstractCommand {
 
         if (params.containsKey("id")) {
             String idParam = params.get("id");
-            if (StringUtils.isNotEmpty(idParam)) {
+            if (NumberUtils.toInt(idParam) != 0) {
                 Long contactId = Long.valueOf(idParam);
                 processAttachmentRendering(contactId);
+            } else {
+                throw new ServletException("Id is invalid.");
             }
-        } else{
+        } else {
             throw new ServletException("No attachment id specified.");
         }
     }

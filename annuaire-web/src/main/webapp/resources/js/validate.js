@@ -3,6 +3,10 @@ function validateSearch() {
         showAlert("Заполните хотя бы одно поле!");
         return false;
     }
+
+    if (validateDate()){
+
+    }
 }
 
 function someSelected() {
@@ -73,6 +77,10 @@ function validateAllInputsEmptiness(element) {
 }
 
 function validateContact() {
+    return validateDate();
+}
+
+function validateDate() {
     var date = document.getElementById("dateOfBirth").value;
     if (!isValidDate(date)) {
         showAlert("Неправильная дата!");

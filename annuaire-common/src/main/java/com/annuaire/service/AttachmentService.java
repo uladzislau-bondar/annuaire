@@ -17,8 +17,10 @@ public class AttachmentService {
             TransactionHandler.run(connection -> {
                 AttachmentDao dao = new AttachmentDao(connection);
                 Attachment attachment = dao.getById(id);
-                dto.setFile(new File(attachment.getFileName()));
-                dto.setName(attachment.getName());
+                if (attachment != null){
+                    dto.setFile(new File(attachment.getFileName()));
+                    dto.setName(attachment.getName());
+                }
             });
         } catch (TransactionException e) {
             throw new ServiceException(e);

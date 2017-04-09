@@ -2,6 +2,7 @@ package command.helpers;
 
 
 import com.annuaire.dto.AttachmentDatabaseDto;
+import com.annuaire.entities.Attachment;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,8 +19,16 @@ public class AttachmentHelper extends AbstractHelper {
     }
 
     public void renderAttachment(AttachmentDatabaseDto attachment) throws ServletException, IOException {
-        addDownloadParams(attachment.getName(), attachment.getFile());
-        renderFile(attachment.getFile());
+        if (attachmentExists(attachment)){
+            addDownloadParams(attachment.getName(), attachment.getFile());
+            renderFile(attachment.getFile());
+        } else{
+            throw new ServletException("Attachment doesn't exist");
+        }
+    }
+
+    private boolean attachmentExists(AttachmentDatabaseDto attachment){
+        return attachment.getName() != null;
     }
 
     private void addDownloadParams(String fileName, File attachment) throws ServletException{

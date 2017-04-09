@@ -4,6 +4,7 @@ import com.annuaire.exceptions.ServiceException;
 import command.helpers.ContactHelper;
 import com.annuaire.dto.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.annuaire.service.ContactService;
@@ -55,7 +56,7 @@ public class ContactCommand extends AbstractCommand {
             showCreationForm();
         } else if (params.containsKey("id")) {
             String idParam = params.get("id");
-            if (StringUtils.isNotEmpty(idParam)){
+            if (NumberUtils.toInt(idParam) != 0){
                 Long contactId = Long.valueOf(idParam);
                 if (params.containsKey("method")) {
                     String queryMethod = params.get("method");
@@ -63,6 +64,8 @@ public class ContactCommand extends AbstractCommand {
                 } else{
                     showContact(contactId);
                 }
+            } else {
+                throw new ServletException("Id is invalid.");
             }
         } else {
             throw new ServletException("Invalid params.");
@@ -76,9 +79,11 @@ public class ContactCommand extends AbstractCommand {
             saveContact();
         } else if (params.containsKey("id")) {
             String idParam = params.get("id");
-            if (StringUtils.isNotEmpty(idParam)){
+            if (NumberUtils.toInt(idParam) != 0){
                 Long contactId = Long.valueOf(idParam);
                 updateContact(contactId);
+            } else {
+                throw new ServletException("Id is invalid.");
             }
         } else{
             throw new ServletException("Invalid POST params.");
@@ -100,7 +105,7 @@ public class ContactCommand extends AbstractCommand {
 
     private void showCreationForm() throws ServletException, IOException{
         logger.info("Show form for creating new contact");
-        setTitle("Contact Creation Form");
+        setTitle("Новый контакт");
 
         forward("contact");
     }
