@@ -7,6 +7,7 @@ import com.annuaire.util.Utils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,21 @@ public class AbstractHelper {
     public int getOffset() throws ServletException{
         String offsetParam = getQuery().get("offset");
         return offsetParam != null ? Integer.valueOf(offsetParam) : 0;
+    }
+
+    public void setAlertMessage(String message){
+        HttpSession session = request.getSession();
+        session.setAttribute("alertMessage", message);
+    }
+
+    public String getAlertMessage(){
+        HttpSession session = request.getSession();
+        return (String) session.getAttribute("alertMessage");
+    }
+
+    public void clearAlertMessage(){
+        HttpSession session = request.getSession();
+        session.setAttribute("alertMessage", null);
     }
 
     protected void renderFile(File file) throws IOException{

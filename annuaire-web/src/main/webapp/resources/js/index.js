@@ -1,3 +1,12 @@
+document.addEventListener("DOMContentLoaded", ready);
+
+function ready() {
+    var alertClick = document.getElementById("alertClick");
+    if (alertClick != null){
+        alertClick.click();
+    }
+}
+
 function processSelected(input) {
     var form = document.getElementById("contactsForm");
     var url = form.action;

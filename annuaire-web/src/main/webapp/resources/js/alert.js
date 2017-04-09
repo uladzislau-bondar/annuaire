@@ -1,6 +1,8 @@
 function showAlert(message) {
     var alert = document.getElementById("alert");
-    document.getElementById("alertMessage").innerHTML = message;
+    if (message != null){
+        document.getElementById("alertMessage").innerHTML = message;
+    }
     alert.style.opacity = "1";
     alert.style.display = 'block';
 

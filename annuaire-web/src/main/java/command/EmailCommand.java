@@ -10,11 +10,13 @@ import com.annuaire.service.EmailService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
 public class EmailCommand extends AbstractCommand{
     private final static Logger logger = LogManager.getLogger(EmailCommand.class);
+    private final static String ALERT_EMAILS_SENT = "Письма успешно отправлены!";
     private EmailHelper helper;
     private EmailService service;
 
@@ -48,6 +50,8 @@ public class EmailCommand extends AbstractCommand{
     private void showEmailForm() throws ServletException, IOException{
         logger.info("Showing email form");
         // todo doesn't send templates
+
+        setTitle("Отправка email");
         forward("email");
     }
 
@@ -57,6 +61,7 @@ public class EmailCommand extends AbstractCommand{
         try{
             Map<String, String> messageParams = helper.getMessageParams();
             service.sendEmail(messageParams);
+            helper.setAlertMessage(ALERT_EMAILS_SENT);
         } catch (ServiceException e){
             throw new ServletException(e);
         }

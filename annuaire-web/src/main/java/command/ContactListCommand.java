@@ -80,6 +80,11 @@ public class ContactListCommand extends AbstractCommand {
             List<ContactInfoDto> contacts = contactListService.getAllWithOffset(offset);
             request.setAttribute("contactList", contacts);
 
+            if (helper.getAlertMessage() != null){
+                request.setAttribute("alertMessage", helper.getAlertMessage());
+                helper.clearAlertMessage();
+            }
+
             setTitle("Список контактов");
         } catch (ServiceException e) {
             throw new ServletException(e);
@@ -114,7 +119,7 @@ public class ContactListCommand extends AbstractCommand {
             }
 
             forward("email");
-            setTitle("Email page");
+            setTitle("Отправка email");
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
