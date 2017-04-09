@@ -84,6 +84,8 @@ public class ContactHelper extends AbstractHelper {
     }
 
     private Contact parseContact() {
+        // todo date cannot be tomorrow
+
         ContactBuilder builder = new ContactBuilder();
         builder.firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))

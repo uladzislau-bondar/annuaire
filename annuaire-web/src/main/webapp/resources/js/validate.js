@@ -82,17 +82,20 @@ function validateContact() {
     return true;
 }
 
-// todo fix date validation
 function isValidDate(date) {
-    var matches = /(\d{4})-(\d{2})-(\d{2})/.exec(date);
-    if (matches == null) {
-        return false;
+    if (date == null || date.trim() == ''){
+        return true;
+    } else{
+        var matches = /(\d{4})-(\d{2})-(\d{2})/.exec(date);
+        if (matches == null) {
+            return false;
+        }
+        var day = matches[3];
+        var month = matches[2] - 1;
+        var year = matches[1];
+        var composedDate = new Date(year, month, day);
+        return composedDate.getDate() == day &&
+            composedDate.getMonth() == month &&
+            composedDate.getFullYear() == year;
     }
-    var day = matches[3];
-    var month = matches[2] - 1;
-    var year = matches[1];
-    var composedDate = new Date(year, month, day);
-    return composedDate.getDate() == day &&
-        composedDate.getMonth() == month &&
-        composedDate.getFullYear() == year;
 }
