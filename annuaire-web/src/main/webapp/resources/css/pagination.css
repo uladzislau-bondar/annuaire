@@ -28,12 +28,15 @@
 }
 
 .pagination li span {
+    background-color: #f9f9f9;
+    border: 3px solid;
+    border-color: #dddddd;
     color: black;
     float: left;
     padding: 4px 8px;
 }
 
 .pagination li span.active {
-    color: white;
-    background-color: #4bc970;
+    font-weight: bolder;
+    color: black;
 }

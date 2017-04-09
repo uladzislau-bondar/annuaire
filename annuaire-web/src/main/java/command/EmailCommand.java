@@ -51,7 +51,7 @@ public class EmailCommand extends AbstractCommand{
     private void showEmailForm() throws ServletException, IOException{
         logger.info("Showing email form");
 
-        request.setAttribute("templates", TemplateService.getFinalTemplates(helper.getTemplatesLocation()));
+        helper.redirectToEmailPage();
         setTitle("Отправка email");
         forward("email");
     }

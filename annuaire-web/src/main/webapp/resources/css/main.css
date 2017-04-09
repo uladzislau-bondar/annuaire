@@ -18,7 +18,7 @@ body{
     font-family: 'RobotoRegular', sans-serif;
     height: 100%;
     overflow: auto;
-    background-color: #d7e8dd;
+    background-color: #e5e7e6;
 }
 
 .container {
@@ -38,11 +38,13 @@ body{
 h1 {
     margin: 0 0 30px 0;
     text-align: center;
+    color: #2c2c2c;
 }
 
 h2 {
     margin: 0 0 30px 0;
     text-align: center;
+    color: #2c2c2c;
 }
 
 input[type="text"],
@@ -152,15 +154,17 @@ label.light {
 }
 
 .btn {
-    background-color: rgb(104, 145, 162);
+    background-color: #fefefe;
     padding: 0px;
-    font-weight: 700;
     font-size: 14px;
     height: 36px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    border-radius: 3px;
-    border: none;
+    border-width: medium;
+    border-radius: 2px;
+    border-color: #b7b7b7;
+    color: #b7b7b7;
+    font-weight: bold;
     -o-transition: all 0.218s;
     -moz-transition: all 0.218s;
     -webkit-transition: all 0.218s;
@@ -169,10 +173,15 @@ label.light {
     display: inline-block;
 }
 
+.btn:hover{
+    color: #fefefe;
+}
+
 .btn.btn-submit:hover,
 .btn.btn-submit:active,
 .btn.btn-submit:focus {
     background-color: #4CAF50;
+    color: #fefefe;
 }
 
 .btn.btn-email:hover,
@@ -191,5 +200,11 @@ label.light {
     color: #F44336;
     content: ' *';
     display:inline;
+}
+
+a {
+    color: #2f2f2f;
+    font-weight: bold;
+    text-decoration: none;
 }
 

@@ -246,7 +246,7 @@ function hidePhoneTableIfEmpty() {
 
 function showPhoneTable() {
     var table = document.getElementById("phonesTable");
-    table.style.display = "block";
+    table.style.display = "";
 
     var label = document.getElementById("phoneTableLabel");
     label.innerHTML = "Список телефонов"

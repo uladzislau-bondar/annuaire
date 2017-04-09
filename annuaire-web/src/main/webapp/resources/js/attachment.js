@@ -284,7 +284,7 @@ function hideAttachmentTableIfEmpty() {
 
 function showAttachmentTable() {
     var table = document.getElementById("attachmentsTable");
-    table.style.display = "block";
+    table.style.display = "";
 
     var label = document.getElementById("attachmentTableLabel");
     label.innerHTML = "Список присоединений"
