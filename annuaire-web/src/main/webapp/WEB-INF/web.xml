@@ -14,8 +14,8 @@
         <location>/app/error</location>
     </error-page>
 
-    <!--<error-page>-->
-        <!--<exception-type>java.lang.Throwable</exception-type>-->
-        <!--<location>/app/error</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/app/error</location>
+    </error-page>
 </web-app>

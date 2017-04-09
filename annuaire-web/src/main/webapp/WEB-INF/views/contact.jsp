@@ -25,6 +25,7 @@
 <c:set var="textPattern" value="^[a-zA-ZА-Яа-яЁё]+$"/>
 <c:set var="textPatternWithSpaces" value="^[a-zA-ZА-Яа-яЁё\s]+$"/>
 <c:set var="urlPattern" value="https?://.+"/>
+<c:set var="datePattern" value="\d{4}-\d{1,2}-\d{1,2}"/>
 <c:set var="emailPattern" value="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"/>
 <c:set var="zipPattern" value="[0-9]{6}"/>
 
@@ -81,7 +82,7 @@
                 <label for="dateOfBirth">Дата рождения:</label>
                 <input type="text" id="dateOfBirth" name="dateOfBirth"
                        value="<c:out value="${dateOfBirth}" />"
-                       pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd"/> <br>
+                       pattern="${datePattern}" placeholder="yyyy-mm-dd"/> <br>
 
                 <label>Пол:</label>
                 <c:choose>

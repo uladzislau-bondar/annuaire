@@ -12,8 +12,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class ErrorCommand extends AbstractCommand{
+public class ErrorCommand extends AbstractCommand {
     private static final Logger logger = LogManager.getLogger(ErrorCommand.class);
+
     public ErrorCommand(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
@@ -26,24 +27,16 @@ public class ErrorCommand extends AbstractCommand{
     @Override
     public void process() throws ServletException, IOException {
         Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        String requestUri = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
-        if (requestUri == null) {
-            requestUri = "Unknown";
-        }
-
         request.setAttribute("statusCode", statusCode);
-        request.setAttribute("requestUri", requestUri);
 
-        Throwable throwable = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-
-        if (throwable != null){
-            String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-            request.setAttribute("exception", throwable.getClass().getName());
+        String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
+        if (message != null) {
             request.setAttribute("message", message);
-            request.setAttribute("errorStack", throwable.getStackTrace());
+            setTitle(message);
+        } else{
+            setTitle(statusCode.toString());
         }
 
-        setTitle(statusCode.toString());
         forward("error");
     }
 }

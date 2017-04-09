@@ -21,13 +21,11 @@
             <div class="required">
                 <label for="emails">Кому:</label>
                 <input id="emails" type="text" name="emails"
-                       placeholder="Через ;" value="${emails}"><br>
+                       placeholder="Через ;" value="${emails}" required><br>
             </div>
 
-            <div class="required">
-                <label for="subject">Тема</label>
-                <input id="subject" type="text" name="subject"/> <br>
-            </div>
+            <label for="subject">Тема</label>
+            <input id="subject" type="text" name="subject"/> <br>
 
             <label for="template">Шаблон:</label>
             <select id="template" name="template" onchange="changeTemplate(this.selectedIndex)">
@@ -42,7 +40,7 @@
 
             <div class="required">
                 <label for="message">Текст сообщения:</label>
-                <textarea id="message" name="message" ></textarea> <br>
+                <textarea id="message" name="message" required></textarea> <br>
             </div>
 
             <button type="submit" class="btn btn-submit">Отправить</button>
