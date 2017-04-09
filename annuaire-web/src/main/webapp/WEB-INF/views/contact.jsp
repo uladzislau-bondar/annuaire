@@ -5,6 +5,7 @@
 <head>
     <title><c:out value="${title}"/></title>
     <script type="text/javascript" src="../../resources/js/contact.js"></script>
+    <script type="text/javascript" src="../../resources/js/alert.js"></script>
     <script type="text/javascript" src="../../resources/js/save.js"></script>
     <script type="text/javascript" src="../../resources/js/validate.js"></script>
     <script type="text/javascript" src="../../resources/js/phone.js"></script>
@@ -13,6 +14,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/alert.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/containers.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/contact.css">
@@ -23,7 +25,7 @@
 <c:set var="textPattern" value="^[a-zA-ZА-Яа-яЁё]+$"/>
 <c:set var="textPatternWithSpaces" value="^[a-zA-ZА-Яа-яЁё\s]+$"/>
 <c:set var="urlPattern" value="https?://.+"/>
-<c:set var="emailPattern" value="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$" />
+<c:set var="emailPattern" value="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"/>
 <c:set var="zipPattern" value="[0-9]{6}"/>
 
 <c:url value="/contact" var="postUrl">
@@ -55,7 +57,7 @@
             <fieldset>
                 <legend><span class="number">1</span>Базовая информация</legend>
 
-                <div class="required" >
+                <div class="required">
                     <label for="firstName">Имя:</label>
                     <input type="text" id="firstName" name="firstName"
                            value="<c:out value="${firstName}" />"
@@ -319,6 +321,11 @@
                 <button type="button" class="btn btn-cancel" onclick="closeAttachmentModal()">Отменить</button>
             </div>
         </div>
+    </div>
+
+    <div id="alert" class="alert alert-danger">
+        <span class="closebtn" onclick="hideAlert()">&times;</span>
+        <strong id="alertMessage">Message</strong>
     </div>
 </form>
 

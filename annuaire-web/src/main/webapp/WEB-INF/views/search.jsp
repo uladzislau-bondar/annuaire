@@ -5,9 +5,11 @@
     <title><c:out value="${title}"/></title>
 
     <script type="text/javascript" src="../../resources/js/validate.js"></script>
+    <script type="text/javascript" src="../../resources/js/alert.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/alert.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
 </head>
 <body>
@@ -103,6 +105,11 @@
                 <button type="button" class="btn btn-cancel">Отменить</button>
             </a><br>
         </div>
+    </div>
+
+    <div id="alert" class="alert alert-danger">
+        <span class="closebtn" onclick="hideAlert()">&times;</span>
+        <strong id="alertMessage">Message</strong>
     </div>
 </form>
 </body>

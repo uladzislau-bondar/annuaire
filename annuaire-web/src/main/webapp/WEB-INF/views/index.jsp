@@ -9,10 +9,12 @@
 
     <script type="text/javascript" src="../../resources/js/validate.js"></script>
     <script type="text/javascript" src="../../resources/js/save.js"></script>
+    <script type="text/javascript" src="../../resources/js/alert.js"></script>
     <script type="text/javascript" src="../../resources/js/index.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../../resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/alert.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/navbar.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/table.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/containers.css">
@@ -147,20 +149,16 @@
                                 <c:if test="${page eq currentPage}">class="active"</c:if>
                                 onclick="paginate('${url}', 'search')">
                             <c:out value="${page+1}"/></span>
-                        <%--<form action="${url}" method="post">--%>
-                        <%--<!-- todo process post-->--%>
-                        <%--&lt;%&ndash;<a href="${url}" <c:if test="${page eq currentPage}">class="active"</c:if>>&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<c:out value="${page+1}"/></a>&ndash;%&gt;--%>
-                        <%--<span <c:if test="${page eq currentPage}">class="active"</c:if>>--%>
-                        <%--<c:out value="${page+1}"/>--%>
-                        <%--</span>--%>
-                        <%--<input type="submit">--%>
-                        <%--</form>--%>
                     </c:when>
                 </c:choose>
             </li>
         </c:forEach>
     </ul>
+</div>
+
+<div id="alert" class="alert alert-info">
+    <span class="closebtn" onclick="hideAlert()">&times;</span>
+    <strong id="alertMessage">Message</strong>
 </div>
 </body>
 </html>

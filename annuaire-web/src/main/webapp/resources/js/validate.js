@@ -1,7 +1,6 @@
 function validateSearch() {
     if (validateAllInputsEmptiness(document)) {
-        // todo create good-looking alert window
-        alert("Заполните хотя бы одно поле!");
+        showAlert("Заполните хотя бы одно поле!");
         return false;
     }
 }
@@ -11,7 +10,7 @@ function someSelected() {
 
     var result = false;
     checkboxes.forEach(function (checkbox) {
-        if (checkbox.checked){
+        if (checkbox.checked) {
             result = true;
         }
     });
@@ -25,7 +24,7 @@ function validatePhoneModal() {
     var number = document.getElementById("phoneNumber").value;
 
     if (countryCode == "" || operatorCode == "" || number == "") {
-        alert("Заполните поля телефона!");
+        showAlert("Заполните поля телефона!");
         return false;
     }
 
@@ -35,20 +34,20 @@ function validatePhoneModal() {
 function validateAttachmentModal() {
     var name = document.getElementById("attachmentName").value;
     if (name.trim() == "") {
-        alert("Заполните имя присоединения!");
+        showAlert("Заполните имя присоединения!");
         return false;
     }
 
     var type = document.getElementById("attachmentHidden").value;
-    if  (type == 'added' || type == '' || type == null){
+    if (type == 'added' || type == '' || type == null) {
         var id = document.getElementById("attachmentId").value;
         var file = document.getElementsByName("file")[0];
-        if (file == null){
+        if (file == null) {
             file = getExistedFile(id);
         }
         var file_count = file.files.length;
         if (file_count === 0) {
-            alert("Выберите файл!");
+            showAlert("Выберите файл!");
             return false;
         }
     }
@@ -71,4 +70,26 @@ function validateAllInputsEmptiness(element) {
     });
 
     return allEmpty;
+}
+
+function validateContact() {
+    var date = document.getElementById("dateOfBirth").value;
+    if (!validateDate(date)){
+        showAlert("Неправильная дата!");
+    }
+
+    return true;
+}
+
+// todo fix date validation
+function validateDate(date) {
+    var matches = /^(\d{4}-\d{1,2}-\d{1,2})$/.exec(date);
+    if (matches == null) return false;
+    var d = matches[2];
+    var m = matches[1] - 1;
+    var y = matches[3];
+    var composedDate = new Date(y, m, d);
+    return composedDate.getDate() == d &&
+        composedDate.getMonth() == m &&
+        composedDate.getFullYear() == y;
 }
