@@ -52,7 +52,7 @@ public class SearchCommand extends AbstractCommand {
 
     private void showSearchForm() {
         logger.info("Rendering search form");
-        setTitle("Search form");
+        setTitle("Поиск");
     }
 
     private void search() throws ServletException{

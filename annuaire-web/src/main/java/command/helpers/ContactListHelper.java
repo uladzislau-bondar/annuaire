@@ -30,8 +30,7 @@ public class ContactListHelper extends AbstractHelper{
 
     public void redirectToEmailPage(){
         String templatesLocation = getTemplatesLocation();
-        StringTemplateGroup templatesGroup = TemplateService.retrieveStringTemplateGroup(templatesLocation);
-        Map<String, StringTemplate> templates = TemplateService.getTemplates(templatesGroup);
+        Map<String, StringTemplate> templates = TemplateService.getTemplates(templatesLocation);
 
         for (StringTemplate t : templates.values()) {
             t.setAttribute("firstName", FAKE_FIRST_NAME);

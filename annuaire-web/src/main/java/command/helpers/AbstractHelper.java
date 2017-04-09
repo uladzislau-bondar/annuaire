@@ -57,6 +57,10 @@ public class AbstractHelper {
         session.setAttribute("alertMessage", null);
     }
 
+    public String getTemplatesLocation(){
+        return request.getServletContext().getRealPath("/WEB-INF/templates");
+    }
+
     protected void renderFile(File file) throws IOException{
         if (file != null) {
             FileInputStream in = new FileInputStream(file);
@@ -64,9 +68,5 @@ public class AbstractHelper {
 
             IOUtils.copy(in, out);
         }
-    }
-
-    protected String getTemplatesLocation(){
-        return request.getServletContext().getRealPath("/WEB-INF/templates");
     }
 }

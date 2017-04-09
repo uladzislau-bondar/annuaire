@@ -107,7 +107,7 @@ public class ContactCommand extends AbstractCommand {
 
     private void showContact(Long id) throws ServletException, IOException{
         logger.info("Show form for editing contact #{}", id);
-        setTitle("Contact " + id);
+        setTitle("Контакт #" + id);
 
         try {
             ContactDatabaseDto contact = service.get(id);

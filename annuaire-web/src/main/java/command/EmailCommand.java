@@ -1,6 +1,7 @@
 package command;
 
 import com.annuaire.exceptions.ServiceException;
+import com.annuaire.service.TemplateService;
 import command.helpers.EmailHelper;
 
 import org.apache.logging.log4j.LogManager;
@@ -49,8 +50,8 @@ public class EmailCommand extends AbstractCommand{
 
     private void showEmailForm() throws ServletException, IOException{
         logger.info("Showing email form");
-        // todo doesn't send templates
 
+        request.setAttribute("templates", TemplateService.getFinalTemplates(helper.getTemplatesLocation()));
         setTitle("Отправка email");
         forward("email");
     }
