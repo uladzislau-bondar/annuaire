@@ -221,8 +221,8 @@ function appendAddedAttachmentRow(attachment) {
         "<td class='text-left'>" + attachment.dateOfUpload + "</td>" +
         "<td class='text-left'>" + attachment.comment + "</td>" +
         "<td><input type='hidden' name='fileName' value='" + attachment.fileName + "'></td>" +
-        "<td class='text-left'><input type='button' value='Изменить' onclick='editAttachment(this)'></td>" +
-        "<td class='text-left'><input type='button' value='Удалить' onclick='deleteAttachment(this)'></td>";
+        "<td class='text-left'><button type='button' class='btn btn-submit' onclick='editAttachment(this)'>Изменить</button></td>" +
+        "<td class='text-left'><button type='button' class='btn btn-cancel' onclick='deleteAttachment(this)'>Удалить</button></td>";
     document.getElementById("attachmentsTable").getElementsByTagName("tbody")[0].appendChild(tr);
 }
 

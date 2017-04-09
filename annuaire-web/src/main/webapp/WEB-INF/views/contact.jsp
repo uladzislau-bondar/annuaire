@@ -199,8 +199,8 @@
                     <td class="text-left"><c:out value="${phone.number}"/></td>
                     <td class="text-left"><c:out value="${phone.type}"/></td>
                     <td class="text-left"><c:out value="${phone.comment}"/></td>
-                    <td class="text-left"><input type="button" onclick="editPhone(this)" value="Изменить"></td>
-                    <td class="text-left"><input type="button" onclick="deletePhone(this)" value="Удалить"></td>
+                    <td class="text-left"><button type="button" class="btn btn-submit" onclick="editPhone(this)">Изменить</button></td>
+                    <td class="text-left"><button type="button" class="btn btn-cancel" onclick="deletePhone(this)">Удалить</button></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -247,8 +247,8 @@
                     <td class="text-left"><c:out value="${attachment.dateOfUpload}"/></td>
                     <td class="text-left"><c:out value="${attachment.comment}"/></td>
                     <td><input type="hidden" name="fileName" value="${attachment.fileName}"></td>
-                    <td class="text-left"><input type="button" onclick="editAttachment(this)" value="Изменить"></td>
-                    <td class="text-left"><input type="button" onclick="deleteAttachment(this)" value="Удалить"></td>
+                    <td class="text-left"><button type="button" class="btn btn-submit" onclick="editAttachment(this)">Изменить</button></td>
+                    <td class="text-left"><button type="button" class="btn btn-cancel" onclick="deleteAttachment(this)">Удалить</button></td>
                 </tr>
             </c:forEach>
             </tbody>

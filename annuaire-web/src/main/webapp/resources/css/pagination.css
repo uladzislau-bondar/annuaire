@@ -22,17 +22,18 @@
     border-radius: 2px;
     text-align: center;
 }
-.pagination li:hover {
-    background-color: #e0dede;
-}
+
 .pagination li.chevron {
     border-radius: 2px;
 }
-.pagination li a.active {
-    background-color: #00BBC6;
-    color: white;
+
+.pagination li span {
+    color: black;
+    float: left;
+    padding: 4px 8px;
 }
 
-.pagination li form input{
-    visibility: hidden;
+.pagination li span.active {
+    color: white;
+    background-color: #6666FF;
 }

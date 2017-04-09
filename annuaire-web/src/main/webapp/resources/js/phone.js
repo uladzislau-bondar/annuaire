@@ -164,8 +164,8 @@ function appendAddedPhoneRow(phone) {
         "<td class='text-left'>" + phone.number + "</td>" +
         "<td class='text-left'>" + phone.type + "</td>" +
         "<td class='text-left'>" + phone.comment + "</td>" +
-        "<td class='text-left'><input type='button' value='Изменить' onclick='editPhone(this)'></td>" +
-        "<td class='text-left'><input type='button' value='Удалить' onclick='deletePhone(this)'></td>";
+        "<td class='text-left'><button type='button' class='btn btn-submit' onclick='editPhone(this)'>Изменить</button></td>" +
+        "<td class='text-left'><button type='button' class='btn btn-cancel' onclick='deletePhone(this)'>Удалить</button></td>";
     document.getElementById("phonesTable").getElementsByTagName("tbody")[0].appendChild(tr);
 }
 
