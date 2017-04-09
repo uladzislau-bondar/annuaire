@@ -321,12 +321,15 @@
             </div>
         </div>
     </div>
-
-    <div id="alert" class="alert alert-danger">
-        <span class="closebtn" onclick="hideAlert()">&times;</span>
-        <strong id="alertMessage">Message</strong>
-    </div>
 </form>
+
+<c:if test="${alertMessage != null}">
+    <input id="alertClick" type="hidden" onclick="showAlert()">
+</c:if>
+<div id="alert" class="alert alert-danger">
+    <span class="closebtn" onclick="hideAlert()">&times;</span>
+    <strong id="alertMessage"><c:out value="${alertMessage}" /></strong>
+</div>
 
 </body>
 </html>

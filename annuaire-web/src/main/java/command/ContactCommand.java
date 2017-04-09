@@ -56,12 +56,12 @@ public class ContactCommand extends AbstractCommand {
             showCreationForm();
         } else if (params.containsKey("id")) {
             String idParam = params.get("id");
-            if (NumberUtils.toInt(idParam) != 0){
+            if (NumberUtils.toInt(idParam) != 0) {
                 Long contactId = Long.valueOf(idParam);
                 if (params.containsKey("method")) {
                     String queryMethod = params.get("method");
                     processMethodForContact(contactId, queryMethod);
-                } else{
+                } else {
                     showContact(contactId);
                 }
             } else {
@@ -72,25 +72,25 @@ public class ContactCommand extends AbstractCommand {
         }
     }
 
-    private void processPost() throws ServletException, IOException{
+    private void processPost() throws ServletException, IOException {
         Map<String, String> params = helper.getQuery();
 
         if (params.isEmpty()) {
             saveContact();
         } else if (params.containsKey("id")) {
             String idParam = params.get("id");
-            if (NumberUtils.toInt(idParam) != 0){
+            if (NumberUtils.toInt(idParam) != 0) {
                 Long contactId = Long.valueOf(idParam);
                 updateContact(contactId);
             } else {
                 throw new ServletException("Id is invalid.");
             }
-        } else{
+        } else {
             throw new ServletException("Invalid POST params.");
         }
     }
 
-    private void processMethodForContact(Long id, String method) throws ServletException, IOException{
+    private void processMethodForContact(Long id, String method) throws ServletException, IOException {
         switch (method) {
             case "delete":
                 deleteContact(id);
@@ -103,14 +103,15 @@ public class ContactCommand extends AbstractCommand {
         }
     }
 
-    private void showCreationForm() throws ServletException, IOException{
+    private void showCreationForm() throws ServletException, IOException {
         logger.info("Show form for creating new contact");
         setTitle("Новый контакт");
 
+        addAlert();
         forward("contact");
     }
 
-    private void showContact(Long id) throws ServletException, IOException{
+    private void showContact(Long id) throws ServletException, IOException {
         logger.info("Show form for editing contact #{}", id);
         setTitle("Контакт #" + id);
 
@@ -121,6 +122,7 @@ public class ContactCommand extends AbstractCommand {
             throw new ServletException(e);
         }
 
+        addAlert();
         forward("contact");
     }
 
@@ -129,12 +131,17 @@ public class ContactCommand extends AbstractCommand {
 
         try {
             ContactFrontDto contact = helper.getContact();
-            service.save(contact);
+            if (contact != null) {
+                service.save(contact);
+                helper.setAlertMessage("Контакт успешно сохранен!");
+                redirect("/");
+            } else {
+                helper.setAlertMessage("Дата рождения введена неверно!");
+                redirect("/contact");
+            }
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-
-        redirect("/");
     }
 
     private void updateContact(Long id) throws ServletException, IOException {
@@ -142,15 +149,20 @@ public class ContactCommand extends AbstractCommand {
 
         try {
             ContactFrontDto contact = helper.getContact();
-            service.update(contact, id);
+            if (contact != null) {
+                service.update(contact, id);
+                helper.setAlertMessage("Контакт успешно обновлен!");
+                redirect("/");
+            } else {
+                helper.setAlertMessage("Дата рождения введена неверно!");
+                redirect("/contact?id=" + id);
+            }
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-
-        redirect("/");
     }
 
-    private void deleteContact(Long id) throws ServletException, IOException{
+    private void deleteContact(Long id) throws ServletException, IOException {
         logger.info("Deleting contact #{}", id);
 
         try {
@@ -160,5 +172,12 @@ public class ContactCommand extends AbstractCommand {
         }
 
         redirect("/");
+    }
+
+    private void addAlert() {
+        if (helper.getAlertMessage() != null) {
+            request.setAttribute("alertMessage", helper.getAlertMessage());
+            helper.clearAlertMessage();
+        }
     }
 }

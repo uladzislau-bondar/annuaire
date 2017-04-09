@@ -17,6 +17,7 @@
 body{
     font-family: 'RobotoRegular', sans-serif;
     height: 100%;
+    letter-spacing: 0.01rem;
     overflow: auto;
     background-color: #e5e7e6;
 }
@@ -44,7 +45,6 @@ h1 {
 h2 {
     margin: 0 0 30px 0;
     text-align: center;
-    color: #2c2c2c;
 }
 
 input[type="text"],

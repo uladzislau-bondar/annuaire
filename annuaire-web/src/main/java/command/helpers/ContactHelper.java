@@ -27,19 +27,22 @@ public class ContactHelper extends AbstractHelper {
     }
 
     public ContactFrontDto getContact() throws ServletException, IOException {
-        ContactFrontDto dto = new ContactFrontDto();
-        dto.setContact(parseContact());
-        dto.setPhoto(parsePhoto());
+        if (isValid()){
+            ContactFrontDto dto = new ContactFrontDto();
+            dto.setContact(parseContact());
+            dto.setPhoto(parsePhoto());
 
-        dto.setUpdatedPhones(parseUpdatedPhones());
-        dto.setAddedPhones(parseAddedPhones());
-        dto.setDeletedPhonesIds(parseDeletedPhonesIds());
+            dto.setUpdatedPhones(parseUpdatedPhones());
+            dto.setAddedPhones(parseAddedPhones());
+            dto.setDeletedPhonesIds(parseDeletedPhonesIds());
 
-        dto.setUpdatedAttachments(parseUpdatedAttachments());
-        dto.setAddedAttachments(parseAddedAttachments());
-        dto.setDeletedAttachmentsIds(parseDeletedAttachmentsIds());
-
-        return dto;
+            dto.setUpdatedAttachments(parseUpdatedAttachments());
+            dto.setAddedAttachments(parseAddedAttachments());
+            dto.setDeletedAttachmentsIds(parseDeletedAttachmentsIds());
+            return dto;
+        } else {
+            return null;
+        }
     }
 
     public void showContact(ContactDatabaseDto contact) throws ServletException{
@@ -83,9 +86,12 @@ public class ContactHelper extends AbstractHelper {
         request.setAttribute("attachments", attachments);
     }
 
-    private Contact parseContact() {
-        // todo date cannot be tomorrow
+    private boolean isValid() throws ServletException{
+        Date dateOfBirth = Utils.emptyToDate(request.getParameter("dateOfBirth"));
+        return dateOfBirth == null || !dateOfBirth.after(today());
+    }
 
+    private Contact parseContact() {
         ContactBuilder builder = new ContactBuilder();
         builder.firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
@@ -200,5 +206,10 @@ public class ContactHelper extends AbstractHelper {
         }
 
         return attachments;
+    }
+
+    private Date today(){
+        java.util.Date date = new java.util.Date();
+        return new Date(date.getTime());
     }
 }
