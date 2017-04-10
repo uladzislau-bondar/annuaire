@@ -117,8 +117,7 @@
 
                 <label for="maritalStatus">Семейное положение:</label>
                 <select id="maritalStatus" name="maritalStatus">
-                    <option value="none" ${maritalStatus == 'none' ? 'selected' : ''}>
-                        ...
+                    <option ${maritalStatus == null ? 'selected' : ''}>
                     </option>
                     <option value="married" ${maritalStatus == 'married' ? 'selected' : ''}>
                         Женат/Замужем

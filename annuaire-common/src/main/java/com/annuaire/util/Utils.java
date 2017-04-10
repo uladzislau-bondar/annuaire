@@ -3,6 +3,7 @@ package com.annuaire.util;
 
 import com.annuaire.dto.ContactInitialsDto;
 import com.annuaire.exceptions.ServiceException;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
 import java.io.UnsupportedEncodingException;
@@ -29,11 +30,19 @@ public class Utils {
         return queryPairs;
     }
 
-    public static Date emptyToDate(String value) {
-        if (value == null || value.isEmpty()) {
-            return null;
+    public static Date emptyToDate(String date) {
+        if (StringUtils.isNotEmpty(date)) {
+            return Date.valueOf(date);
         } else {
-            return Date.valueOf(value);
+            return null;
+        }
+    }
+
+    public static String emptyToMaritalStatus(String status){
+        if (StringUtils.isNotEmpty(status)) {
+            return status;
+        } else {
+            return null;
         }
     }
 

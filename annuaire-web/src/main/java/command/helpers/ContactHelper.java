@@ -99,7 +99,7 @@ public class ContactHelper extends AbstractHelper {
                 .dateOfBirth(Utils.emptyToDate(request.getParameter("dateOfBirth")))
                 .sex(request.getParameter("sex"))
                 .citizenship(request.getParameter("citizenship"))
-                .maritalStatus(request.getParameter("maritalStatus"))
+                .maritalStatus(Utils.emptyToMaritalStatus(request.getParameter("maritalStatus")))
                 .website(request.getParameter("website"))
                 .email(request.getParameter("email"))
                 .placeOfWork(request.getParameter("placeOfWork"))
