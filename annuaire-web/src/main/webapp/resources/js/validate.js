@@ -102,8 +102,18 @@ function isValidDate(date) {
         var month = matches[2] - 1;
         var year = matches[1];
         var composedDate = new Date(year, month, day);
+
+        if (!isInPast(composedDate)){
+            return false;
+        }
+
         return composedDate.getDate() == day &&
             composedDate.getMonth() == month &&
             composedDate.getFullYear() == year;
     }
+}
+
+function isInPast(date) {
+    var now = new Date();
+    return date <= now;
 }
