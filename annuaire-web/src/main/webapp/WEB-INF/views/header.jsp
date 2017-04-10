@@ -4,9 +4,9 @@
 
 <div class="navigation">
     <ul class="nav">
-        <li><a href="<c:url value="/"/> "><strong>HOME</strong></a></li>
-        <li><a href="<c:url value="/search"/> "><strong>SEARCH</strong></a></li>
-        <li><a href="<c:url value="/email"/> "><strong>EMAIL</strong></a></li>
+        <li><a href="<c:url value="/"/> "><strong>На главную</strong></a></li>
+        <li><a href="<c:url value="/search"/> "><strong>Поиск</strong></a></li>
+        <li><a href="<c:url value="/email"/> "><strong>Email</strong></a></li>
         <span class="line"></span>
     </ul>
 </div>

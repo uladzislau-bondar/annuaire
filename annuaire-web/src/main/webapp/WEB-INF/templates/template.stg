@@ -1,14 +1,14 @@
-birthday(lastName, firstName) ::= <<
+Birthday(lastName, firstName) ::= <<
 Дорогой, <lastName> <firstName>.
 С днем рождения!
 >>
 
-christmas(lastName, firstName) ::= <<
+Christmas(lastName, firstName) ::= <<
 Дорогой, <lastName> <firstName>.
-Поздравляем с рождеством!
+С рождеством!
 >>
 
-new_year(lastName, firstName) ::= <<
+NewYear(lastName, firstName) ::= <<
 Дорогой, <lastName> <firstName>.
-Поздравляем с новый годом!
+С новый годом!
 >>

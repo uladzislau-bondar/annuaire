@@ -26,7 +26,7 @@ public class TemplateService {
     }
 
     public static Map<String, ST> getTemplates(String location) {
-        STGroup group = new STGroupFile(location);
+        STGroup group = new STGroupFile(location, "UTF-8");
 
         Map<String, ST> templates = new HashMap<>();
         Set<String> templateNames = group.getTemplateNames();
