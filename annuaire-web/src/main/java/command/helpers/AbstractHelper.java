@@ -1,8 +1,10 @@
 package command.helpers;
 
 
+import com.annuaire.service.TemplateService;
 import org.apache.commons.io.IOUtils;
 import com.annuaire.util.Utils;
+import org.stringtemplate.v4.ST;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +60,22 @@ public class AbstractHelper {
     }
 
     public String getTemplatesLocation(){
-        return request.getServletContext().getRealPath("/WEB-INF/templates");
+        return request.getServletContext().getRealPath("/WEB-INF/templates/template.stg");
+    }
+
+    public void redirectToEmailPage(){
+        String templatesLocation = getTemplatesLocation();
+        Map<String, ST> templates = TemplateService.getTemplates(templatesLocation);
+
+        String fakeLastName = "*ФАМИЛИЯ*";
+        String fakeFirstName = "*ИМЯ*";
+
+        for (ST t : templates.values()) {
+            t.add("firstName", fakeFirstName);
+            t.add("lastName", fakeLastName);
+        }
+
+        request.setAttribute("templates", TemplateService.getGeneratedTemplates(templates));
     }
 
     protected void renderFile(File file) throws IOException{

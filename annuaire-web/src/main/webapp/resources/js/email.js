@@ -1,10 +1,11 @@
-function changeTemplate(index) {
+function changeTemplate() {
     var textarea = document.getElementById("message");
-    if (index == 0){
-        textarea.value = "";
-    } else if (index == 1){
-        textarea.value = document.getElementById("birthday").value;
-    } else if (index == 2){
-        textarea.value = document.getElementById("christmas").value;
+
+    var template = document.getElementById("template");
+    var templateName = template.options[template.selectedIndex].value;
+    if (templateName == 'default'){
+        textarea.value = '';
+    } else {
+        textarea.value = document.getElementById(templateName).value;
     }
 }

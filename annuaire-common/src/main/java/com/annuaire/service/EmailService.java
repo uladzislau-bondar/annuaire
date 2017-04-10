@@ -13,6 +13,7 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import com.annuaire.properties.EmailPropertyService;
+import org.stringtemplate.v4.ST;
 
 import java.io.IOException;
 import java.util.*;
@@ -53,13 +54,12 @@ public class EmailService {
 
         String templatesLocation = params.get("templatesLocation");
         String templateName = params.get("template");
-        StringTemplate template = TemplateService.parseTemplate(templatesLocation, templateName);
+        ST template = TemplateService.parseTemplate(templatesLocation, templateName);
         if (template != null){
-            template.setAttribute("firstName", contact.getFirstName());
-            template.setAttribute("lastName", contact.getLastName());
-
-            email.setMsg(buildMessage(templateName, template, params.get("message")));
+            template.add("firstName", contact.getFirstName());
+            template.add("lastName", contact.getLastName());
         }
+        email.setMsg(buildMessage(templateName, template, params.get("message")));
 
         return email;
     }
@@ -84,13 +84,13 @@ public class EmailService {
         return contacts;
     }
 
-    private String buildMessage(String templateName, StringTemplate template, String defaultMessage){
+    private String buildMessage(String templateName, ST template, String defaultMessage){
         StringBuilder builder = new StringBuilder();
-        builder.append(template.toString());
 
         if (templateName.equals("default")){
-            builder.append("\n");
             builder.append(defaultMessage);
+        } else {
+            builder.append(template.render());
         }
 
         return builder.toString();

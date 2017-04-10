@@ -1,0 +1,14 @@
+birthday(lastName, firstName) ::= <<
+Дорогой, <lastName> <firstName>.
+С днем рождения!
+>>
+
+christmas(lastName, firstName) ::= <<
+Дорогой, <lastName> <firstName>.
+Поздравляем с рождеством!
+>>
+
+new_year(lastName, firstName) ::= <<
+Дорогой, <lastName> <firstName>.
+Поздравляем с новый годом!
+>>

@@ -28,10 +28,11 @@
             <input id="subject" type="text" name="subject"/> <br>
 
             <label for="template">Шаблон:</label>
-            <select id="template" name="template" onchange="changeTemplate(this.selectedIndex)">
+            <select id="template" name="template" onchange="changeTemplate()">
                 <option value="default">...</option>
-                <option value="birthday">День рождения</option>
-                <option value="christmas">Рождество</option>
+                <c:forEach items="${templates}" var="template">
+                    <option value="${template.key}"><c:out value="${template.key}" /></option>
+                </c:forEach>
             </select> <br>
 
             <c:forEach items="${templates}" var="template">
