@@ -134,7 +134,7 @@ label.light {
 }
 
 .card-container.card {
-    padding: 40px 40px;
+    padding: 40px 40px 0px 40px;
     border-radius: 8px;
 }
 
@@ -142,8 +142,7 @@ label.light {
     background-color: #fff;
     /* just in case there no content*/
     padding: 20px 25px 30px;
-    margin: 0 auto 25px;
-    margin-top: 50px;
+    margin-top: 20px;
     /* shadows and rounded borders */
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -176,6 +175,13 @@ label.light {
 .btn:hover{
     color: #fefefe;
 }
+
+.btn.btn-submit.btn-save {
+    margin-bottom: 20px;
+    text-align: center;
+    width: 30%;
+}
+
 
 .btn.btn-submit:hover,
 .btn.btn-submit:active,

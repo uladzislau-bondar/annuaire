@@ -165,8 +165,6 @@
                        value="<c:out value="${zip}" />"
                        maxlength="10" pattern="${zipPattern}"/> <br>
             </fieldset>
-
-            <button type="submit" class="btn btn-submit">Сохранить</button>
         </div>
     </div>
 
@@ -321,6 +319,9 @@
                 <button type="button" class="btn btn-cancel" onclick="closeAttachmentModal()">Отменить</button>
             </div>
         </div>
+    </div>
+    <div class="btn-container">
+        <button type="submit" class="btn btn-submit btn-save">Сохранить</button>
     </div>
 </form>
 
