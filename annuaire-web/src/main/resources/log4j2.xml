@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <Property name="LOG_DIR">/home/colinforzeal/coding/ITechArt/logs</Property>
+        <Property name="LOG_DIR">/logs/</Property>
         <Property name="PATTERN">%-5level %d %c: %m%n</Property>
     </Properties>
     <Appenders>

@@ -17,6 +17,7 @@ public class TemplateService {
 
     public static Map<String, StringTemplate> getTemplates(String location) {
         StringTemplateGroup group = new StringTemplateGroup("email", location);
+        group.setFileCharEncoding("UTF-8");
 
         Map<String, StringTemplate> templates = new HashMap<>();
         templates.put("birthday", group.getInstanceOf("birthday"));

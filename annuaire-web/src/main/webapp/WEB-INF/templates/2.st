@@ -1,0 +1,1 @@
+Дорогой $lastName$ $firstName$ $sex$!

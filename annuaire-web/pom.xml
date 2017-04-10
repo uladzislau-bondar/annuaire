@@ -113,6 +113,9 @@
                     <url>http://localhost:8080/manager/text</url>
                     <server>TomcatServer</server>
                     <path>/annuaire</path>
+                    <username>tomcat</username>
+                    <password>1234</password>
+                    <update>true</update>
                 </configuration>
             </plugin>
             <plugin>

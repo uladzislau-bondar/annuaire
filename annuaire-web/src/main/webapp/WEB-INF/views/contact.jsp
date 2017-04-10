@@ -232,6 +232,7 @@
                 <th class="text-left">Комментарий</th>
                 <th class="text-left"></th>
                 <th class="text-left"></th>
+                <th class="text-left"></th>
             </tr>
             </thead>
             <tbody class="table-hover">
